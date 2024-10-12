@@ -1,22 +1,8 @@
 
 <script setup>
-import { defineComponent } from 'vue';
-import SidebarItem from './Components/SidebarItem.vue';
+import SidebarItem from './Components/SidebarItem.vue'
+import { Link } from '@inertiajs/vue3';
 
-// Define a reusable component for sidebar team items
-const SidebarTeam = defineComponent({
-props: {
-  name: String
-},
-template: `
-  <div class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded-md cursor-pointer">
-    <span class="h-6 w-6 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600">
-      {{ name[0] }}
-    </span>
-    <span class="text-gray-700 font-medium">{{ name }}</span>
-  </div>
-`
-});
 </script>
 
 
@@ -25,19 +11,21 @@ template: `
       <!-- Sidebar -->
       <aside class="w-64 bg-white shadow-lg">
         <div class="flex items-center justify-center h-16 border-b">
-          <img src="https://tailwindcss.com/img/logos/workcation-logo-indigo-500-mark.svg" alt="Logo" class="h-8 w-auto">
+          <img src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Logo" class="h-8 w-auto">
         </div>
         <nav class="px-4 py-6 space-y-6">
           <div class="space-y-1">
-            <SidebarItem icon="home" label="Dashboard" badge="5" />
-            <SidebarItem icon="user-group" label="Team" />
-            <SidebarItem icon="folder" label="Projects" badge="12" />
-            <SidebarItem icon="calendar" label="Calendar" badge="20+" />
-            <SidebarItem icon="document" label="Documents" />
-            <SidebarItem icon="chart-bar" label="Reports" />
+            <SidebarItem icon="home" label="Dashboard" url="admin.dashboard" badge="5" />
+            <SidebarItem icon="chart-bar" url="admin.menu_management" label="Menu Management" />
+            <SidebarItem icon="user-group" url="admin.orders.index" label="Order Management" />
+            <SidebarItem icon="folder" url="admin.order_history" label="Order History" badge="12" />
+            <SidebarItem icon="document" url="admin.users.index" label="User Management" />
+            <SidebarItem icon="calendar" url="admin.sales" label="Sales" badge="20+" />
+            <SidebarItem icon="document" url="admin.expenses.index" label="Expense" />
+            <SidebarItem icon="document" url="admin.ingredients.index" label="Ingredients" />
           </div>
   
-          <div>
+          <!-- <div>
             <h3 class="px-3 text-sm font-semibold text-gray-500 uppercase tracking-wider">
               Your teams
             </h3>
@@ -46,10 +34,10 @@ template: `
               <SidebarTeam name="Tailwind Labs" />
               <SidebarTeam name="Workcation" />
             </div>
-          </div>
+          </div> -->
         </nav>
   
-        <div class="flex items-center p-4 border-t">
+        <div class="flex items-center p-4 border-t absolute bottom-0">
           <img
             src="https://randomuser.me/api/portraits/men/1.jpg"
             alt="Profile"
@@ -58,6 +46,9 @@ template: `
           <div class="ml-3">
             <p class="text-sm font-medium text-gray-900">Tom Cook</p>
           </div>
+          <Link :href="route('logout')" method="post">
+            <button>logout</button>
+          </Link>
         </div>
       </aside>
   

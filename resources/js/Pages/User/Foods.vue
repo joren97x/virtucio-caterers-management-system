@@ -8,6 +8,10 @@ defineOptions({
     layout: AuthenticatedLayout
 })
 
+defineProps({
+    categories: Object
+})
+
 const products = [
   {
     id: 1,
@@ -87,7 +91,15 @@ const notificationOptions = [
     </div>
   </div>
         <h2 class="text-center">Food Menu</h2>
-        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4" >
+        <div  v-for="category in categories">
+        <div class="flex items-center justify-between mb-4">
+      <h2 class="text-xl font-bold text-gray-800">{{ category.name }}</h2>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-6">
+        <FoodDialog :product="product"  v-for="product in category.products"/>
+    </div>
+</div>
+        <!-- <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4" >
           <div class="qa-10 bg-yellow" style="background-color: red;" v-for="n in 5">
             hi
           </div>
@@ -96,7 +108,7 @@ const notificationOptions = [
           <a v-for="product in products" :key="product.id" :href="product.href" class="group">
             <FoodDialog :product="product" />
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
   </template>

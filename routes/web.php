@@ -1,7 +1,14 @@
 <?php
 
+use App\Http\Controllers\AdminViewController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\IngredientController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SalesController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -41,6 +48,33 @@ Route::middleware('auth', 'user')->group(function () {
         return Inertia::render('User/Checkout');
     });
 
+});
+
+Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
+    Route::resource('/users', UserController::class)->names([
+        'index' => 'admin.users.index',
+        'store' => 'admin.users.store',
+    ]);
+    Route::resource('/ingredients', IngredientController::class)->names([
+        'index' => 'admin.ingredients.index',
+    ]);
+    Route::resource('/expenses', ExpenseController::class)->names([
+        'index' => 'admin.expenses.index',
+    ]);
+    Route::resource('/orders', OrderController::class)->names([
+        'index' => 'admin.orders.index',
+    ]);
+    Route::resource('/products', ProductController::class)->names([
+        'store' => 'admin.products.store',
+        'update' => 'admin.products.update',
+    ]);
+    Route::resource('categories', CategoryController::class)->names([
+        'store' => 'admin.categories.store',
+    ]);
+    Route::get('/dashboard', [AdminViewController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/menu-management', [AdminViewController::class, 'menu_management'])->name('admin.menu_management');
+    Route::get('/order-history', [AdminViewController::class, 'order_history'])->name('admin.order_history');
+    Route::get('/sales', [AdminViewController::class, 'sales'])->name('admin.sales');
 });
 
 Route::middleware('auth')->group(function () {

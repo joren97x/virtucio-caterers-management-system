@@ -9,5 +9,5 @@ defineOptions({
 </script>
 
 <template>
-    dashboard
+    sales
 </template>

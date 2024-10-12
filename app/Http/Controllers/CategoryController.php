@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Ingredient;
+use App\Models\Category;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
-class IngredientController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +13,6 @@ class IngredientController extends Controller
     public function index()
     {
         //
-        return Inertia::render('Admin/Ingredients', [
-            'ingredients' => Ingredient::get()
-        ]);
     }
 
     /**
@@ -33,12 +29,22 @@ class IngredientController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required'
+        ]);
+
+        Category::create([
+            'name' => $request->name
+        ]);
+
+        return back();
+
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Ingredient $ingredient)
+    public function show(string $id)
     {
         //
     }
@@ -46,7 +52,7 @@ class IngredientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Ingredient $ingredient)
+    public function edit(string $id)
     {
         //
     }
@@ -54,7 +60,7 @@ class IngredientController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ingredient $ingredient)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -62,7 +68,7 @@ class IngredientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Ingredient $ingredient)
+    public function destroy(string $id)
     {
         //
     }

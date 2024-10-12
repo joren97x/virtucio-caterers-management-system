@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AddOnCategory;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Rate;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,7 +15,9 @@ class ProductController extends Controller
     public function index()
     {
         return Inertia::render('User/Foods', [
-            'categories' => Category::with('products')->get()
+            'categories' => Category::with('products')->get(),
+            'rates' => Rate::get(),
+            'add_on_categories' => AddOnCategory::with('add_ons')->get()
         ]);
     }
 

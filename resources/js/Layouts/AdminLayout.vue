@@ -15,12 +15,14 @@ import { Link } from '@inertiajs/vue3';
         </div>
         <nav class="px-4 py-6 space-y-6">
           <div class="space-y-1">
-            <SidebarItem icon="home" label="Dashboard" url="admin.dashboard" badge="5" />
+            <SidebarItem icon="home" label="Dashboard" url="admin.dashboard" />
             <SidebarItem icon="chart-bar" url="admin.menu_management" label="Menu Management" />
             <SidebarItem icon="user-group" url="admin.orders.index" label="Order Management" />
             <SidebarItem icon="folder" url="admin.order_history" label="Order History" badge="12" />
             <SidebarItem icon="document" url="admin.users.index" label="User Management" />
             <SidebarItem icon="calendar" url="admin.sales" label="Sales" badge="20+" />
+            <SidebarItem icon="calendar" url="admin.rates.index" label="Rates" />
+            <SidebarItem icon="calendar" url="admin.add_ons.index" label="Add Ons" />
             <SidebarItem icon="document" url="admin.expenses.index" label="Expense" />
             <SidebarItem icon="document" url="admin.ingredients.index" label="Ingredients" />
           </div>

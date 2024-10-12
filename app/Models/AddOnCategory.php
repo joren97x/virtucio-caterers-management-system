@@ -15,7 +15,7 @@ class AddOnCategory extends Model
         'name'
     ];
 
-    public function add_on_categories() : HasMany
+    public function add_ons() : HasMany
     {
         return $this->hasMany(AddOn::class);
     }

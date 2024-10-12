@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Rate;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RateController extends Controller
 {
@@ -13,6 +14,9 @@ class RateController extends Controller
     public function index()
     {
         //
+        return Inertia::render('Admin/Rates', [
+            'rates' => Rate::get()
+        ]);
     }
 
     /**
@@ -29,6 +33,16 @@ class RateController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'pax' => 'required', 
+            'price' => 'required', 
+        ]);
+        Rate::create([
+            'pax' => $request->pax,
+            'price' => $request->price,
+            'instructions' => $request->instructions,
+        ]);
+        return back();
     }
 
     /**

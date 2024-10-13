@@ -17,7 +17,7 @@ class Order extends Model
         'name',
         'contact_number',
         'venue',
-        'pax',
+        'rate_id',
         'date',
         'event_details',
         'message'
@@ -31,6 +31,11 @@ class Order extends Model
     public function order_items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function rate(): BelongsTo
+    {
+        return $this->belongsTo(Rate::class);
     }
 
 }

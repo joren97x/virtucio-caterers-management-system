@@ -12,6 +12,10 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\UserController;
+use App\Models\AddOn;
+use App\Models\AddOnCategory;
+use App\Models\Category;
+use App\Models\Rate;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -47,10 +51,15 @@ Route::middleware('auth', 'user')->group(function () {
         return Inertia::render('User/Cart');
     })->name('cart');
 
-    Route::get('/check-out', function() {
-        return Inertia::render('User/Checkout');
-    });
+    Route::post('/check-out', [OrderController::class, 'checkout'])->name('checkout');
 
+    Route::prefix('order')->group(function () {
+        Route::get('/order', [OrderController::class, 'index'])->name('order');
+        Route::get('/pax', [OrderController::class, 'pax'])->name('order.pax');
+        Route::get('/add-ons', [OrderController::class, 'add_ons'])->name('order.add_ons');
+        Route::get('/foods', [OrderController::class, 'foods'])->name('order.foods');
+        Route::get('/contact-form', [OrderController::class, 'contact_form'])->name('order.contact_form');
+    });
 });
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {

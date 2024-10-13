@@ -2,12 +2,24 @@
 import { ref } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 // import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
+import { useOrderStore } from '@/Stores/OrderStore';
 
-defineProps({
+const props = defineProps({
     product: Object
 })
 
+const orderStore = useOrderStore()
 const open = ref(false)
+const form = ref({
+    product: props.product,
+    special_instructions: '',
+    quantity: 0
+})
+
+const addToCart = () => {
+    open.value = false
+    orderStore.form.foods.push(form.value)
+}
 
 </script>
 
@@ -36,7 +48,7 @@ const open = ref(false)
                     <ExclamationTriangleIcon class="h-6 w-6 text-red-600" aria-hidden="true" /> 
                   </div>
                   -->
-                  <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                  <div class="mt-3 text-center sm:mt-0 sm:text-left">
                     <!-- <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Deactivate account</DialogTitle>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500">Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.</p>
@@ -45,18 +57,29 @@ const open = ref(false)
                         <img :src="`/storage/${product.image_path}`" :alt="product.name" class="h-full w-full object-cover object-center group-hover:opacity-75" />
                     </div>
                     <h3 class="mt-4 text-sm text-gray-700">{{ product.name }}</h3>
+                    <h3 class="text-sm text-gray-900">Food Description Lorem ipsum, dolor sit amet consectetur adipisicing elit.</h3>
                     <p class="mt-1 text-lg font-medium text-gray-900">{{ product.price }}</p>
                   </div>
                 </div>
               </div>
               <div class="bg-gray-50 px-4 py-3 sm:px-6">
                 <div>
-                    <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Price</label>
+      <label for="about" class="block text-sm font-medium text-gray-700">Special Instructions</label>
+      <textarea
+        id="about"
+        v-model="form.special_instructions"
+        rows="2"
+        placeholder="Write a few sentences about the food."
+        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+      ></textarea>
+    </div>
+                <div>
+                    <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Quantity</label>
                     <div class="relative mt-2 rounded-md shadow-sm">
                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                         <span class="text-gray-500 sm:text-sm">$</span>
                     </div>
-                    <input type="text" name="price" id="price" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0.00" />
+                    <input v-model="form.quantity" type="text" name="price" id="price" class="block  rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0" />
                     <div class="absolute inset-y-0 right-0 flex items-center">
                         <!-- <label for="currency" class="sr-only">Currency</label>
                         <select id="currency" name="currency" class="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
@@ -64,7 +87,7 @@ const open = ref(false)
                         <option>CAD</option>
                         <option>EUR</option>
                         </select> -->
-                        <button type="button" class="rounded-md bg-red-600 p-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" @click="open = false">Deactivate</button>
+                        <button type="button" @click="addToCart" class="rounded-md bg-indigo-600 p-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" >Add To Cart</button>
                     </div>
                     
                     </div>

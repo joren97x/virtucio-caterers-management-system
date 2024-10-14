@@ -33,7 +33,6 @@ const submit = () => {
             form.reset()
             photoPreview.value = null
             addFoodModal.value = false
-            alert('guw')
         }
     })
 }
@@ -43,7 +42,6 @@ const submitCategoryForm = () => {
         onSuccess: () => {
             categoryForm.reset()
             addCategoryModal.value = false
-            alert('guw')
         }
     })
 }

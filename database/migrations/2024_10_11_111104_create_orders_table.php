@@ -21,7 +21,19 @@ return new class extends Migration
             $table->timestamp('date');
             $table->text('event_details')->nullable();
             $table->text('message')->nullable();
-            $table->enum('status', ['cancelled', 'pending', 'confirmed']);
+            $table->enum('status', [
+                'cancelled', 
+                'pending', 
+                'confirmed',
+                'out_of_delivery',
+                'delivered',
+                'complete'
+            ]);
+            $table->enum('contract_payments', [
+                'down_payment',
+                'full_payment'
+            ]);
+            $table->string('payment_method');
             $table->timestamps();
             $table->softDeletes();
         });

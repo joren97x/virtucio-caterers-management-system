@@ -15,7 +15,7 @@ const orderStore = useOrderStore()
 <template>
     bruh
     <OrderLayout back="order.add_ons" next="order.contact_form" loading="75">
-        {{ orderStore.form }}
+        {{ orderStore.subtotal }}
         <div class="mx-7 overflow-y-auto" style="max-height: 70vh;">
     <div v-for="category in categories" class="relative">
         <div class="flex items-center justify-between mb-4 bg-white">

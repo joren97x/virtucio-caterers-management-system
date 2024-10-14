@@ -16,6 +16,7 @@ const orderStore = useOrderStore()
     <OrderLayout back="order.pax" next="order.foods" loading="50">
         {{ orderStore.form }}
         {{ add_on_categories }}
+        {{ orderStore.subtotal }}
         <div class="text-h6 text-center">Optional Add Ons</div>
         <div class="p-4 space-y-4 border-solid border-2">
             <div  v-for="(add_on_category, index) in add_on_categories" :key="index">

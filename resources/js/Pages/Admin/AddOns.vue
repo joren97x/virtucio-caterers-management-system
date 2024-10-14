@@ -37,7 +37,7 @@ const submit = () => {
 const submitAddOnCategoryForm = () => {
     addOnCategoryForm.post(route('admin.add_on_categories.store'), {
         onSuccess: () => {
-            addAddOnDialog.value = false
+          addAddOnCategoryDialog.value = false
         }
     })
 }

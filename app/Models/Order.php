@@ -20,6 +20,9 @@ class Order extends Model
         'rate_id',
         'date',
         'event_details',
+        'contract_payments',
+        'status',
+        'payment_method',
         'message'
     ];
 

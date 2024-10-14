@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RateController;
@@ -52,6 +53,9 @@ Route::middleware('auth', 'user')->group(function () {
     })->name('cart');
 
     Route::post('/check-out', [OrderController::class, 'checkout'])->name('checkout');
+    Route::get('/check-out', function () {
+        abort(419);
+    });
 
     Route::prefix('order')->group(function () {
         Route::get('/order', [OrderController::class, 'index'])->name('order');
@@ -59,6 +63,8 @@ Route::middleware('auth', 'user')->group(function () {
         Route::get('/add-ons', [OrderController::class, 'add_ons'])->name('order.add_ons');
         Route::get('/foods', [OrderController::class, 'foods'])->name('order.foods');
         Route::get('/contact-form', [OrderController::class, 'contact_form'])->name('order.contact_form');
+        Route::post('/pay', [PaymentController::class, 'pay'])->name('order.pay');
+        Route::get('/success', [PaymentController::class, 'success'])->name('order.success');
     });
 });
 

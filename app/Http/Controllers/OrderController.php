@@ -19,6 +19,13 @@ class OrderController extends Controller
         ]);
     }
 
+    public function orders()
+    {
+        return Inertia::render('User/Orders', [
+            'orders' => Order::with(['add_ons.add_on', 'products.product'])->where('user_id', auth()->id())->get()
+        ]);
+    }
+
     // Route::prefix('order')->group(function () {
     //     Route::get('/pax', function () {
     //         
@@ -62,20 +69,22 @@ class OrderController extends Controller
 
     public function checkout(Request $request)
     {
-
-
-        $request->validate([
-            'name' => 'required',
-            'rate' => 'required',
-            'contact_number' => 'required',
-            'date' => 'required',
-            'event_details' => 'required',
-            'foods' => 'required|array|min:1'
+        $order = $request->validate([
+            'rate' => 'nullable|array', // Validate 'rate' as an array if it can have multiple values
+            'foods' => 'required|array|min:1', // Ensure 'foods' is an array with at least one item
+            'name' => 'required|string|max:255', // Validate 'name' as a string with a maximum length
+            'contact_number' => 'required', // Validate as a numeric string (e.g., phone number)
+            'date' => 'required|date', // Validate 'date' as a valid date
+            'event_details' => 'required|string|max:500', // Validate 'event_details' with a max character length
+            'message' => 'nullable|string|max:1000', // 'message' is optional but must be a string if present
+            'status' => 'required', // Validate 'status' with specific allowed values
+            'payment_method' => 'required', // Restrict 'payment_method' to specific values
+            'contract_payments' => 'required', // Restrict 'contract_payments' values
         ]);
 
-        // dd($request);
-
-        return Inertia::render('User/Checkout');
+        return Inertia::render('User/Checkout', [
+            'order' => $order
+        ]);
     }
 
 }

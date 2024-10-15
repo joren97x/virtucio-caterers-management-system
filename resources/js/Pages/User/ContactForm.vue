@@ -28,6 +28,11 @@ defineProps({
         </div>
 
         <div class="mt-6">
+            <label class="block text-sm font-medium text-gray-700">Venue</label>
+            <input v-model="orderStore.form.venue" type="text" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Venue">
+        </div>
+
+        <div class="mt-6">
             <label class="block text-sm font-medium text-gray-700">Date And Time</label>
             <input v-model="orderStore.form.date" type="date" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Email address">
         </div>

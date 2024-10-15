@@ -33,6 +33,19 @@ class IngredientController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'supplier' => 'required',
+            'quantity' => 'required',
+        ]);
+
+        Ingredient::create([
+            'name' => $request->name,
+            'supplier' => $request->supplier,
+            'quantity' => $request->quantity,
+        ]);
+
+        return back();
     }
 
     /**

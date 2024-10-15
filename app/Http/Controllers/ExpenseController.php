@@ -33,6 +33,20 @@ class ExpenseController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+        ]);
+
+        Expense::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+        ]);
+
+        return back();
+
     }
 
     /**
@@ -57,6 +71,19 @@ class ExpenseController extends Controller
     public function update(Request $request, Expense $expense)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+        ]);
+
+        $expense->update([
+            'name' => $request->name,
+            'price' => $request->price,
+            'quantity' => $request->quantity,
+        ]);
+
+        return back();
     }
 
     /**

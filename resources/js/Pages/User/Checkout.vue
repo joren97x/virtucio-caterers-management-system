@@ -1,6 +1,9 @@
 <script setup>
 
-import { useOrderStore } from '@/Stores/OrderStore';
+import { useOrderStore } from '@/Stores/OrderStore'
+defineProps({
+    order: Object
+})
 const orderStore = useOrderStore()
 
 const submit = () => {
@@ -12,6 +15,7 @@ const submit = () => {
 </script>
 
 <template>
+    <!-- {{ order }} -->
     <div class="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
         <div class="flex items-center justify-center h-16 border-b">
         <img src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Logo" class="h-8 w-auto">
@@ -74,6 +78,7 @@ const submit = () => {
                 <p class="mt-auto text-lg font-bold">$238.99</p>
             </div>
         </div> -->
+        {{ orderStore.form }}
         <div class="mt-4 mb-2 block text-sm font-medium">Pax</div>
         <div class="flex flex-col rounded-lg bg-white sm:flex-row">
             <div class="flex w-full flex-col px-4 py-4">
@@ -106,7 +111,7 @@ const submit = () => {
                 {{ orderStore.form.contract_payments }}
                 {{ orderStore.form.payment_method }}
     <div class="grid grid-cols-2 divide-x divide-gray-300 border border-gray-300 rounded-md text-center w-full">
-        <div class="py-2" @click="orderStore.form.contract_payments = 'half_payment'">Half</div>
+        <div class="py-2" @click="orderStore.form.contract_payments = 'down_payment'">Half</div>
         <div class="py-2" @click="orderStore.form.contract_payments = 'full_payment'">Full</div>
     </div>
 </div>

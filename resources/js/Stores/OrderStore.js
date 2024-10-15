@@ -13,6 +13,7 @@ export const useOrderStore = defineStore('orders', () => {
         name: '',
         contact_number: '',
         date: null,
+        venue: '',
         event_details: '',
         message: '',
         status: 'pending',
@@ -40,7 +41,7 @@ export const useOrderStore = defineStore('orders', () => {
     }
 
     function checkout() {
-      form.post(route('checkout'))
+      form.get(route('checkout'))
     }
   
     return { count, name, doubleCount, increment, form, checkout, subtotal }

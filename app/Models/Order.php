@@ -31,9 +31,14 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function order_items(): HasMany
+    public function add_ons(): HasMany
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderAddOn::class);
+    }
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(OrderProduct::class);
     }
 
     public function rate(): BelongsTo

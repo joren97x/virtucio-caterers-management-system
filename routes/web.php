@@ -52,17 +52,18 @@ Route::middleware('auth', 'user')->group(function () {
         return Inertia::render('User/Cart');
     })->name('cart');
 
-    Route::post('/check-out', [OrderController::class, 'checkout'])->name('checkout');
-    Route::get('/check-out', function () {
-        abort(419);
-    });
+    Route::get('/check-out', [OrderController::class, 'checkout'])->name('checkout');
+    // Route::get('/check-out', function () {
+    //     abort(419);
+    // });
 
-    Route::prefix('order')->group(function () {
-        Route::get('/order', [OrderController::class, 'index'])->name('order');
-        Route::get('/pax', [OrderController::class, 'pax'])->name('order.pax');
-        Route::get('/add-ons', [OrderController::class, 'add_ons'])->name('order.add_ons');
-        Route::get('/foods', [OrderController::class, 'foods'])->name('order.foods');
-        Route::get('/contact-form', [OrderController::class, 'contact_form'])->name('order.contact_form');
+    Route::prefix('orders')->group(function () {
+        // Route::get('/order', [OrderController::class, 'index'])->name('order');
+        Route::get('', [OrderController::class, 'orders'])->name('orders');
+        Route::get('/new-order/pax', [OrderController::class, 'pax'])->name('order.pax');
+        Route::get('/new-order/add-ons', [OrderController::class, 'add_ons'])->name('order.add_ons');
+        Route::get('/new-order/foods', [OrderController::class, 'foods'])->name('order.foods');
+        Route::get('/new-order/contact-form', [OrderController::class, 'contact_form'])->name('order.contact_form');
         Route::post('/pay', [PaymentController::class, 'pay'])->name('order.pay');
         Route::get('/success', [PaymentController::class, 'success'])->name('order.success');
     });
@@ -75,9 +76,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     ]);
     Route::resource('/ingredients', IngredientController::class)->names([
         'index' => 'admin.ingredients.index',
+        'store' => 'admin.ingredients.store',
+        'update' => 'admin.ingredients.update',
     ]);
     Route::resource('/expenses', ExpenseController::class)->names([
         'index' => 'admin.expenses.index',
+        'store' => 'admin.expenses.store',
+        'update' => 'admin.expenses.update',
     ]);
     Route::resource('/orders', OrderController::class)->names([
         'index' => 'admin.orders.index',

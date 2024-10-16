@@ -26,12 +26,6 @@ class AdminViewController extends Controller
         ]);
     }
 
-    public function order_history()
-    {
-        return Inertia::render('Admin/OrderHistory', [
-            
-        ]);
-    }
 
     public function sales()
     {

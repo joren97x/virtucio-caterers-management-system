@@ -65,6 +65,8 @@ Route::middleware('auth', 'user')->group(function () {
         Route::get('/new-order/foods', [OrderController::class, 'foods'])->name('order.foods');
         Route::get('/new-order/contact-form', [OrderController::class, 'contact_form'])->name('order.contact_form');
         Route::post('/pay', [PaymentController::class, 'pay'])->name('order.pay');
+        Route::post('/pay-balance/{order}', [PaymentController::class, 'pay_balance'])->name('order.pay_balance');
+        Route::get('/pay-balance/{order}/success', [PaymentController::class, 'pay_balance_success'])->name('order.pay_balance_success');
         Route::get('/success', [PaymentController::class, 'success'])->name('order.success');
     });
 });
@@ -84,6 +86,9 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         'store' => 'admin.expenses.store',
         'update' => 'admin.expenses.update',
     ]);
+    Route::get('/orders/pending', [OrderController::class, 'pending'])->name('admin.orders.pending');
+    Route::get('/orders/confirmed', [OrderController::class, 'confirmed'])->name('admin.orders.confirmed');
+    Route::get('/orders/history', [OrderController::class, 'history'])->name('admin.orders.history');
     Route::resource('/orders', OrderController::class)->names([
         'index' => 'admin.orders.index',
     ]);
@@ -108,7 +113,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     ]);
     Route::get('/dashboard', [AdminViewController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/menu-management', [AdminViewController::class, 'menu_management'])->name('admin.menu_management');
-    Route::get('/order-history', [AdminViewController::class, 'order_history'])->name('admin.order_history');
     Route::get('/sales', [AdminViewController::class, 'sales'])->name('admin.sales');
 });
 

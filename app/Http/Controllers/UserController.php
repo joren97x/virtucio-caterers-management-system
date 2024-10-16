@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class UserController extends Controller
@@ -33,6 +34,22 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'role' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+            'password' => ['required', 'confirmed'],
+        ]);
+
+        User::create([
+            'role' => $request->role,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return back();
+
     }
 
     /**

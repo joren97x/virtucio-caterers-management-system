@@ -25,6 +25,7 @@ return new class extends Migration
                 'cancelled', 
                 'pending', 
                 'confirmed',
+                'book_and_sealed',
                 'out_of_delivery',
                 'delivered',
                 'complete'

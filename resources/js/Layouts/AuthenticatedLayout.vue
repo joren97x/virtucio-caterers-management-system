@@ -44,7 +44,7 @@ const showingNavigationDropdown = ref(false);
 
                         <div class="hidden sm:ms-6 sm:flex sm:items-center">
                             <!-- Settings Dropdown -->
-                            <Link :href="route('cart')">Cart</Link>
+                            <!-- <Link :href="route('cart')">Cart</Link> -->
                             <Link :href="route('orders')">Orders</Link>
                             <div class="relative ms-3">
                                 <Dropdown align="right" width="48">

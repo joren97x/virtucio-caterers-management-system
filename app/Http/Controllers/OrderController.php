@@ -6,23 +6,57 @@ use App\Models\AddOnCategory;
 use App\Models\Category;
 use App\Models\Order;
 use App\Models\Rate;
+use App\Services\OrderService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class OrderController extends Controller
 {
     //
-    public function index()
+    // public function index()
+    // {
+    //     return Inertia::render('Admin/OrderManagement', [
+    //         'orders' => Order::with(['user', 'rate', 'add_ons.add_on.add_on_category', 'products.product'])
+    //             ->where('status')
+    //             ->get()
+    //     ]);
+    // }
+
+    public function pending()
     {
         return Inertia::render('Admin/OrderManagement', [
-            'orders' => Order::get()
+            'orders' => Order::with(['user', 'rate', 'add_ons.add_on.add_on_category', 'products.product'])
+                ->where('status', 'pending')
+                ->get()
         ]);
     }
 
-    public function orders()
+    public function confirmed()
     {
+        return Inertia::render('Admin/OrderManagement', [
+            'orders' => Order::with(['user', 'rate', 'add_ons.add_on.add_on_category', 'products.product'])
+                ->whereIn('status', ['confirmed', 'book_and_sealed', 'delivered'])
+                ->get()
+        ]);
+    }
+    
+    public function history()
+    {
+        return Inertia::render('Admin/OrderHistory', [
+            'orders' => Order::with(['user', 'rate', 'add_ons.add_on.add_on_category', 'products.product'])
+                ->whereIn('status', ['cancelled', 'compeleted', 'out_of_delivery'])
+                ->get()
+        ]);
+    }
+
+    public function orders(OrderService $orderService)
+    {
+        $orders = Order::with(['add_ons.add_on.add_on_category', 'products.product', 'rate'])->where('user_id', auth()->id())->get();
+        foreach($orders as $order) {
+            $order->total_amount = $orderService->getTotalAmount($order);
+        }
         return Inertia::render('User/Orders', [
-            'orders' => Order::with(['add_ons.add_on', 'products.product'])->where('user_id', auth()->id())->get()
+            'orders' => $orders
         ]);
     }
 

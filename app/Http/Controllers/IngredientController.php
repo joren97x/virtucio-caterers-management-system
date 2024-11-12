@@ -70,6 +70,19 @@ class IngredientController extends Controller
     public function update(Request $request, Ingredient $ingredient)
     {
         //
+        $request->validate([
+            'name' => 'required',
+            'supplier' => 'required',
+            'quantity' => 'required',
+        ]);
+
+        $ingredient->update([
+            'name' => $request->name,
+            'supplier' => $request->supplier,
+            'quantity' => $request->quantity,
+        ]);
+
+        return back();
     }
 
     /**

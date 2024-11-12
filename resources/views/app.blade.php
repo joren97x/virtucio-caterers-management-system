@@ -17,5 +17,6 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
+        <!-- <script src="//code.tidio.co/lnq7igy1lbkgazkelp3rbg4bk94vs4d1.js" async></script> -->
     </body>
 </html>

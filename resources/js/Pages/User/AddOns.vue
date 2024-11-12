@@ -12,12 +12,11 @@ const orderStore = useOrderStore()
 </script>
 
 <template>
-    bruh
-    <OrderLayout back="order.pax" next="order.foods" loading="50">
-        {{ orderStore.form }}
-        {{ add_on_categories }}
-        {{ orderStore.subtotal }}
-        <div class="text-h6 text-center">Optional Add Ons</div>
+    <OrderLayout back="order.pax" next="order.soups" loading="50">
+        <div class="text-h6 text-center"></div>
+        <input type="radio" v-model="orderStore.form.event" value="wedding"> Wedding <br>
+                <input type="radio" v-model="orderStore.form.event" value="birthday"> Birthday <br>
+                <input type="radio" v-model="orderStore.form.event" value="thanksgiving"> Thanks Giving <br>
         <div class="p-4 space-y-4 border-solid border-2">
             <div  v-for="(add_on_category, index) in add_on_categories" :key="index">
                 {{ add_on_category.name }}
@@ -31,13 +30,24 @@ const orderStore = useOrderStore()
                 />
             <div>
                 <label  class="font-medium text-gray-700">{{ add_on.name }}</label>
-                <!-- <p class="text-sm text-gray-500">{{ add_on.instructions }}</p> -->
-                <div class="absolute top-0 right-0 h-16 ">{{ add_on.price }}</div>
             </div>
-            <div class="absolute top-0 right-0 h-16 ">{{ add_on.price }} bruh</div>
             </div>
-        </div>
+            Event Details 
+            <br>
 
+        <!-- {{ orderStore.form.event }} -->
+        <br>
+                <div class="mt-6">
+                    <!-- <label class="block text-sm font-medium text-gray-700">Event Details</label> -->
+                    <!-- <textarea
+                id="about"
+                rows="2"
+                v-model="orderStore.form.event_details"
+                placeholder="Write a few sentences about the food."
+                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            ></textarea> -->
+                </div>
+        </div>
     </div>
     </OrderLayout>
 </template>

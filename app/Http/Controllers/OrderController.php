@@ -51,10 +51,10 @@ class OrderController extends Controller
 
     public function orders(OrderService $orderService)
     {
-        $orders = Order::with(['add_ons.add_on.add_on_category', 'products.product', 'rate'])->where('user_id', auth()->id())->get();
-        foreach($orders as $order) {
-            $order->total_amount = $orderService->getTotalAmount($order);
-        }
+        $orders = Order::with(['rate', 'order_items.product'])->where('user_id', auth()->id())->get();
+        // foreach($orders as $order) {
+        //     $order->total_amount = $orderService->getTotalAmount($order);
+        // }
         return Inertia::render('User/Orders', [
             'orders' => $orders
         ]);
@@ -89,6 +89,27 @@ class OrderController extends Controller
         ]);
     }
 
+    public function soups()
+    {
+        return Inertia::render('User/SoupSelection', [
+            'categories' => Category::with('products')->whereIn('name', ['soup'])->get()   
+        ]);
+    }
+
+    public function main_dishes()
+    {
+        return Inertia::render('User/MainDishSelection', [
+            'categories' => Category::with('products')->whereIn('name', ['beef', 'pork', 'chicken', 'vegetable', 'meat combo', 'miscellaneous', 'seafood', 'noodle'])->get()   
+        ]);
+    }
+
+    public function desserts()
+    {
+        return Inertia::render('User/DessertSelection', [
+            'categories' => Category::with('products')->whereIn('name', ['salad', 'dessert'])->get()   
+        ]);
+    }
+
     public function foods()
     {
         return Inertia::render('User/Foods2', [
@@ -105,11 +126,9 @@ class OrderController extends Controller
     {
         $order = $request->validate([
             'rate' => 'nullable|array', // Validate 'rate' as an array if it can have multiple values
-            'foods' => 'required|array|min:1', // Ensure 'foods' is an array with at least one item
             'name' => 'required|string|max:255', // Validate 'name' as a string with a maximum length
             'contact_number' => 'required', // Validate as a numeric string (e.g., phone number)
             'date' => 'required|date', // Validate 'date' as a valid date
-            'event_details' => 'required|string|max:500', // Validate 'event_details' with a max character length
             'message' => 'nullable|string|max:1000', // 'message' is optional but must be a string if present
             'status' => 'required', // Validate 'status' with specific allowed values
             'payment_method' => 'required', // Restrict 'payment_method' to specific values

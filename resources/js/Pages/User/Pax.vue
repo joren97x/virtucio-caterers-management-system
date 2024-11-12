@@ -14,7 +14,6 @@ defineProps({
 
 <template>
     <OrderLayout back="dashboard" next="order.add_ons" loading="20">
-        {{ orderStore.form }}
         <div class="text-h6 text-center">Virtucio Rates</div>
                 <div class="p-4 space-y-4 border-solid border-2">
                     <div v-for="(rate, index) in rates" :key="index" class="relative flex items-start space-x-3">
@@ -27,7 +26,7 @@ defineProps({
                         />
                     <div>
                     <label :for="rate.value" class="font-medium text-gray-700">{{ rate.pax }} Pax</label>
-                    <p class="text-sm text-gray-500">{{ rate.instructions }}</p>
+                    <p class="text-sm text-gray-500" style="white-space: pre-line;">{{ rate.instructions }}</p>
                 </div>
             <div class="absolute top-0 right-0 h-16 ">{{ rate.price }}</div>
         </div>

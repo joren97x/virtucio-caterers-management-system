@@ -4,6 +4,7 @@ import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useForm } from '@inertiajs/vue3'
 import { ref } from 'vue'
+import DeleteAddOn from './Components/Partials/DeleteAddOn.vue'
 
 defineOptions({
     layout: AdminLayout
@@ -90,11 +91,8 @@ const submitAddOnCategoryForm = () => {
             >
               Edit
             </button>
-            <button
-              class="px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-indigo-500"
-            >
-              Delete
-            </button>
+            <DeleteAddOn :add_on="add_on" />
+            
             </div>
           </div>
         </div>

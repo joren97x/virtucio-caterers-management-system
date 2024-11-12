@@ -20,7 +20,7 @@ class PaymentController extends Controller
         {
             return redirect(route('order.success', $request->all()));
         }
-
+        // dd($request);
         // dd($request['rate']['instructions']);
         // $isDownPayment = $request->contract_payments === 'down_payment';
         // $line_items = [];
@@ -128,6 +128,20 @@ class PaymentController extends Controller
         
         // dd('hii');
 
+        // rate: null,
+        // add_ons: [],
+        // name: '',
+        // contact_number: '',
+        // date: null,
+        // venue: '',
+        // event: '',
+        // message: '',
+        // status: 'pending',
+        // payment_method: 'online',
+        // contract_payments: 'full_payment',
+        // soup: null,
+        // main_dishes: [],
+        // dessert: null
         $order = Order::create([
             'user_id' => $request->user()->id,
             'rate_id' => $request['rate']['id'],
@@ -135,41 +149,54 @@ class PaymentController extends Controller
             'contact_number' => $request->contact_number,
             'venue' => $request->venue,
             'date' => $request->date,
-            'event_details' => $request->event_details,
+            'event' => $request->event,
             'message' => $request->message,
             'status' => $request->status,
             'contract_payments' => $request->contract_payments,
             'payment_method' => $request->payment_method,
+            'payment_id' => 'null'
+        ]);
+        // dd('hii');
+
+        foreach($request->main_dishes as $dish) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $dish['id'],
+                'category' => OrderItem::CATEGORY_MAIN_DISH
+            ]);
+        }
+
+        OrderItem::create([
+            'order_id' => $order->id,
+            'product_id' => $request->soup['id'],
+            'category' => OrderItem::CATEGORY_SOUP
+        ]);
+
+        OrderItem::create([
+            'order_id' => $order['id'],
+            'product_id' => $request->dessert['id'],
+            'category' => OrderItem::CATEGORY_DESSERT
         ]);
 
         if($request->payment_method == 'online') {
             $checkout_session = Paymongo::checkout()->find(session('checkout_id'));
             $order->update([
                 'payment_method' => $checkout_session->payment_method_used,
+                'payment_id' => $checkout_session->payments[0]['id'],
                 'status' => 'confirmed'
             ]);
         }
 
-        if($request->add_ons && count($request->add_ons) > 0)
-        {
-            foreach ($request->add_ons as $add_on) 
-            {
-                OrderAddOn::create([
-                    'order_id' => $order->id,
-                    'add_on_id' => $add_on['id']
-                ]);
-            }
-        }
-
-        foreach ($request->foods as $food) 
-        {
-            OrderProduct::create([
-                'order_id' => $order->id,
-                'product_id' => $food['product']['id'],
-                'quantity' => $food['quantity'],
-                'special_instructions' => $food['special_instructions']
-            ]);
-        }
+        // if($request->add_ons && count($request->add_ons) > 0)
+        // {
+        //     foreach ($request->add_ons as $add_on) 
+        //     {
+        //         OrderAddOn::create([
+        //             'order_id' => $order->id,
+        //             'add_on_id' => $add_on['id']
+        //         ]);
+        //     }
+        // }
 
         return redirect(route('dashboard'));
 
@@ -231,5 +258,7 @@ class PaymentController extends Controller
 
         return redirect(route('orders'));
     }
+
+
 
 }

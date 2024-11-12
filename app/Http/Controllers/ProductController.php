@@ -33,8 +33,6 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'category' => 'required',
-            'price' => 'required',
-            'desc' => 'required',
             'image_path' => 'required',
         ]);
 
@@ -43,8 +41,6 @@ class ProductController extends Controller
         Product::create([
             'name' => $request->name,
             'category_id' => $request->category,
-            'price' => $request->price,
-            'desc' => $request->desc,
             'image_path' => $image_path,
         ]);
 

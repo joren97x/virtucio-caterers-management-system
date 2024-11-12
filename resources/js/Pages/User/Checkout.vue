@@ -53,23 +53,55 @@ const submit = () => {
         <p class="text-xl font-medium">Order Summary</p>
         <p class="text-gray-400">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores, animi?</p>
         <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-        <div class="mt-4 mb-2 block text-sm font-medium">Foods</div>
-        <div class="flex flex-col rounded-lg bg-white sm:flex-row" v-for="(food, index) in orderStore.form.foods">
-            <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" :src="`/storage/${food.product.image_path}`" alt="" />
+            {{ orderStore.form.venue }}
+            {{ orderStore.form.event }}
+            {{ orderStore.form.message }}
+            {{ orderStore.form.phone_number }}
+            {{ orderStore.form.name }}
+        <div class="mt-4 mb-2 block text-sm font-medium">SOUP</div>
+        <div class="flex flex-col rounded-lg bg-white sm:flex-row">
+            <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" :src="`/storage/${orderStore.form.soup.image_path}`" alt="" />
             <div class="flex w-full flex-col px-4 py-4">
-            <span class="font-semibold">{{ food.product.name }}</span>
-            <span class="font-semibold">{{ food.product.price }}</span>
-            <span class="float-right text-gray-400">{{ food.special_instructions }}</span>
-            <p class="text-lg font-bold">{{ food.price }}</p>
+            <span class="font-semibold">{{ orderStore.form.soup.name }}</span>
+            <!-- <span class="font-semibold">{{ orderStore.form.soup.price }} </span>    -->
+            <!-- <span class="float-right text-gray-400">{{ food.special_instructions }}</span> -->
+            <!-- <p class="text-lg font-bold">{{ food.price }}</p> -->
             </div>
-            <div class="absolute right-0 relative">
-                {{ index }}
-                <button @click="orderStore.form.foods[index].quantity--">-</button>
-                {{ food.quantity }}
-                <button @click="orderStore.form.foods[index].quantity++">+</button>
+            <div class="absolute right-0 relative flex">
+                <!-- {{ index }} -->
+                <!-- <button @click="orderStore.form.foods[index].quantity--">-</button> -->
+                <!-- {{ food.quantity }} -->
+                <!-- <button @click="orderStore.form.foods[index].quantity++">+</button> -->
             </div>
         </div>
-        what
+        <div class="mt-4 mb-2 block text-sm font-medium">MAIN DISHES</div>
+        <div class="flex flex-col rounded-lg bg-white sm:flex-row" v-for="(food, index) in orderStore.form.main_dishes">
+            <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" :src="`/storage/${food.image_path}`" alt="" />
+            <div class="flex w-full flex-col px-4 py-4">
+            <span class="font-semibold">{{ food.name }}</span>
+            <!-- <span class="font-semibold">{{ food.price }}</span> -->
+            <!-- <span class="float-right text-gray-400">{{ food.special_instructions }}</span>
+            <p class="text-lg font-bold">{{ food.price }}</p> -->
+            </div>
+            <div class="absolute right-0 relative flex">
+            </div>
+        </div>
+        <div class="mt-4 mb-2 block text-sm font-medium">DESSERT</div>
+        <div class="flex flex-col rounded-lg bg-white sm:flex-row">
+            <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" :src="`/storage/${orderStore.form.dessert.image_path}`" alt="" />
+            <div class="flex w-full flex-col px-4 py-4">
+            <span class="font-semibold">{{ orderStore.form.dessert.name }}</span>
+            <!-- <span class="font-semibold">{{ orderStore.form.dessert.price }} </span> -->
+            <!-- <span class="float-right text-gray-400">{{ food.special_instructions }}</span> -->
+            <!-- <p class="text-lg font-bold">{{ food.price }}</p> -->
+            </div>
+            <div class="absolute right-0 relative flex">
+                <!-- {{ index }} -->
+                <!-- <button @click="orderStore.form.foods[index].quantity--">-</button> -->
+                <!-- {{ food.quantity }} -->
+                <!-- <button @click="orderStore.form.foods[index].quantity++">+</button> -->
+            </div>
+        </div>
         <!-- <div class="flex flex-col rounded-lg bg-white sm:flex-row">
             <img class="m-2 h-24 w-28 rounded-md border object-cover object-center" src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="" />
             <div class="flex w-full flex-col px-4 py-4">
@@ -78,7 +110,6 @@ const submit = () => {
                 <p class="mt-auto text-lg font-bold">$238.99</p>
             </div>
         </div> -->
-        {{ orderStore.form }}
         <div class="mt-4 mb-2 block text-sm font-medium">Pax</div>
         <div class="flex flex-col rounded-lg bg-white sm:flex-row">
             <div class="flex w-full flex-col px-4 py-4">
@@ -87,14 +118,13 @@ const submit = () => {
                 <p class="mt-auto text-lg font-bold">P{{ orderStore.form.rate.price }}</p>
             </div>
         </div>
-        <div class="mt-4 mb-2 block text-sm font-medium">Add Ons</div>
+        <!-- <div class="mt-4 mb-2 block text-sm font-medium">Add Ons</div>
         <div class="flex flex-col rounded-lg bg-white sm:flex-row" v-for="add_on in orderStore.form.add_ons">
             <div class="flex w-full flex-col px-4">
                 <span class="font-semibold">{{ add_on.name }}</span>
-                <!-- <span class="float-right text-gray-400">Style</span> -->
                 <p class="mt-auto text-lg font-bold">{{ add_on.price }}</p>
             </div>
-        </div>
+        </div> -->
         </div>
 
         
@@ -111,7 +141,7 @@ const submit = () => {
                 {{ orderStore.form.contract_payments }}
                 {{ orderStore.form.payment_method }}
     <div class="grid grid-cols-2 divide-x divide-gray-300 border border-gray-300 rounded-md text-center w-full">
-        <div class="py-2" @click="orderStore.form.contract_payments = 'down_payment'">Half</div>
+        <div class="py-2" @click="orderStore.form.contract_payments = 'down_payment'">Partial</div>
         <div class="py-2" @click="orderStore.form.contract_payments = 'full_payment'">Full</div>
     </div>
 </div>
@@ -153,7 +183,8 @@ const submit = () => {
             <p class="text-2xl font-semibold text-gray-900">{{ orderStore.subtotal }}</p>
         </div>
         </div>
-        <h1 class="text-red">AGREEMENT FORM SHOULD BE HERE IT COULD JUST BE A CHECKBOX</h1>
+        <!-- <h1 class="text-red">AGREEMENT FORM SHOULD BE HERE IT COULD JUST BE A CHECKBOX</h1> -->
+        <input type="checkbox"> Lorem ipsum dolor sit amet consectetur adipisi
         <button class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white" @click="submit">Place Order</button>
     </div>
     </div>

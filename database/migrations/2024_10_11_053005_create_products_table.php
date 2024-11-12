@@ -15,10 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id');
             $table->string('name');
-            $table->string('desc');
-            $table->decimal('price');
             $table->string('image_path');
-            $table->string('special_instructions')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -2,7 +2,7 @@
 // Add any logic if necessary.
 import { Link } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-
+import FoodDialog from './Components/FoodDialog.vue';
 
 
 defineOptions({
@@ -59,9 +59,9 @@ function statusClass(status) {
               <p><strong>Updated At:</strong> {{ new Date(order.updated_at).toLocaleString() }}</p>
             </div>
           </div>
-  
+          <FoodDialog v-for="product in order.order_items" :product="product.product"/>
           <!-- Add-ons Section -->
-          <div v-if="order.add_ons.length > 0" class="mt-4 grid grid-cols-2">
+          <!-- <div v-if="order.add_ons.length > 0" class="mt-4 grid grid-cols-2">
             <div>
               <h3 class="text-lg font-semibold">Pax</h3>
               {{ order.rate.pax }} Pax <br>
@@ -82,10 +82,10 @@ function statusClass(status) {
               </ul>
             </div>
             
-          </div>
-  
+          </div> -->
+          
           <!-- Products Section -->
-          <div v-if="order.products.length > 0" class="mt-4">
+          <!-- <div v-if="order.products.length > 0" class="mt-4">
             <h3 class="text-lg font-semibold">Foods</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div 
@@ -105,11 +105,11 @@ function statusClass(status) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="grid grid-cols-2 justify-between">
              <div>
-              Total Amount: {{ order.total_amount }}
-              Remaining Balance: {{ order.total_amount }}
+              <!-- Total Amount: {{ order.total_amount }}
+              Remaining Balance: {{ order.total_amount }} -->
              </div>
              <div>
               <button class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mr-2">

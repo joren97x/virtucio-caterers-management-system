@@ -25,7 +25,6 @@ return new class extends Migration
                 'cancelled', 
                 'pending', 
                 'confirmed',
-                'book_and_sealed',
                 'out_of_delivery',
                 'delivered',
                 'complete'
@@ -35,6 +34,7 @@ return new class extends Migration
                 'full_payment'
             ]);
             $table->string('payment_method');
+            $table->string('payment_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

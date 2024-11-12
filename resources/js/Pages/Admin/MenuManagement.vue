@@ -97,12 +97,13 @@ const handleCoverUpload = (event) => {
         :key="food.id"
         class="bg-white rounded-lg shadow hover:shadow-lg transition-shadow"
       >
+      <!-- {{ food.image_path }} -->
         <img :src="`/storage/${food.image_path}`" :alt="food.name" class="h-32 w-full object-cover rounded-t-lg" />
         <div class="p-4">
           <h3 class="text-lg font-semibold text-gray-800">{{ food.name }}</h3>
-          <p class="text-sm text-gray-500">{{ food.desc }}</p>
+          <!-- <p class="text-sm text-gray-500">{{ food.desc }}</p> -->
           <div class="mt-4 flex items-center justify-between">
-            <span class="text-lg font-bold text-gray-900">{{ food.price }}</span>
+            <!-- <span class="text-lg font-bold text-gray-900">{{ food.price }}</span> -->
             <div>
                 <button
               class="px-3 py-1 mr-2 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-500"
@@ -190,7 +191,7 @@ const handleCoverUpload = (event) => {
       />
     </div>
 
-    <div>
+    <!-- <div>
       <label for="about" class="block text-sm font-medium text-gray-700">Description</label>
       <textarea
         id="about"
@@ -199,7 +200,7 @@ const handleCoverUpload = (event) => {
         placeholder="Write a few sentences about the food."
         class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
       ></textarea>
-    </div>
+    </div> -->
 
     <div class="max-w-lg mx-auto">
     <label for="country" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
@@ -214,7 +215,7 @@ const handleCoverUpload = (event) => {
     </select>
   </div>
 
-    <div>
+    <!-- <div>
                     <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Price</label>
                     <div class="relative rounded-md shadow-sm">
                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -223,7 +224,7 @@ const handleCoverUpload = (event) => {
                     <input v-model="form.price" type="text" name="price" id="price" class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0.00" />
                     
                     </div>
-                </div>
+                </div> -->
     <!-- Cover Photo Upload -->
     <div>
       <label class="block text-sm font-medium text-gray-700 mb-2">Image</label>

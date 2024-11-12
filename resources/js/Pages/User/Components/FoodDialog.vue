@@ -1,19 +1,21 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, defineEmits } from 'vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 // import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline'
-import { useOrderStore } from '@/Stores/OrderStore';
+import { useOrderStore } from '@/Stores/OrderStore'
+
 
 const props = defineProps({
-    product: Object
+    product: Object,
+    selected: Boolean
 })
 
+const emit = defineEmits(['clicked'])
 const orderStore = useOrderStore()
 const open = ref(false)
 const form = ref({
     product: props.product,
     special_instructions: '',
-    quantity: 0
 })
 
 const addToCart = () => {
@@ -25,12 +27,12 @@ const addToCart = () => {
 
 <template>
     
-    <div @click="open = true">
+    <div @click="emit('clicked')" :class="{'border-2 border-green-500': selected, 'border-2 border-transparent': !selected}">
         <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
             <img :src="`/storage/${product.image_path}`" :alt="product.name" class="h-32 w-full object-cover object-center group-hover:opacity-75" />
         </div>
         <h3 class="mt-4 text-sm text-gray-700">{{ product.name }}</h3>
-        <p class="mt-1 text-lg font-medium text-gray-900">{{ product.price }}</p>
+        <!-- <p class="mt-1 text-lg font-medium text-gray-900">{{ product.price }}</p> -->
     </div>
     <TransitionRoot as="template" :show="open">
     <Dialog class="relative z-10" @close="open = false">
@@ -74,19 +76,14 @@ const addToCart = () => {
       ></textarea>
     </div>
                 <div>
-                    <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Quantity</label>
+                    <!-- <label for="price" class="block text-sm font-medium leading-6 text-gray-900">Quantity</label> -->
                     <div class="relative mt-2 rounded-md shadow-sm">
-                    <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <!-- <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                         <span class="text-gray-500 sm:text-sm">$</span>
                     </div>
-                    <input v-model="form.quantity" type="text" name="price" id="price" class="block  rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0" />
+                    <input v-model="form.quantity" type="text" name="price" id="price" class="block  rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="0" /> -->
                     <div class="absolute inset-y-0 right-0 flex items-center">
-                        <!-- <label for="currency" class="sr-only">Currency</label>
-                        <select id="currency" name="currency" class="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm">
-                        <option>USD</option>
-                        <option>CAD</option>
-                        <option>EUR</option>
-                        </select> -->
+                        
                         <button type="button" @click="addToCart" class="rounded-md bg-indigo-600 p-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" >Add To Cart</button>
                     </div>
                     

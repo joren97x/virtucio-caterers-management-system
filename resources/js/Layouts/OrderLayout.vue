@@ -27,7 +27,7 @@ const orderStore = useOrderStore()
         <slot />
         <div class="absolute bottom-0 w-full" >
             <div class="my-1 h-3" :style="`background-color: red; width: ${loading}%;`"></div>
-            <div class="flex justify-between mx-5 py-10">
+            <div class="flex justify-between mx-5 py-10 my-10">
                 <Link :href="route(back)" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     Back
                 </Link>

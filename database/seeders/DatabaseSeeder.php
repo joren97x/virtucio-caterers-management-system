@@ -34,26 +34,40 @@ class DatabaseSeeder extends Seeder
         Rate::create([
             'pax' => 50,
             'price' => 10000,
-            'instructions' => 'free drinks plus 2 unskinned potato',
+            'instructions' => '1 Soup wt FREE cruotions
+5 Main Dishes
+1 Dessert Or Salad
+Package with rice and one round of softdrink',
         ]);
 
         Rate::create([
             'pax' => 80,
             'price' => 12400,
-            'instructions' => 'free watermelon, 5 meals of doughnut and protein shake',
+            'instructions' => '1 Soup wt FREE cruotions
+5 Main Dishes
+1 Dessert Or Salad
+Package with rice and one round of softdrink',
         ]);
 
         Rate::create([
             'pax' => 100,
             'price' => 18000,
-            'instructions' => 'lorem ipsum dolor sir atemereljl ',
+            'instructions' => '1 Soup wt FREE cruotions
+5 Main Dishes
+1 Dessert Or Salad
+Package with rice and one round of softdrink',
         ]);
 
         Rate::create([
             'pax' => 120,
             'price' => 20000,
-            'instructions' => 'mariz queeni gadwin serdan pena tawi chaewon hanni pham',
+            'instructions' => '1 Soup wt FREE cruotions
+5 Main Dishes
+1 Dessert Or Salad
+Package with rice and one round of softdrink',
         ]);
+
+        $this->call(CategorySeeder::class);
 
     }
 }

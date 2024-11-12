@@ -17,7 +17,10 @@ const addRateDialog = ref(false)
 const form = useForm({
     pax: '',
     price: 0,
-    instructions: ''
+    instructions: `1 Soup wt FREE cruotions
+5 Main Dishes
+1 Dessert Or Salad
+Package with rice and one round of softdrink`
 })
 
 const submit = () => {
@@ -59,7 +62,7 @@ const submit = () => {
           <tr v-for="rate in rates" :key="rate.id">
             <td class="px-6 py-4">
               <p class="text-sm text-gray-900">{{ rate.pax }} Pax</p>
-              <p class="text-sm text-gray-500">{{ rate.instructions }}</p>
+              <p class="text-sm text-gray-500" style="white-space: pre-line;">{{ rate.instructions }}</p>
             </td>
             <td class="px-6 py-4">
               <span class="inline-flex items-center px-2 py-0.5 rounded text-sm font-medium">

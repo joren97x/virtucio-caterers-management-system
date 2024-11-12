@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
@@ -23,7 +24,8 @@ class Order extends Model
         'contract_payments',
         'status',
         'payment_method',
-        'message'
+        'message',
+        'payment_id'
     ];
 
     public function user(): BelongsTo
@@ -31,14 +33,19 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function add_ons(): HasMany
-    {
-        return $this->hasMany(OrderAddOn::class);
-    }
+    // public function add_ons(): HasMany
+    // {
+    //     return $this->hasMany(OrderAddOn::class);
+    // }
 
-    public function products(): HasMany
+    // public function products(): HasMany
+    // {
+    //     return $this->hasMany(OrderProduct::class);
+    // }
+
+    public function order_items(): HasMany
     {
-        return $this->hasMany(OrderProduct::class);
+        return $this->hasMany(OrderItem::class);
     }
 
     public function rate(): BelongsTo

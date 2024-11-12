@@ -62,6 +62,9 @@ Route::middleware('auth', 'user')->group(function () {
         Route::get('', [OrderController::class, 'orders'])->name('orders');
         Route::get('/new-order/pax', [OrderController::class, 'pax'])->name('order.pax');
         Route::get('/new-order/add-ons', [OrderController::class, 'add_ons'])->name('order.add_ons');
+        Route::get('/new-order/soups', [OrderController::class, 'soups'])->name('order.soups');
+        Route::get('/new-order/main-dishes', [OrderController::class, 'main_dishes'])->name('order.main_dishes');
+        Route::get('/new-order/desserts', [OrderController::class, 'desserts'])->name('order.desserts');
         Route::get('/new-order/foods', [OrderController::class, 'foods'])->name('order.foods');
         Route::get('/new-order/contact-form', [OrderController::class, 'contact_form'])->name('order.contact_form');
         Route::post('/pay', [PaymentController::class, 'pay'])->name('order.pay');
@@ -120,6 +123,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::get('/test', function() {
+    return Inertia::render('Test');
 });
 
 require __DIR__.'/auth.php';

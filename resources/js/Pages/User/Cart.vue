@@ -1,12 +1,12 @@
 
 <script setup>
 
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
+import CustomerLayout from '@/Layouts/CustomerLayout.vue'
 import FoodDialog from './Components/FoodDialog.vue';
 import { ref } from 'vue';
 
 defineOptions({
-    layout: AuthenticatedLayout
+    layout: CustomerLayout
 })
 
 const cartItems = ref([
@@ -86,10 +86,6 @@ const checkout = () => {
           </div> -->
         </div>
         <div class="flex items-center">
-          <select v-model="item.quantity" class="border rounded-md pr-6 mr-4">
-            <option v-for="n in 10" :key="n" :value="n" >{{ n }}</option>
-          </select>
-          <p class="text-lg font-medium">{{ formatCurrency(item.price) }}</p>
           <button @click="removeItem(index)" class="ml-4 text-purple-600">Remove</button>
         </div>
       </div>

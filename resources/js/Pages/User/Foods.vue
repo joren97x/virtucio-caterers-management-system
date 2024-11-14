@@ -1,124 +1,134 @@
-
 <script setup>
-
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue'
-import FoodDialog from './Components/FoodDialog.vue';
-import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { onMounted, ref } from 'vue'
-import { useForm, usePage } from '@inertiajs/vue3'
+import { ref } from 'vue'
+import CustomerLayout from '@/Layouts/CustomerLayout.vue'
+import SoupDialog from './Components/SoupDialog.vue'
+import DessertDialog from './Components/DessertDialog.vue'
+import MainDishDialog from './Components/MainDishDialog.vue'
 
 defineOptions({
-    layout: AuthenticatedLayout
+    layout: CustomerLayout
 })
 
-defineProps({
-    categories: Object,
-    rates: Object,
-    add_on_categories: Object
-})
+// Sample menu data (you can fetch this from an API or a store)
+const soups = [
+    { image: 'products/soup.jpg', id: 1, name: 'Tomato Soup', description: 'lorem ipsumnida' },
+    { image: 'products/soup.jpg', id: 2, name: 'Chicken Soup', description: 'lorem ipsumnida' },
+    { image: 'products/soup.jpg', id: 3, name: 'Vegetable Soup', description: 'lorem ipsumnida' }
+]
 
-const $page = usePage()
-const agreementFormModal = ref(false)
-onMounted(() => {
-    if(!$page.props.auth.user.agreed) {
-        agreementFormModal.value = true
-    }
-})
+const mainDishes = [
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 1, name: 'Grilled Chicken' },
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 2, name: 'Beef Stir-fry' },
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 3, name: 'Vegetable Curry' },
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 4, name: 'Pasta Primavera' },
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 5, name: 'Fish Fillet' },
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 6, name: 'Lamb Chop' },
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 7, name: 'Shrimp Fried Rice' }
+]
 
-const form = useForm({
-    
-})
+const desserts = [
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 1, name: 'Chocolate Cake' },
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 2, name: 'Fruit Salad' },
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 3, name: 'Cheesecake' }
+]
 
+const addOns = [
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 1, name: 'Basic Theme' },
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 2, name: 'Advanced Theme' },
+    { image: 'products/soup.jpg', description: 'lorem ipsumnida', id: 3, name: 'Floral Arrangement' }
+]
+
+const selectedSoup = ref(null)
+
+// Method to handle soup selection
+const selectSoup = (soupId) => {
+    selectedSoup.value = soupId
+}
+const selectedMainDishes = ref([])
+const selectedDessert = ref(null)
+const selectedPax = ref(50) // Default pax selection
+const selectedAddOns = ref([])
+
+// Automatically update the quantity of selected items based on pax
+const updateQuantity = (item) => {
+    return selectedPax.value;
+}
 </script>
 
 <template>
-    <div class="bg-white">
-        <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-            <div class="text-h6 text-center">Virtucio Rates</div>
-                <div class="p-4 space-y-4 border-solid border-2">
-                    <div v-for="(rate, index) in rates" :key="index" class="relative flex items-start space-x-3">
-                        <input
-                            type="checkbox"
-                            :id="rate.index"
-                            v-model="rate.checked"
-                            class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                        />
-                    <div>
-                    <label :for="rate.value" class="font-medium text-gray-700">{{ rate.pax }} Pax</label>
-                    <p class="text-sm text-gray-500">{{ rate.instructions }}</p>
-                </div>
-            <div class="absolute top-0 right-0 h-16 ">{{ rate.price }}</div>
-        </div>
-    </div>
-    <!-- {{ add_on_categories.add_ons }} -->
-    <div class="text-h6 text-center">Optional Add Ons</div>
-        <div class="p-4 space-y-4 border-solid border-2">
-            <div  v-for="(add_on_category, index) in add_on_categories" :key="index">
-                {{ add_on_category.name }}
-            <div v-for="add_on in add_on_category.add_ons" class="relative flex items-start space-x-3">
-                <input
-                    type="checkbox"
-                    :id="add_on.index"
-                    class="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+    <div class="bg-white p-6">
+        <h1 class="text-2xl font-bold mb-4">Menu Selection</h1>
+
+        <!-- Soup Selection -->
+        <div class="mb-4">
+            <h2 class="text-lg font-semibold">Select Soup</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <SoupDialog 
+                    v-for="soup in soups" 
+                    :product="soup" 
                 />
-            <div>
-                <label  class="font-medium text-gray-700">{{ add_on.name }}</label>
-                <!-- <p class="text-sm text-gray-500">{{ add_on.instructions }}</p> -->
-                <div class="absolute top-0 right-0 h-16 ">{{ add_on.price }}</div>
-            </div>
-            <div class="absolute top-0 right-0 h-16 ">{{ add_on.price }} bruh</div>
             </div>
         </div>
 
-    </div>
-        <h2 class="text-center">Food Menu</h2>
-        <div  v-for="category in categories">
-            <div class="flex items-center justify-between mb-4">
-                <h2 class="text-xl font-bold text-gray-800">{{ category.name }}</h2>
+
+        <!-- Main Dishes Selection -->
+        <div class="mb-4">
+            <h2 class="text-lg font-semibold">Select 5 Main Dishes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <MainDishDialog v-for="mainDish in mainDishes" :product="mainDish"/>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 md:grid-cols-3 gap-6">
-                <FoodDialog :product="product"  v-for="product in category.products"/>
+            <!-- <p v-if="selectedMainDishes.length >= 5" class="text-sm text-red-500">You can only select 5 main dishes.</p> -->
+        </div>
+
+        <!-- Dessert Selection -->
+        <div class="mb-4">
+            <h2 class="text-lg font-semibold">Select Dessert</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <DessertDialog v-for="dessert in desserts" :key="dessert.id" :product="dessert"/>
             </div>
         </div>
-    </div>
-    </div>
-    <TransitionRoot as="template" :show="agreementFormModal">
-    <Dialog class="relative z-10" @close="agreementFormModal = false">
-      <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-      </TransitionChild>
 
-      <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-          <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200" leave-from="opacity-100 translate-y-0 sm:scale-100" leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
-            <DialogPanel class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-              <div class="bg-white  sm:p-6 sm:pb-4">
-                <div class="sm:flex sm:items-start">
-                 
-                  <div class="mt-3 text-center  sm:mt-0 sm:text-left w-full">
-                    <!-- <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Deactivate account</DialogTitle>
-                    <div class="mt-2">
-                      <p class="text-sm text-gray-500">Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.</p>
-                    </div> -->
-                    <div>
-                <h2 class="text-xl font-bold text-gray-800">Agreement Form </h2>
-                <p class="text-sm text-gray-600">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, delectus?
-                </p>
-            </div>
-                  </div>
+        <!-- Pax Selection -->
+        <div class="mb-4">
+            <h2 class="text-lg font-semibold">Select Pax</h2>
+            <select v-model="selectedPax" class="form-select w-full p-2 border border-gray-300 rounded">
+                <option value="50">50 Pax</option>
+                <option value="80">80 Pax</option>
+                <option value="100">100 Pax</option>
+            </select>
+        </div>
+
+        <!-- Add-Ons Selection -->
+        <div class="mb-4">
+            <h2 class="text-lg font-semibold">Select Add-Ons</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div v-for="addOn in addOns" :key="addOn.id" class="flex items-center space-x-2">
+                    <input 
+                        type="checkbox" 
+                        :id="'addOn_' + addOn.id" 
+                        v-model="selectedAddOns" 
+                        :value="addOn.id" 
+                        class="form-checkbox text-indigo-600" />
+                    <label :for="'addOn_' + addOn.id" class="text-lg">{{ addOn.name }}</label>
                 </div>
-              </div>
-              <div class="bg-gray-50 px-4 py-3 sm:px-6">
-                
-                <button type="button" class="mt-3 inline-flex  justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="agreementFormModal = false" ref="cancelButtonRef">Decline</button>
-                <button @click="submit" type="button" class="rounded-md bg-green-600 px-3 py-2 text-sm  mr-5 font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" >Accept</button>
             </div>
-            </DialogPanel>
-          </TransitionChild>
         </div>
-      </div>
-    </Dialog>
-  </TransitionRoot>
-  </template>
-  
+
+        <!-- Summary Section -->
+        <div class="mt-6">
+            <h2 class="text-xl font-semibold">Summary</h2>
+            <p>Soup: {{ soups.find(soup => soup.id === selectedSoup)?.name }}</p>
+            <p>Main Dishes: {{ selectedMainDishes.map(id => mainDishes.find(dish => dish.id === id)?.name).join(', ') }}</p>
+            <p>Dessert: {{ desserts.find(dessert => dessert.id === selectedDessert)?.name }}</p>
+            <p>Pax: {{ selectedPax }} Pax</p>
+            <p>Add-Ons: {{ selectedAddOns.map(id => addOns.find(addOn => addOn.id === id)?.name).join(', ') }}</p>
+        </div>
+
+        <button 
+            @click="submitOrder" 
+            class="mt-6 bg-indigo-600 text-white p-3 rounded hover:bg-indigo-700 w-full">
+            Proceed to Checkout
+        </button>
+    </div>
+</template>
+

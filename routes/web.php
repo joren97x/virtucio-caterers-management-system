@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddOnCategoryController;
 use App\Http\Controllers\AddOnController;
 use App\Http\Controllers\AdminViewController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\IngredientController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RateController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ViewController;
 use App\Models\AddOn;
 use App\Models\AddOnCategory;
 use App\Models\Category;
@@ -21,42 +23,27 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [ViewController::class, 'home'])->name('home');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/about-us', function () {
-    return Inertia::render('AboutUs');
-});
 
-Route::resource('foods', ProductController::class)->names([
-    'index' => 'user.products.index',
-    'show' => 'user.products.show',
-]);
+Route::get('/about-us', [ViewController::class, 'about'])->name('about');
+Route::get('/blog', [ViewController::class, 'blog'])->name('blog');
+Route::get('/contact', [ViewController::class, 'contact'])->name('contact');
+Route::get('/blog', [ViewController::class, 'blog'])->name('blog');
+Route::get('/foods', [ViewController::class, 'foods'])->name('foods');
+// Route::resource('foods', ProductController::class)->names([
+//     'index' => 'user.products.index',
+//     'show' => 'user.products.show',
+// ]);
 
 Route::get('/admin/dashboard', function () {
     return Inertia::render('Admin/Dashboard');
 })->name('admin.dashboard');
 
 Route::middleware('auth', 'user')->group(function () {
-    Route::get('/cart', function () {
-        return Inertia::render('User/Cart');
-    })->name('cart');
-
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
     Route::get('/check-out', [OrderController::class, 'checkout'])->name('checkout');
-    // Route::get('/check-out', function () {
-    //     abort(419);
-    // });
-
     Route::prefix('orders')->group(function () {
         // Route::get('/order', [OrderController::class, 'index'])->name('order');
         Route::get('', [OrderController::class, 'orders'])->name('orders');
@@ -130,3 +117,6 @@ Route::get('/test', function() {
 });
 
 require __DIR__.'/auth.php';
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');

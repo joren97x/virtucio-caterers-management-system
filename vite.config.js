@@ -17,4 +17,12 @@ export default defineConfig({
             },
         }),
     ],
+    // server: {
+    //     hmr: {
+    //         host: 'grateful-star-civet.ngrok-free.app',
+    //         protocol: 'wss',
+    //     },
+    //     origin: 'https://grateful-star-civet.ngrok-free.app',
+    // }
+    // server: { proxy: { '/': { target: 'https://5cd8-124-217-23-255.ngrok-free.app', changeOrigin: true, secure: false, }, }, },
 });

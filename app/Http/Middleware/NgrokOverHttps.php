@@ -24,8 +24,6 @@ class NgrokOverHttps
 
         if ($this->requestComesFromNgrok($request)) {
             URL::forceScheme('https');
-
-            Config::set('debugbar.enabled', false);
         }
 
         return $next($request);

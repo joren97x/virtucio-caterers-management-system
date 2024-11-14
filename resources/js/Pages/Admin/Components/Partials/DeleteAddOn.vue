@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { useForm } from '@inertiajs/vue3';
 
 
 defineProps({ add_on: Object })
 
 const dialog = ref(false)
+const form = useForm({})
 
 </script>
 <template>
@@ -43,7 +45,7 @@ const dialog = ref(false)
               <div class="bg-gray-50 px-4 py-3 sm:px-6">
                 
                 <button type="button" class="mt-3 inline-flex  justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto" @click="addAddOnCategoryDialog = false" ref="cancelButtonRef">Cancel</button>
-                <button @click="submitAddOnCategoryForm" type="button" class="rounded-md bg-green-600 px-3 py-2 text-sm  mr-5 font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" >Save</button>
+                <button @click="submitAddOnCategoryForm" type="button" class="rounded-md bg-green-600 px-3 py-2 text-sm  mr-5 font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto" >Delete</button>
             </div>
             </DialogPanel>
           </TransitionChild>

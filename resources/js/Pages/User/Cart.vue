@@ -4,11 +4,10 @@
 import CustomerLayout from '@/Layouts/CustomerLayout.vue'
 import FoodDialog from './Components/FoodDialog.vue';
 import { ref } from 'vue';
+import { useOrderStore } from '@/Stores/OrderStore';
 
-defineOptions({
-    layout: CustomerLayout
-})
-
+defineOptions({ layout: CustomerLayout })
+const orderStore = useOrderStore()
 const cartItems = ref([
   {
     name: 'Nomad Tumbler',
@@ -62,16 +61,57 @@ const updateTotals = () => {
 };
 
 const checkout = () => {
-  alert('Proceeding to checkout!');
+//   alert('Proceeding to checkout!');
+	orderStore.form.post(route('checkout.pay'))
 };
 </script>
 
 <template>
-  <div class="max-w-5xl mx-auto p-4">
-    <h1 class="text-2xl font-bold mb-6">Shopping Cart</h1>
+  <div class="max-w-5xl mx-auto">
+    <h1 class="text-xl font-bold mb-6">Shopping Cart</h1>
     
-    <!-- Cart Items Section -->
-    <div class="bg-white rounded-lg shadow-md mb-6">
+    <div class="bg-white rounded-lg shadow-md mb-6 grid grid-cols-3 gap-4">
+      
+
+
+      <div class="col-span-2">
+        <div class="text-center">Soup</div>
+      <div class="flex items-center p-4 border-b last:border-b-0">
+        <img src="https://via.placeholder.com/100" alt="Product Image" class="w-20 h-20 rounded-lg object-cover mr-4" />
+        <div class="flex-1">
+          <h3 class="text-lg font-medium">Lorem ipsum</h3>
+          <p class="text-gray-500">red</p>
+          <p class="text-gray-500">20</p>
+          <!-- <div v-if="item.inStock" class="flex items-center text-green-500">
+            <span class="mr-1">✔</span> In stock
+          </div>
+          <div v-else class="flex items-center text-gray-500">
+            <span class="mr-1">🕒</span> Ships in 3-4 weeks
+          </div> -->
+        </div>
+        <div class="flex items-center">
+          <button class="ml-4 text-purple-600">Remove</button>
+        </div>
+      </div>
+      <div class="text-center">Dessert</div>
+      <div class="flex items-center p-4 border-b last:border-b-0">
+        <img src="https://via.placeholder.com/100" alt="Product Image" class="w-20 h-20 rounded-lg object-cover mr-4" />
+        <div class="flex-1">
+          <h3 class="text-lg font-medium">Lorem ipsum</h3>
+          <p class="text-gray-500">red</p>
+          <p class="text-gray-500">20</p>
+          <!-- <div v-if="item.inStock" class="flex items-center text-green-500">
+            <span class="mr-1">✔</span> In stock
+          </div>
+          <div v-else class="flex items-center text-gray-500">
+            <span class="mr-1">🕒</span> Ships in 3-4 weeks
+          </div> -->
+        </div>
+        <div class="flex items-center">
+          <button class="ml-4 text-purple-600">Remove</button>
+        </div>
+      </div>
+      <div class="text-center">Main Dishes</div>
       <div v-for="(item, index) in cartItems" :key="index" class="flex items-center p-4 border-b last:border-b-0">
         <img :src="item.image" alt="Product Image" class="w-20 h-20 rounded-lg object-cover mr-4" />
         <div class="flex-1">
@@ -89,9 +129,11 @@ const checkout = () => {
           <button @click="removeItem(index)" class="ml-4 text-purple-600">Remove</button>
         </div>
       </div>
-    </div>
-    
-    <!-- Order Summary Section -->
+      </div>
+
+
+      <div>
+         <!-- Order Summary Section -->
     <div class="bg-white rounded-lg shadow-md p-4">
       <h2 class="text-lg font-semibold mb-4">Order Summary</h2>
       <div class="space-y-2">
@@ -117,6 +159,13 @@ const checkout = () => {
         or <a href="#" class="text-purple-600">Continue Shopping →</a>
       </p>
     </div>
+      </div>
+
+
+
+    </div>
+    
+   
   </div>
 </template>
   

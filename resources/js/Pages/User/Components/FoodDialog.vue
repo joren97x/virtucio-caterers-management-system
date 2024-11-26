@@ -29,10 +29,11 @@ const addToCart = () => {
     
     <div @click="emit('clicked')" :class="{'border-2 border-green-500': selected, 'border-2 border-transparent': !selected}">
         <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
-            <img :src="`/storage/${product.image_path}`" :alt="product.name" class="h-32 w-full object-cover object-center group-hover:opacity-75" />
+          {{ product.image_path }}
+            <img :src="`/storage/${product.image_path}`" :alt="product.name" class="h-56 w-full object-cover object-center group-hover:opacity-75" />
         </div>
-        <h3 class="mt-4 text-sm text-gray-700">{{ product.name }}</h3>
-        <!-- <p class="mt-1 text-lg font-medium text-gray-900">{{ product.price }}</p> -->
+        <p class="mt-4 text-lg font-medium "> {{ product.name }}</p>
+        <h3 class="mt-1 text-sm text-gray-700">{{ product.description }}</h3>
     </div>
     <TransitionRoot as="template" :show="open">
     <Dialog class="relative z-10" @close="open = false">

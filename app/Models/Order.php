@@ -13,16 +13,32 @@ class Order extends Model
 {
     use HasFactory, SoftDeletes;
 
+    // 'cancelled', 
+    // 'pending', 
+    // 'reservation_fee_paid',
+    // 'down_payment_paid',
+    // 'fully_paid',
+    // 'complete'
+
+    CONST STATUS_CANCELLED = 'cancelled';
+    CONST STATUS_PENDING = 'pending';
+    CONST STATUS_RESERVATION_FEE_PAID = 'reservation_fee_paid';
+    CONST STATUS_DOWN_PAYMENT_PAID = 'down_payment_paid';
+    CONST STATUS_FULLY_PAID = 'fully_paid';
+    CONST STATUS_COMPLETE = 'complete';
+
     protected $fillable = [
         'user_id',
         'name',
         'contact_number',
         'venue',
         'rate_id',
-        'date',
-        'event_details',
-        'contract_payments',
+        'event_date',
+        'event_type',
+        'total_amount',
+        'payment_type',
         'status',
+        'reservation_fee',
         'payment_method',
         'message',
         'payment_id'
@@ -33,10 +49,10 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function add_ons(): HasMany
-    // {
-    //     return $this->hasMany(OrderAddOn::class);
-    // }
+    public function add_ons(): HasMany
+    {
+        return $this->hasMany(OrderAddOn::class);
+    }
 
     // public function products(): HasMany
     // {
@@ -51,6 +67,29 @@ class Order extends Model
     public function rate(): BelongsTo
     {
         return $this->belongsTo(Rate::class);
+    }
+
+    public function calculateRemainingBalance()
+    {
+        // Start with the total amount
+        $remaining = $this->total_amount;
+
+        // Subtract reservation fee if applicable
+        if ($this->status === self::STATUS_RESERVATION_FEE_PAID) {
+            // $remaining -= $this->reservation_fee;
+        }
+
+        // Subtract down payment if applicable (50% of total)
+        if ($this->status === self::STATUS_DOWN_PAYMENT_PAID) {
+            $remaining -= ($this->total_amount * 0.5);
+        }
+
+        // If fully paid, remaining balance should be 0
+        if ($this->status === self::STATUS_FULLY_PAID) {
+            $remaining = 0;
+        }
+
+        return $remaining;
     }
 
 }

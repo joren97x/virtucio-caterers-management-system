@@ -1,7 +1,8 @@
 <script setup>
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ref } from 'vue'
-import { useOrderStore } from '@/Stores/OrderStore';
+import { useOrderStore } from '@/Stores/OrderStore'
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const props = defineProps({ product: Object })
 const dialog = ref(false)
@@ -38,7 +39,13 @@ const addToCart = () => {
                     <DialogTitle class="text-lg font-semibold ">{{ product.name }}</DialogTitle>
                     <p class="text-gray-600 mb-4">{{ product.description }}</p>
                     <div class="flex justify-end space-x-4">
-                        <button @click="addToCart" class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-900">Add to cart</button>
+                        <PrimaryButton
+                    class="ms-4"
+                     @click="addToCart" 
+                >
+                    ADD TO CART
+                </PrimaryButton>
+                        <!-- <button class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-900">Add to cart</button> -->
                         <button @click="dialog = false" class="bg-gray-300 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-400">Cancel</button>
                     </div>
                 </div>

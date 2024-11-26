@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,26 +19,30 @@ return new class extends Migration
             $table->string('name');
             $table->string('contact_number');
             $table->string('venue');
-            $table->timestamp('date');
-            $table->text('event_details')->nullable();
+            $table->dateTime('event_date');
+            $table->string('event_type');
+            $table->decimal('total_amount')->nullable();
+            $table->decimal('reservation_fee')->nullable();
             $table->text('message')->nullable();
             $table->enum('status', [
-                'cancelled', 
-                'pending', 
-                'confirmed',
-                'out_of_delivery',
-                'delivered',
-                'complete'
-            ]);
-            $table->enum('contract_payments', [
+                Order::STATUS_CANCELLED, 
+                Order::STATUS_PENDING, 
+                Order::STATUS_RESERVATION_FEE_PAID,
+                Order::STATUS_DOWN_PAYMENT_PAID,
+                Order::STATUS_FULLY_PAID,
+                Order::STATUS_COMPLETE
+            ])->default(Order::STATUS_PENDING);
+            $table->enum('payment_type', [
                 'down_payment',
-                'full_payment'
-            ]);
-            $table->string('payment_method');
+                'full_payment',
+                'reservation_fee'
+            ])->nullable();
+            $table->string('payment_method')->nullable();
             $table->string('payment_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
+
     }
 
     /**

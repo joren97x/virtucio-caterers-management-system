@@ -2,6 +2,7 @@
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { ref, computed } from 'vue'
 import { useOrderStore } from '@/Stores/OrderStore';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const props = defineProps({ product: Object })
 const dialog = ref(false)
@@ -69,9 +70,16 @@ const removeFromCart = () => {
                     <DialogTitle class="text-lg font-semibold ">{{ product.name }}</DialogTitle>
                     <p class="text-gray-600 mb-4">{{ product.description }}</p>
                     <div class="flex justify-end space-x-4">
-                        <button @click="toggleProduct" class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-900" v-if="!isSelected">Add to cart</button>
-                        <button @click="removeFromCart" class="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-900" v-else>Remove from cart</button>
-                        <button @click="dialog = false" class="bg-gray-300 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-400">Cancel</button>
+                      <PrimaryButton
+                    class="ms-4"
+                     v-if="!isSelected"
+                     @click="toggleProduct"
+                >
+                    ADD TO CART
+                </PrimaryButton>
+                        <!-- <button @click="toggleProduct" class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-900">Add to cart</button> -->
+                        <button @click="removeFromCart" class="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-900" v-else>REMOVE FROM CART</button>
+                        <button @click="dialog = false" class="bg-gray-300 text-gray-800 py-2 px-4 rounded-md hover:bg-gray-400">CANCEL</button>
                     </div>
                 </div>
             </div>

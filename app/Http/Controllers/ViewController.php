@@ -13,9 +13,9 @@ class ViewController extends Controller
         return Inertia::render('Home');
     }
 
-    public function foods()
+    public function menu()
     {
-        return Inertia::render('User/Foods');
+        return Inertia::render('User/Menu');
     }
 
     public function about()
@@ -32,4 +32,5 @@ class ViewController extends Controller
     {
         return Inertia::render('Contact');
     }
+
 }

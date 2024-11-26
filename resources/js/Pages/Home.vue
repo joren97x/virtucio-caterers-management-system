@@ -1,5 +1,5 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import CustomerLayout from '@/Layouts/CustomerLayout.vue';
 import { ref, onMounted, onUnmounted } from 'vue';
 
@@ -45,7 +45,13 @@ onMounted(() => {
         <div class="relative z-10 text-center text-white">
             <h1 class="text-4xl md:text-6xl font-bold mb-2">Elevate Your Event with Deliciously Crafted Dishes from Virtucio Caterers</h1>
             <p class="text-lg md:text-xl mb-4">POBLACION CORDOVA CEBU, 6017 | 0908 8877 992 | 032 496 7740 |0923 0827086</p>
-            
+            <Link :href="route('order.pax')">
+                <button
+        class="bg-yellow-500 text-white hover:bg-primary-600  font-bold py-3 px-6 rounded-full shadow-lg focus:outline-none transition"
+      >
+      Start Customizing Your Package
+      </button>
+    </Link>
             <!-- Social Icons -->
             <div class="flex justify-center space-x-4 mt-10">
                 <a href="#" class="text-white hover:text-gray-400">
@@ -109,4 +115,41 @@ onMounted(() => {
             </button>
         </div>
     </div>
+    <section class="py-16 max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center mb-8">How It Works</h2>
+      <div class="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
+        <!-- Step 1 -->
+        <div class="text-center">
+          <div class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
+            <span class="text-2xl font-bold">1</span>
+          </div>
+          <h3 class="font-semibold text-lg">Select Pax</h3>
+          <p class="text-sm text-gray-600">Choose how many people you're serving.</p>
+        </div>
+        <!-- Step 2 -->
+        <div class="text-center">
+          <div class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
+            <span class="text-2xl font-bold">2</span>
+          </div>
+          <h3 class="font-semibold text-lg">Customize Your Package</h3>
+          <p class="text-sm text-gray-600">Pick your soup, dessert, and main dishes.</p>
+        </div>
+        <!-- Step 3 -->
+        <div class="text-center">
+          <div class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
+            <span class="text-2xl font-bold">3</span>
+          </div>
+          <h3 class="font-semibold text-lg">Provide Details</h3>
+          <p class="text-sm text-gray-600">Tell us when and where you need it.</p>
+        </div>
+        <!-- Step 4 -->
+        <div class="text-center">
+          <div class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
+            <span class="text-2xl font-bold">4</span>
+          </div>
+          <h3 class="font-semibold text-lg">Confirm & Enjoy!</h3>
+          <p class="text-sm text-gray-600">Relax—we'll take care of the rest!</p>
+        </div>
+      </div>
+    </section>
 </template>

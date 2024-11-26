@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'John Doe',
-            'email' => 'user@email.com',
+            'email' => 'sumagangjoren@gmail.com',
             'password' => Hash::make('asdasd'),
             'role' => 'user'
         ]);
@@ -68,6 +68,7 @@ Package with rice and one round of softdrink',
         ]);
 
         $this->call(CategorySeeder::class);
+        $this->call(AddOnSeeder::class);
 
     }
 }

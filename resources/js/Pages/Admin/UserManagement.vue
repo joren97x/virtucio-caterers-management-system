@@ -52,37 +52,64 @@ const submit = () => {
         </button>
       </div>
   
-      <table class="min-w-full bg-white">
-        <thead>
-          <tr>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Name</th>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Status</th>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Role</th>
-            <th class="px-6 py-3 text-right text-sm font-medium text-gray-500"></th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-gray-200">
-          <tr v-for="user in users" :key="user.email">
-            <td class="px-6 py-4 flex items-center">
-              <img :src="user.avatar" alt="Avatar" class="h-10 w-10 rounded-full mr-4" />
-              <div>
-                <p class="text-sm font-medium text-gray-900">{{ user.name }}</p>
-                <p class="text-sm text-gray-500">{{ user.email }}</p>
-              </div>
-            </td>
-            <td class="px-6 py-4">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-sm font-medium"
-                :class="user.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'">
-                {{ user.status }}
-              </span>
-            </td>
-            <td class="px-6 py-4 text-sm text-gray-900">{{ user.role }}</td>
-            <td class="px-6 py-4 text-right">
-              <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+  <thead class="bg-gray-50 border-b border-gray-200">
+    <tr>
+      <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+        Name
+      </th>
+      <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+        Role
+      </th>
+      <th class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+        Actions
+      </th>
+    </tr>
+  </thead>
+  <tbody class="divide-y divide-gray-200">
+    <tr
+      v-for="user in users"
+      :key="user.email"
+      class="hover:bg-gray-50 transition-colors"
+    >
+      <!-- User Details -->
+      <td class="px-6 py-4 flex items-center space-x-4">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-10 h-10 text-gray-400 rounded-full bg-gray-100 p-2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+          />
+        </svg>
+        <div>
+          <p class="text-sm font-medium text-gray-900">{{ user.name }}</p>
+          <p class="text-sm text-gray-500">{{ user.email }}</p>
+        </div>
+      </td>
+
+      <!-- Role -->
+      <td class="px-6 py-4 text-sm font-medium text-gray-900">{{ user.role }}</td>
+
+      <!-- Actions -->
+      <td class="px-6 py-4 text-right">
+        <a
+          href="#"
+          class="text-sm font-medium text-indigo-600 hover:text-indigo-900 transition-colors"
+        >
+          Edit
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
     </div>
     <TransitionRoot as="template" :show="addUserDialog">
     <Dialog class="relative z-10" @close="addUserDialog = false">

@@ -3,22 +3,34 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { useForm } from '@inertiajs/vue3'
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { formatDate } from 'date-fns'
 
 defineOptions({
     layout: AdminLayout
 })
 
 defineProps({
-    expenses: Object
+    revenue: Object,
+    expenses: Object,
+    profit: Object,
+    orders: Object,
+    expenses_details: Object,
 })
 
 const addExpenseDialog = ref(false)
+// const form = useForm({
+//     name: '',
+//     price: 0,
+//     quantity: 0
+// })
+
 const form = useForm({
-    name: '',
-    price: 0,
-    quantity: 0
-})
+  category: '',
+  amount: '',
+  description: '',
+  date: '',
+});
 
 const submit = () => {
     form.post(route('admin.expenses.store'), {
@@ -30,52 +42,131 @@ const submit = () => {
 </script>
 
 <template>
-    <div class="p-8 bg-white shadow rounded-lg">
-      <div class="flex items-center justify-between mb-4">
-        <div>
-          <h2 class="text-xl font-bold text-gray-800">Expenses</h2>
-          <p class="text-sm text-gray-600">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Qui, eum.
-          </p>
-        </div>
-        <button
-          class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow hover:bg-indigo-500"
-          @click="addExpenseDialog = true"
-        >
-          Add Expense
-        </button>
+    <div class="p-6 bg-gray-100 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+      <!-- Page Title -->
+      <h1 class="text-2xl font-bold text-gray-700 mb-6">Expense Management</h1>
+
+      <!-- Expense Form -->
+      <div class="bg-white p-4 rounded shadow-md mb-6">
+        <h3 class="text-lg font-semibold mb-4">Add New Expense</h3>
+        <form @submit.prevent="submit">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="category" class="text-sm font-medium text-gray-700">Category</label>
+              <input v-model="form.category" id="category" type="text" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required />
+            </div>
+
+            <div>
+              <label for="amount" class="text-sm font-medium text-gray-700">Amount</label>
+              <input v-model="form.amount" id="amount" type="number" step="0.01" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required />
+            </div>
+
+            <div class="col-span-2">
+              <label for="description" class="text-sm font-medium text-gray-700">Description</label>
+              <textarea v-model="form.description" id="description" rows="3" class="w-full px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+            </div>
+
+            <div class="col-span-2 flex justify-between">
+              <label for="date" class="text-sm font-medium text-gray-700">Date</label>
+              <input v-model="form.date" id="date" type="date" class="w-1/3 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" required />
+            </div>
+          </div>
+
+          <div class="mt-4 flex justify-end">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500">Add Expense</button>
+          </div>
+        </form>
       </div>
-  
-      <table class="min-w-full bg-white">
-        <thead>
+
+      <!-- Expense Table -->
+      <div>
+    <h2 class="text-xl font-bold">Sales and Expenses Report</h2>
+
+    <!-- Date Filters -->
+    <div class="mb-6 flex items-center space-x-4">
+      <div>
+        <label class="block text-sm font-medium">Start Date</label>
+        <input v-model="startDate" type="date" class="mt-1 p-2 border rounded" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium">End Date</label>
+        <input v-model="endDate" type="date" class="mt-1 p-2 border rounded" />
+      </div>
+      <button
+        @click="fetchReport"
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+      >
+        Generate Report
+      </button>
+    </div>
+
+    <!-- Summary Section -->
+    <div class="grid grid-cols-3 gap-4">
+      <div class="p-4 bg-white rounded shadow">
+        <h3 class="text-lg font-semibold">Total Revenue</h3>
+        <p class="text-2xl font-bold">₱{{ revenue }}</p>
+      </div>
+      <div class="p-4 bg-white rounded shadow">
+        <h3 class="text-lg font-semibold">Total Expenses</h3>
+        <p class="text-2xl font-bold">₱{{ expenses }}</p>
+      </div>
+      <div class="p-4 bg-white rounded shadow">
+        <h3 class="text-lg font-semibold">Profit</h3>
+        <p class="text-2xl font-bold">₱{{ profit }}</p>
+      </div>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="mt-8">
+      <h3 class="text-lg font-semibold mb-4">Orders</h3>
+      <table class="min-w-full bg-white shadow-md rounded-lg">
+        <thead class="bg-gray-200">
           <tr>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Name</th>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Quantity</th>
-            <th class="px-6 py-3 text-left text-sm font-medium text-gray-500">Price</th>
-            <th class="px-6 py-3 text-right text-sm font-medium text-gray-500"></th>
+            <th class="py-2 px-4 text-left">Order ID</th>
+            <th class="py-2 px-4 text-left">Customer</th>
+            <th class="py-2 px-4 text-left">Total Amount</th>
+            <th class="py-2 px-4 text-left">Order Date</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
-          <tr v-for="expense in expenses" :key="expense.id">
-            <td class="px-6 py-4">
-              <p class="text-sm text-gray-900">{{ expense.name }} </p>
-            </td>
-            <td class="px-6 py-4">
-              <p class="text-sm text-gray-900">{{ expense.quantity }} </p>
-            </td>
-            <td class="px-6 py-4">
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-sm font-medium">
-                <!-- :class="rate.status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'" -->
-                {{ expense.price }}
-              </span>
-            </td>
-            <td class="px-6 py-4 text-right">
-              <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-            </td>
+        <tbody>
+          <tr v-for="order in orders" :key="order.id" class="border-b">
+            <td class="py-2 px-4">{{ order.id }}</td>
+            <td class="py-2 px-4">{{ order.user_id }}</td>
+            <td class="py-2 px-4">₱{{ order.total_amount }}</td>
+            <td class="py-2 px-4">{{ order.order_date }}</td>
           </tr>
         </tbody>
       </table>
     </div>
+
+    <!-- Expenses Table -->
+    <div class="mt-8">
+      <h3 class="text-lg font-semibold mb-4">Expenses</h3>
+      <table class="min-w-full bg-white shadow-md rounded-lg">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="py-2 px-4 text-left">Expense ID</th>
+            <th class="py-2 px-4 text-left">Category</th>
+            <th class="py-2 px-4 text-left">Description</th>
+            <th class="py-2 px-4 text-left">Amount</th>
+            <th class="py-2 px-4 text-left">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="expense in expenses" :key="expense.id" class="border-b">
+            <td class="py-2 px-4">{{ expense.id }}</td>
+            <td class="py-2 px-4">{{ expense.category }}</td>
+            <td class="py-2 px-4">{{ expense.description }}</td>
+            <td class="py-2 px-4">₱{{ expense.amount }}</td>
+            <td class="py-2 px-4">{{ expense.date }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+    </div>
+  </div>
     <TransitionRoot as="template" :show="addExpenseDialog">
     <Dialog class="relative z-10" @close="addExpenseDialog = false">
       <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100" leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">

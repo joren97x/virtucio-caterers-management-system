@@ -141,57 +141,65 @@ class PaymentController extends Controller
 
         // dd(session('checkout_data'));
         $checkout_data = session('checkout_data');
+        if(!$checkout_data) {
+            abort(403);
+        }
         $order = Order::find($checkout_data['order_id']);
-
-        switch ($checkout_data['payment_type']) {
-            case 'reservation_fee':
-                $order->update([
-                    'status' => Order::STATUS_RESERVATION_FEE_PAID,
-                    'payment_method' => $checkout_data['payment_method']
-                ]);
-                break;
-    
-            case 'down_payment':
-                $down_payment = $checkout_data['amount']; // Amount paid as down payment
-                $order->update([
-                    'status' => Order::STATUS_DOWN_PAYMENT_PAID,
-                    'payment_method' => $checkout_data['payment_method']
-                ]);
-                break;
-    
-            case 'full_payment':
-                $order->update([
-                    'status' => Order::STATUS_FULLY_PAID,
-                    'payment_method' => $checkout_data['payment_method']
-                ]);
-                break;
-            default:
-                abort(400, 'Invalid payment type.');
+        if ($checkout_data['payment_method'] === 'walk_in') {
+            switch ($checkout_data['payment_type']) {
+                case 'reservation_fee':
+                    $order->update([
+                        'status' => Order::STATUS_RESERVATION_FEE_PENDING,
+                        'payment_method' => $checkout_data['payment_method']
+                    ]);
+                    break;
+        
+                case 'down_payment':
+                    $order->update([
+                        'status' => Order::STATUS_DOWN_PAYMENT_PENDING,
+                        'payment_method' => $checkout_data['payment_method']
+                    ]);
+                    break;
+        
+                case 'full_payment':
+                    $order->update([
+                        'status' => Order::STATUS_FULLY_PAID_PENDING,
+                        'payment_method' => $checkout_data['payment_method']
+                    ]);
+                    break;
+        
+                default:
+                    abort(400, 'Invalid payment type for walk-in.');
+            }
+        } else {
+            switch ($checkout_data['payment_type']) {
+                case 'reservation_fee':
+                    $order->update([
+                        'status' => Order::STATUS_RESERVATION_FEE_PAID,
+                        'payment_method' => $checkout_data['payment_method']
+                    ]);
+                    break;
+        
+                case 'down_payment':
+                    $down_payment = $checkout_data['amount']; // Amount paid as down payment
+                    $order->update([
+                        'status' => Order::STATUS_DOWN_PAYMENT_PAID,
+                        'payment_method' => $checkout_data['payment_method']
+                    ]);
+                    break;
+        
+                case 'full_payment':
+                    $order->update([
+                        'status' => Order::STATUS_FULLY_PAID,
+                        'payment_method' => $checkout_data['payment_method']
+                    ]);
+                    break;
+        
+                default:
+                    abort(400, 'Invalid payment type.');
+            }
         }
 
-        // $order->update([
-            
-        // ])
-
-        // if($request->payment_method == 'online') {
-        //     $checkout_session = Paymongo::checkout()->find(session('checkout_id'));
-        //     $order->update([
-        //         'payment_method' => $checkout_session->payment_method_used,
-        //         'payment_id' => $checkout_session->payments[0]['id'],
-        //         'status' => 'confirmed'
-        //     ]);
-        // }
-
-        // if($request->add_ons && count($request->add_ons) > 0)
-        // {
-        //     foreach ($request->add_ons as $add_on) 
-        //     {
-        //         OrderAddOn::create([
-        //             'order_id' => $order->id,
-        //             'add_on_id' => $add_on['id']
-        //         ]);
-        //     }
-        // }
         session()->forget('checkout_data');
         return redirect(route('orders.show', $order->id));
 

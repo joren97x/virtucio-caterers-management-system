@@ -11,9 +11,10 @@ class Expense extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'quantity',
-        'price'
+        'category',
+        'amount',
+        'description',
+        'date',
     ];
 
 }

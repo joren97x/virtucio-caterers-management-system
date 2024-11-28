@@ -118,24 +118,24 @@ onMounted(() => {
       </div>
     </section>
      <!-- Features Section -->
-     <section class="py-16 px-6 max-w-screen-xl mx-auto text-center">
+     <section class="py-16 max-w-screen-xl mx-auto text-center px-2 xs:px-2 sm:px-2 md:px-6 lg:px-6 xl:px-6">
       <h2 class="text-3xl font-bold text-gray-800 mb-8">Why Choose Us?</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-white rounded-lg shadow p-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="bg-white rounded-lg shadow p-2 md:p-6 lg:p-6 xl:p-6">
           <img src="https://via.placeholder.com/100" alt="Quality" class="mx-auto mb-4">
           <h3 class="text-xl font-semibold text-gray-800 mb-2">Unmatched Quality</h3>
           <p class="text-gray-600">
             We source the freshest ingredients to create meals that leave a lasting impression.
           </p>
         </div>
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-white rounded-lg shadow p-2 md:p-6 lg:p-6 xl:p-6">
           <img src="https://via.placeholder.com/100" alt="Customizable Menus" class="mx-auto mb-4">
           <h3 class="text-xl font-semibold text-gray-800 mb-2">Customizable Menus</h3>
           <p class="text-gray-600">
             Tailor our offerings to perfectly suit your event's theme and preferences.
           </p>
         </div>
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-white rounded-lg shadow p-2 md:p-6 lg:p-6 xl:p-6">
           <img src="https://via.placeholder.com/100" alt="Professional Service" class="mx-auto mb-4">
           <h3 class="text-xl font-semibold text-gray-800 mb-2">Professional Service</h3>
           <p class="text-gray-600">
@@ -146,32 +146,32 @@ onMounted(() => {
     </section>
 
     <!-- Services Section -->
-    <section class="bg-gray-100 py-16 px-6">
+    <section class="bg-gray-100 py-16 px-2 xs:px-2 sm:px-2 md:px-6 lg:px-6 xl:px-6">
       <div class="max-w-screen-xl mx-auto text-center">
         <h2 class="text-3xl font-bold text-gray-800 mb-8">Our Services</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div class="bg-white rounded-lg shadow p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-white rounded-lg shadow p-2 md:p-6 lg:p-6 xl:p-6">
             <img src="https://via.placeholder.com/150" alt="Wedding Catering" class="mx-auto mb-4">
             <h3 class="text-xl font-semibold text-gray-800 mb-2">Wedding Catering</h3>
             <p class="text-gray-600">
               Make your special day unforgettable with our premium wedding packages.
             </p>
           </div>
-          <div class="bg-white rounded-lg shadow p-6">
+          <div class="bg-white rounded-lg shadow p-2 md:p-6 lg:p-6 xl:p-6">
             <img src="https://via.placeholder.com/150" alt="Corporate Events" class="mx-auto mb-4">
             <h3 class="text-xl font-semibold text-gray-800 mb-2">Corporate Events</h3>
             <p class="text-gray-600">
               Impress your clients and employees with our professional catering services.
             </p>
           </div>
-          <div class="bg-white rounded-lg shadow p-6">
+          <div class="bg-white rounded-lg shadow p-2 md:p-6 lg:p-6 xl:p-6">
             <img src="https://via.placeholder.com/150" alt="Private Parties" class="mx-auto mb-4">
             <h3 class="text-xl font-semibold text-gray-800 mb-2">Private Parties</h3>
             <p class="text-gray-600">
               Host memorable gatherings with our exquisite culinary offerings.
             </p>
           </div>
-          <div class="bg-white rounded-lg shadow p-6">
+          <div class="bg-white rounded-lg shadow p-2 md:p-6 lg:p-6 xl:p-6">
             <img src="https://via.placeholder.com/150" alt="Custom Events" class="mx-auto mb-4">
             <h3 class="text-xl font-semibold text-gray-800 mb-2">Custom Events</h3>
             <p class="text-gray-600">

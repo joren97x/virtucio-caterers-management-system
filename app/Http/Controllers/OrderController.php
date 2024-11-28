@@ -60,12 +60,22 @@ class OrderController extends Controller
 
     public function orders(OrderService $orderService)
     {
-        $orders = Order::with(['rate', 'order_items.product'])->where('user_id', auth()->id())->get();
+        $orders = Order::with(['rate', 'user', 'order_items.product'])->where('user_id', auth()->id())->get();
         dd($orders);
       
         return Inertia::render('User/Orders', [
             'orders' => $orders
         ]);
+    }
+
+    public function update(Order $order)
+    {
+        $order->update([
+            'status' => Order::STATUS_CANCELLED
+        ]);
+
+        return back();
+
     }
 
     public function show(string $id)

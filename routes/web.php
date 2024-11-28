@@ -35,16 +35,11 @@ Route::get('/admin/dashboard', function () {
     return Inertia::render('Admin/Dashboard');
 })->name('admin.dashboard');
 
-
-Route::get('/yawa', function () {
-    dd('yawa');
-});
-
-
 Route::middleware('auth', 'user')->group(function () {
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     // Route::post('/check-out/{order}', [OrderController::class, 'checkout'])->name('checkout');
     // Route::post('/check-out', [OrderController::class, 'checkout_pay'])->name('checkout.pay');
@@ -64,52 +59,7 @@ Route::middleware('auth', 'user')->group(function () {
     // Route::get('/orders', [OrderController::class, 'orders'])->name('orders');
 });
 
-Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
-    Route::resource('/users', UserController::class)->names([
-        'index' => 'admin.users.index',
-        'store' => 'admin.users.store',
-    ]);
-    Route::resource('/ingredients', IngredientController::class)->names([
-        'index' => 'admin.ingredients.index',
-        'store' => 'admin.ingredients.store',
-        'update' => 'admin.ingredients.update',
-    ]);
-    Route::resource('/expenses', ExpenseController::class)->names([
-        'index' => 'admin.expenses.index',
-        'store' => 'admin.expenses.store',
-        'update' => 'admin.expenses.update',
-    ]);
-    Route::get('/orders/pending', [OrderController::class, 'pending'])->name('admin.orders.pending');
-    Route::get('/orders/confirmed', [OrderController::class, 'confirmed'])->name('admin.orders.confirmed');
-    Route::get('/orders/history', [OrderController::class, 'history'])->name('admin.orders.history');
-    Route::resource('/orders', OrderController::class)->names([
-        'index' => 'admin.orders.index',
-        'store' => 'admin.orders.store',
-        'show' => 'admin.orders.show',
-    ]);
-    Route::resource('/products', ProductController::class)->names([
-        'store' => 'admin.products.store',
-        'update' => 'admin.products.update',
-    ]);
-    Route::resource('categories', CategoryController::class)->names([
-        'store' => 'admin.categories.store',
-    ]);
-    Route::resource('rates', RateController::class)->names([
-        'store' => 'admin.rates.store',
-        'index' => 'admin.rates.index',
-    ]);
-    Route::resource('add_ons', AddOnController::class)->names([
-        'store' => 'admin.add_ons.store',
-        'index' => 'admin.add_ons.index',
-    ]);
-    Route::resource('add_on_categories', AddOnCategoryController::class)->names([
-        'store' => 'admin.add_on_categories.store',
-        'index' => 'admin.add_on_categories.index',
-    ]);
-    Route::get('/dashboard', [AdminViewController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/menu-management', [AdminViewController::class, 'menu_management'])->name('admin.menu_management');
-    Route::get('/sales', [AdminViewController::class, 'sales'])->name('admin.sales');
-});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -122,6 +72,7 @@ Route::get('/test', function() {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/admin.php';
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

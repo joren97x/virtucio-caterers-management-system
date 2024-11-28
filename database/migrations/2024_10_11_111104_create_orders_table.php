@@ -30,7 +30,10 @@ return new class extends Migration
                 Order::STATUS_RESERVATION_FEE_PAID,
                 Order::STATUS_DOWN_PAYMENT_PAID,
                 Order::STATUS_FULLY_PAID,
-                Order::STATUS_COMPLETE
+                Order::STATUS_COMPLETE,
+                Order::STATUS_DOWN_PAYMENT_PENDING,
+                Order::STATUS_RESERVATION_FEE_PENDING,
+                Order::STATUS_FULLY_PAID_PENDING
             ])->default(Order::STATUS_PENDING);
             $table->enum('payment_type', [
                 'down_payment',

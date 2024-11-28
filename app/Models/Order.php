@@ -26,6 +26,9 @@ class Order extends Model
     CONST STATUS_DOWN_PAYMENT_PAID = 'down_payment_paid';
     CONST STATUS_FULLY_PAID = 'fully_paid';
     CONST STATUS_COMPLETE = 'complete';
+    CONST STATUS_RESERVATION_FEE_PENDING = 'reservation_fee_pending';
+    CONST STATUS_DOWN_PAYMENT_PENDING = 'down_payment_pending';
+    CONST STATUS_FULLY_PAID_PENDING = 'fully_paid_pending';
 
     protected $fillable = [
         'user_id',
@@ -76,7 +79,7 @@ class Order extends Model
 
         // Subtract reservation fee if applicable
         if ($this->status === self::STATUS_RESERVATION_FEE_PAID) {
-            // $remaining -= $this->reservation_fee;
+            // $remaining - = $this->reservation_fee;
         }
 
         // Subtract down payment if applicable (50% of total)

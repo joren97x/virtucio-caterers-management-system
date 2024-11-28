@@ -19,7 +19,7 @@ const links = [
 
     <Head title="Welcome" />
     <div>
-        <header class="sticky top-0 z-50 bg-white shadow">
+        <header class="sticky top-0 bg-white shadow">
             <nav class="flex items-center justify-between p-4 lg:px-8" aria-label="Global">
                 <div class="flex lg:flex-1">
                     <Link :href="route('home')" class="-m-1.5 p-1.5">

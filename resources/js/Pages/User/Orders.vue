@@ -3,7 +3,7 @@
 import { Link } from '@inertiajs/vue3';
 import CustomerLayout from '@/Layouts/CustomerLayout.vue';
 import FoodDialog from './Components/FoodDialog.vue';
-import { format } from 'date-fns';
+import { formatDate } from 'date-fns';
 
 
 defineOptions({
@@ -33,70 +33,71 @@ const active_order_status = [
     'down_payment_paid',
 ]
 
+const formatCurrency = (amount) => {
+    return `₱${parseFloat(amount).toLocaleString("en-US", { minimumFractionDigits: 2, })}`
+}
+
 </script>
 
 <template>
-    <div class="p-6 min-h-screen max-w-screen-xl mx-auto">
-      <h1 class="text-2xl font-bold mb-4">Orders</h1>
-      <div class="space-y-4">
-        <div v-if="orders.length == 0" class="flex items-center h-96 justify-center">
-            <img src="empty_orders.png" class="justify-center" style="height: 120px; width: 120px;" alt="">
-            <h1 class="text-lg">Oops no orders yet...</h1>
-        </div>
-        <div 
-          v-for="order in orders" 
-          :key="order.id" 
-          class="bg-gray-100  shadow rounded-lg p-4"
-        >
-          <div class="flex justify-between items-center border-b pb-2 mb-2">
-            <h2 class="text-lg font-semibold">{{ order.name }} (Order #{{ order.id }})</h2>
-            {{ format(new Date(order.event_date), 'PPP') }}
+  <div class="min-h-screen p-6 max-w-screen-xl mx-auto">
+    <!-- Header -->
+    <header class="bg-white p-4 rounded shadow-md mb-6">
+      <h1 class="text-2xl font-bold text-gray-800">All Orders</h1>
+      <p class="text-gray-600">Manage all your catering orders in one place.</p>
+    </header>
 
-            <span :class="statusClass(order.status)">
-              {{ order.status }}
-            </span>
-          </div>
-  
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <p><strong>Contact:</strong> {{ order.contact_number }}</p>
-              <p><strong>Venue:</strong> {{ order.venue }}</p>
-              <p><strong>Date:</strong> {{ new Date(order.event_date).toLocaleDateString() }}</p>
-              <p><strong>Event Typr:</strong> {{ order.event_type }}</p>
-              <p><strong>Message:</strong> {{ order.message || 'N/A' }}</p>
-            </div>
-            <div>
-              <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
-              <p><strong>Contract Payments:</strong> {{ order.contract_payments }}</p>
-              <p><strong>Total Amount:</strong> {{ order.total_amount }}</p>
-              <p><strong>Created At:</strong> {{ new Date(order.created_at).toLocaleString() }}</p>
-              <p><strong>Updated At:</strong> {{ new Date(order.updated_at).toLocaleString() }}</p>
-              {{ order.remaining_balance  }}
-            </div>
-          </div>
-          <div class="grid grid-cols-2 justify-between">
-             <div>
-             </div>
-             <div>
-            <Link :href="route('orders.show', order.id)">
-              <button class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mr-2">
-                View Recieipt</button>
-              </Link>
-               <Link :href="route('checkout', order.id)">
-                <button v-if="active_order_status.includes(order.status)" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mr-2">
-                  Checkout</button>
+    <!-- Orders Table -->
+    <section class="bg-white p-6 rounded shadow-md">
+      <h2 class="text-xl font-semibold text-gray-700 mb-4">Orders Overview</h2>
+
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse border border-gray-200">
+          <thead>
+            <tr class="bg-gray-200">
+              <th class="border border-gray-300 p-3 text-left text-gray-600">#</th>
+              <th class="border border-gray-300 p-3 text-left text-gray-600">Name</th>
+              <th class="border border-gray-300 p-3 text-left text-gray-600">Event Type</th>
+              <th class="border border-gray-300 p-3 text-left text-gray-600">Event Date</th>
+              <th class="border border-gray-300 p-3 text-left text-gray-600">Status</th>
+              <th class="border border-gray-300 p-3 text-center text-gray-600">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="(order, index) in orders"
+              :key="order.id"
+              class="hover:bg-gray-100"
+            >
+              <td class="border border-gray-300 p-3">{{ index + 1 }}</td>
+              <td class="border border-gray-300 p-3">{{ order.name }}</td>
+              <td class="border border-gray-300 p-3 capitalize">{{ order.event_type }}</td>
+              <td class="border border-gray-300 p-3">{{ formatDate(order.event_date, 'PPPP') }}</td>
+              <td class="border border-gray-300 p-3">
+                <span
+                  :class="{
+                    'bg-green-100 text-green-700 px-2 py-1 rounded': order.status === 'fully_paid',
+                    'bg-yellow-100 text-yellow-700 px-2 py-1 rounded': order.status === 'pending',
+                    'bg-red-100 text-red-700 px-2 py-1 rounded': order.status === 'cancelled',
+                    'bg-red-100 text-orange-700 px-2 py-1 rounded': order.status === 'down_payment_paid',
+                  }"
+                >
+                  {{ order.status }}
+                </span>
+              </td>
+              <td class="border border-gray-300 p-3 text-center">
+                <Link :href="route('orders.show', order.id)"
+                  class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                >
+                  View Details
                 </Link>
-                <!-- // '', -->
-              <Link v-if="order.contract_payments == 'down_payment'" :href="route('order.pay_balance', order.id)" method="POST">
-                  <button class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  Pay Remaining Balance
-                </button>
-              </Link>
-             </div>
-          </div>
-        </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
+    </section>
+  </div>
   </template>
 
   
@@ -104,3 +105,18 @@ const active_order_status = [
   /* Add any custom styling here if needed */
   </style>
   
+
+  <!-- <Link :href="route('orders.show', order.id)">
+    <button class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mr-2">
+      View Details</button>
+    </Link>
+     <Link :href="route('checkout', order.id)">
+      <button v-if="active_order_status.includes(order.status)" class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mr-2">
+        Pay Remaining Balance</button>
+      </Link>
+       // '',
+    <Link v-if="order.contract_payments == 'down_payment'" :href="route('order.pay_balance', order.id)" method="POST">
+        <button class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+        Pay Remaining Balance
+      </button>
+    </Link> -->

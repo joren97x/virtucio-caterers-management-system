@@ -28,7 +28,7 @@ const isSelected = computed(() => {
 
 <template>
     <!-- <Alert :show="showAlert" @close="showAlert = false" color="red" title="Choose a dessert" subtitle="Pag choose ra gud og dessert dong" /> -->
-    <OrderLayout back="order.soups" next="order.main_dishes" loading="50">
+    <OrderLayout back="order.soups" next="order.main_dishes" loading="48">
         <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-4 mb-4 flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold">Choose a Dessert</h1>
@@ -37,7 +37,7 @@ const isSelected = computed(() => {
 
             <!-- Selection Indicator -->
             <div class="text-sm text-indigo-600 font-semibold">
-                0 of 1 selected
+                {{ orderStore.form.dessert ? '1' : '0' }} of 1 selected
             </div>
         </div>
         <div class="" >

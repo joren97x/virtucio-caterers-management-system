@@ -186,7 +186,7 @@ const groupItemsByCategory = (items) => {
                 </div>
                 <div class="space-y-2">
                     <div class="flex justify-between">
-                        <span class="font-semibold text-gray-600">Pax</span>
+                        <span class="font-semibold text-gray-600"> {{ order.rate.pax }} Pax</span>
                         <span class="text-gray-800">{{ formatCurrency(order.rate.price) }}</span>
                     </div>
                     <div class="flex justify-between" v-for="order_item in order.add_ons">
@@ -224,6 +224,34 @@ const groupItemsByCategory = (items) => {
 
                 <!-- Proceed Button -->
                 <div class="mt-8">
+                    <div class="inline-flex items-center">
+                        <label class="flex items-center cursor-pointer relative" for="check-with-link">
+                            <input type="checkbox"
+                            checked
+                            class="peer h-5 w-5 cursor-pointer transition-all appearance-none rounded shadow hover:shadow-md border border-slate-300 checked:bg-slate-800 checked:border-slate-800"
+                            id="check-with-link" />
+                            <span class="absolute text-white opacity-0 peer-checked:opacity-100 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor"
+                                stroke="currentColor" stroke-width="1">
+                                <path fill-rule="evenodd"
+                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                clip-rule="evenodd"></path>
+                            </svg>
+                            </span>
+                        </label>
+                        <label class="cursor-pointer ml-2 text-slate-600 text-sm" for="check-with-link">
+                            <p>
+                            I agree with the
+                            <a
+                                href="#"
+                                class="font-medium hover:text-slate-800 underline"
+                            >
+                                terms and conditions
+                            </a>
+                            .
+                            </p>
+                        </label>
+                        </div>
                     <button @click="submit"
                         class="w-full bg-green-500 text-white py-3 rounded-lg font-bold transition hover:bg-green-600">
                         Proceed to Payment

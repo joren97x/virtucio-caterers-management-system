@@ -62,8 +62,9 @@ const prevStep = () => {
             <slot />
         </div>
         <div class="absolute bottom-0 w-full" >
-            <div class="my-1 h-3" :style="`background-color: red; width: ${loading}%;`"></div>
-
+            <!-- <div class="my-2 h-2" :style="`background-color: yellow; width: ${loading}%; transition: width 0.5s ease;`"></div>
+            <div class="my-2 h-2" :style="`background-color: yellow; width: ${loading}%; transition: width 0.5s ease;`"></div> -->
+            <div class="my-2 h-2 my-transition" :style="`background-color: yellow; width: ${loading}%;`"></div>
 
 
 
@@ -142,8 +143,9 @@ const prevStep = () => {
     </div>
 </template>
 
-  
-  <style scoped>
-  /* Add any custom styling here if needed */
-  </style>
+<style scoped>
+.my-transition {
+  transition: width 0.5s ease;
+}
+</style>
   

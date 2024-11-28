@@ -20,6 +20,7 @@ class OrderController extends Controller
     {
         $orders = Order::with(['user', 'rate', 'add_ons.add_on.add_on_category', 'order_items.product'])
         ->where('user_id', auth()->id())
+        ->latest()
         ->get()
         ->map(function ($order) {
             // Add remaining balance to each order
@@ -70,7 +71,12 @@ class OrderController extends Controller
     public function show(string $id)
     {
 
-        $order = Order::with(['rate', 'order_items.product'])->where('user_id', auth()->id())->findOrFail($id);
+        $order = Order::with(['rate', 'order_items.product'])
+        ->where('user_id', auth()->id())
+        ->findOrFail($id);
+
+        $order->remaining_balance = $order->calculateRemainingBalance();
+
         // foreach($orders as $order) {
         //     $order->total_amount = $orderService->getTotalAmount($order);
         // }

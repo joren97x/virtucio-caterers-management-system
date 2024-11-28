@@ -28,52 +28,42 @@ onMounted(() => {
 </script>
 
 <template>
+
     <Head title="Welcome" />
-    <div class="relative h-[80vh] flex items-center justify-center bg-gray-900 overflow-hidden isolate">
-        <!-- Carousel Images -->
-        <div
-            v-for="(slide, index) in slides"
-            :key="index"
-            v-show="activeSlide === index"
-            class="absolute inset-0 w-full h-full transition-opacity duration-500"
-        >
+    <!-- <div class="relative h-[80vh] flex items-center justify-center bg-gray-900 overflow-hidden isolate">
+        <div v-for="(slide, index) in slides" :key="index" v-show="activeSlide === index"
+            class="absolute inset-0 w-full h-full transition-opacity duration-500">
             <img :src="slide" alt="Hero Background" class="w-full h-full object-cover opacity-70" />
             <div class="absolute inset-0 bg-black opacity-50"></div>
         </div>
 
-        <!-- Hero Content -->
         <div class="relative z-10 text-center text-white">
-            <h1 class="text-4xl md:text-6xl font-bold mb-2">Elevate Your Event with Deliciously Crafted Dishes from Virtucio Caterers</h1>
-            <p class="text-lg md:text-xl mb-4">POBLACION CORDOVA CEBU, 6017 | 0908 8877 992 | 032 496 7740 |0923 0827086</p>
+            <h1 class="text-4xl md:text-6xl font-bold mb-2">Elevate Your Event with Deliciously Crafted Dishes from
+                Virtucio Caterers</h1>
+            <p class="text-lg md:text-xl mb-4">POBLACION CORDOVA CEBU, 6017 | 0908 8877 992 | 032 496 7740 |0923 0827086
+            </p>
             <Link :href="route('order.pax')">
-                <button
-        class="bg-yellow-500 text-white hover:bg-primary-600  font-bold py-3 px-6 rounded-full shadow-lg focus:outline-none transition"
-      >
-      Start Customizing Your Package
-      </button>
-    </Link>
-            <!-- Social Icons -->
+            <button
+                class="bg-yellow-500 text-white hover:bg-primary-600  font-bold py-3 px-6 rounded-full shadow-lg focus:outline-none transition">
+                Start Customizing Your Package
+            </button>
+            </Link>
             <div class="flex justify-center space-x-4 mt-10">
                 <a href="#" class="text-white hover:text-gray-400">
-                    <!-- Your SVG icons here -->
-                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Facebook</title><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>
+                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <title>Facebook</title>
+                        <path
+                            d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z" />
+                    </svg>
                 </a>
-                <!-- Additional icons as needed -->
             </div>
         </div>
 
-        <!-- Navigation Dots -->
         <div class="absolute bottom-4 flex space-x-2">
-            <button
-                v-for="(slide, index) in slides"
-                :key="index"
-                @click="activeSlide = index"
-                :class="{
-                    'bg-white': activeSlide === index,
-                    'bg-gray-400': activeSlide !== index,
-                }"
-                class="w-3 h-3 rounded-full transition-colors duration-300"
-            ></button>
+            <button v-for="(slide, index) in slides" :key="index" @click="activeSlide = index" :class="{
+                'bg-white': activeSlide === index,
+                'bg-gray-400': activeSlide !== index,
+            }" class="w-3 h-3 rounded-full transition-colors duration-300"></button>
         </div>
     </div>
     <div class="location-section text-center py-10 bg-gray-100">
@@ -85,27 +75,25 @@ onMounted(() => {
         <button class="follow-button mt-4 px-4 py-2 bg-black text-white rounded">
             FOLLOW @LUNCHBOX
         </button>
-    </div>
+    </div> -->
 
     <!-- Catering Description Section -->
-    <div class="catering-section text-center py-12 bg-white">
+    <!-- <div class="catering-section text-center py-12 bg-white">
         <h2 class="text-3xl font-bold">We'll cater any size party</h2>
         <p class="text-gray-600 mt-4 px-6 md:px-32">
-            Virtucio Caiterers, where each dish is crafted with love, passion, and attention to detail. 
+            Virtucio Caiterers, where each dish is crafted with love, passion, and attention to detail.
             Book now to bring unforgettable flavors to your gathering!
         </p>
-        <button class="book-button mt-6 px-6 py-2 border-2 border-green-500 text-green-500 rounded hover:bg-green-500 hover:text-white transition">
+        <button
+            class="book-button mt-6 px-6 py-2 border-2 border-green-500 text-green-500 rounded hover:bg-green-500 hover:text-white transition">
             BOOK AND EVENT
         </button>
-    </div>
+    </div> -->
 
     <!-- Menu Preview Section -->
-    <div class="menu-preview-section py-12 bg-gray-100">
+    <!-- <div class="menu-preview-section py-12 bg-gray-100">
         <div class="menu-images grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
             <img :src="slide" alt="Dish 1" class="w-full h-40 object-cover rounded-lg" v-for="slide in slides">
-            <!-- <img src="path-to-image2.jpg" alt="Dish 2" class="w-full h-40 object-cover rounded-lg">
-            <img src="path-to-image3.jpg" alt="Dish 3" class="w-full h-40 object-cover rounded-lg">
-            <img src="path-to-image4.jpg" alt="Dish 4" class="w-full h-40 object-cover rounded-lg"> -->
         </div>
         <div class="text-center mt-8">
             <h2 class="text-3xl font-bold">SOMETHING FOR EVERYONE</h2>
@@ -114,42 +102,124 @@ onMounted(() => {
                 VIEW MENU
             </button>
         </div>
-    </div>
-    <section class="py-16 max-w-7xl mx-auto px-6">
-      <h2 class="text-3xl font-bold text-center mb-8">How It Works</h2>
-      <div class="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
-        <!-- Step 1 -->
-        <div class="text-center">
-          <div class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
-            <span class="text-2xl font-bold">1</span>
-          </div>
-          <h3 class="font-semibold text-lg">Select Pax</h3>
-          <p class="text-sm text-gray-600">Choose how many people you're serving.</p>
+    </div> -->
+    
+     <!-- Hero Section -->
+     <section class="bg-cover bg-center h-screen flex items-center justify-center relative" style="background-image: url('images/banner.png');">
+      <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+      <div class="z-10 text-center text-white">
+        <h1 class="text-5xl font-bold mb-6">Welcome to Virtucio Caterers</h1>
+        <p class="text-lg mb-6">
+          Elevate your events with our deliciously crafted dishes and exceptional service.
+        </p>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded shadow">
+          Explore Our Menu
+        </button>
+      </div>
+    </section>
+     <!-- Features Section -->
+     <section class="py-16 px-6 max-w-screen-xl mx-auto text-center">
+      <h2 class="text-3xl font-bold text-gray-800 mb-8">Why Choose Us?</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-lg shadow p-6">
+          <img src="https://via.placeholder.com/100" alt="Quality" class="mx-auto mb-4">
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Unmatched Quality</h3>
+          <p class="text-gray-600">
+            We source the freshest ingredients to create meals that leave a lasting impression.
+          </p>
         </div>
-        <!-- Step 2 -->
-        <div class="text-center">
-          <div class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
-            <span class="text-2xl font-bold">2</span>
-          </div>
-          <h3 class="font-semibold text-lg">Customize Your Package</h3>
-          <p class="text-sm text-gray-600">Pick your soup, dessert, and main dishes.</p>
+        <div class="bg-white rounded-lg shadow p-6">
+          <img src="https://via.placeholder.com/100" alt="Customizable Menus" class="mx-auto mb-4">
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Customizable Menus</h3>
+          <p class="text-gray-600">
+            Tailor our offerings to perfectly suit your event's theme and preferences.
+          </p>
         </div>
-        <!-- Step 3 -->
-        <div class="text-center">
-          <div class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
-            <span class="text-2xl font-bold">3</span>
-          </div>
-          <h3 class="font-semibold text-lg">Provide Details</h3>
-          <p class="text-sm text-gray-600">Tell us when and where you need it.</p>
-        </div>
-        <!-- Step 4 -->
-        <div class="text-center">
-          <div class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
-            <span class="text-2xl font-bold">4</span>
-          </div>
-          <h3 class="font-semibold text-lg">Confirm & Enjoy!</h3>
-          <p class="text-sm text-gray-600">Relax—we'll take care of the rest!</p>
+        <div class="bg-white rounded-lg shadow p-6">
+          <img src="https://via.placeholder.com/100" alt="Professional Service" class="mx-auto mb-4">
+          <h3 class="text-xl font-semibold text-gray-800 mb-2">Professional Service</h3>
+          <p class="text-gray-600">
+            Our dedicated team ensures every detail is taken care of with precision and care.
+          </p>
         </div>
       </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="bg-gray-100 py-16 px-6">
+      <div class="max-w-screen-xl mx-auto text-center">
+        <h2 class="text-3xl font-bold text-gray-800 mb-8">Our Services</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="bg-white rounded-lg shadow p-6">
+            <img src="https://via.placeholder.com/150" alt="Wedding Catering" class="mx-auto mb-4">
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Wedding Catering</h3>
+            <p class="text-gray-600">
+              Make your special day unforgettable with our premium wedding packages.
+            </p>
+          </div>
+          <div class="bg-white rounded-lg shadow p-6">
+            <img src="https://via.placeholder.com/150" alt="Corporate Events" class="mx-auto mb-4">
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Corporate Events</h3>
+            <p class="text-gray-600">
+              Impress your clients and employees with our professional catering services.
+            </p>
+          </div>
+          <div class="bg-white rounded-lg shadow p-6">
+            <img src="https://via.placeholder.com/150" alt="Private Parties" class="mx-auto mb-4">
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Private Parties</h3>
+            <p class="text-gray-600">
+              Host memorable gatherings with our exquisite culinary offerings.
+            </p>
+          </div>
+          <div class="bg-white rounded-lg shadow p-6">
+            <img src="https://via.placeholder.com/150" alt="Custom Events" class="mx-auto mb-4">
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Custom Events</h3>
+            <p class="text-gray-600">
+              No matter the occasion, we’ll bring your vision to life with our tailored services.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="py-16 max-w-7xl mx-auto px-6">
+        <h2 class="text-3xl font-bold text-center mb-8">How It Works</h2>
+        <div class="grid md:grid-cols-4 sm:grid-cols-2 grid-cols-1 gap-6">
+            <!-- Step 1 -->
+            <div class="text-center">
+                <div
+                    class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
+                    <span class="text-2xl font-bold">1</span>
+                </div>
+                <h3 class="font-semibold text-lg">Select Pax</h3>
+                <p class="text-sm text-gray-600">Choose how many people you're serving.</p>
+            </div>
+            <!-- Step 2 -->
+            <div class="text-center">
+                <div
+                    class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
+                    <span class="text-2xl font-bold">2</span>
+                </div>
+                <h3 class="font-semibold text-lg">Customize Your Package</h3>
+                <p class="text-sm text-gray-600">Pick your soup, dessert, and main dishes.</p>
+            </div>
+            <!-- Step 3 -->
+            <div class="text-center">
+                <div
+                    class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
+                    <span class="text-2xl font-bold">3</span>
+                </div>
+                <h3 class="font-semibold text-lg">Provide Details</h3>
+                <p class="text-sm text-gray-600">Tell us when and where you need it.</p>
+            </div>
+            <!-- Step 4 -->
+            <div class="text-center">
+                <div
+                    class="bg-primary-500 text-white w-16 h-16 flex items-center justify-center mx-auto rounded-full mb-4">
+                    <span class="text-2xl font-bold">4</span>
+                </div>
+                <h3 class="font-semibold text-lg">Confirm & Enjoy!</h3>
+                <p class="text-sm text-gray-600">Relax—we'll take care of the rest!</p>
+            </div>
+        </div>
     </section>
 </template>

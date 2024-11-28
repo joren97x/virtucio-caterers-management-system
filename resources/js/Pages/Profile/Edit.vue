@@ -21,13 +21,15 @@ defineOptions({ layout: CustomerLayout })
 <template>
     <Head title="Profile" />
 
-    <h2
+    <!-- <h2
         class="text-xl font-semibold leading-tight text-gray-800 text-center"
     >
         Profile
-    </h2>
+    </h2> -->
+
 
 <div class="py-12 flex justify-center">
+
     <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
         <div
             class="bg-white p-4 shadow sm:rounded-lg sm:p-8"

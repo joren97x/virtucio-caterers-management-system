@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,7 +17,12 @@ class ViewController extends Controller
 
     public function menu()
     {
-        return Inertia::render('User/Menu');
+
+        $soups = Category::with('products')->whereIn('name', ['soup'])->first();
+        $desserts = Category::with('products')->whereIn('name', ['dessert'])->first();
+        $main_dishes = Category::with('products')->whereIn('name', ['main_dish'])->first();
+        
+        return Inertia::render('User/Menu', compact('soups', 'desserts', 'main_dishes'));
     }
 
     public function about()

@@ -30,7 +30,7 @@ defineProps({ categories: Object })
 <template>
     <!-- <Alert :show="showAlert" @close="showAlert = false" color="red" title="Choose a soup" subtitle="Pag choose ra gud og soup dong" />
     {{ alert }} -->
-    <OrderLayout back="order.pax" next="order.desserts" loading="40">
+    <OrderLayout back="order.pax" next="order.desserts" loading="32">
         <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-4 mb-4 flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold">Choose a Soup</h1>
@@ -39,7 +39,7 @@ defineProps({ categories: Object })
 
             <!-- Selection Indicator -->
             <div class="text-sm text-indigo-600 font-semibold">
-                0 of 1 selected
+                {{ orderStore.form.soup ? '1' : '0' }} of 1 selected
             </div>
         </div>
         <div class="" >

@@ -44,67 +44,62 @@ function toggleAddOn(add_on) {
 </script>
 
 <template>
-    <OrderLayout back="order.main_dishes" next="order.contact_details" loading="50">
-        <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-4 mb-4 flex items-center justify-between">
-            <div>
-                <h1 class="text-2xl font-bold">Choose a Add Ons</h1>
-                <p class="text-sm text-gray-600">You can select only select 1 dessert.</p>
-            </div>
-
-            <!-- Selection Indicator -->
-            <div class="text-sm text-indigo-600 font-semibold">
-                0 of 1 selected
-            </div>
-        </div>
-        <!-- <input type="radio" v-model="orderStore.form.event" value="wedding"> Wedding <br>
-                <input type="radio" v-model="orderStore.form.event" value="birthday"> Birthday <br>
-                <input type="radio" v-model="orderStore.form.event" value="thanksgiving"> Thanks Giving <br> -->
-        <div class="p-4 space-y-4 border-solid border-2">
-            <div  v-for="(add_on_category, index) in add_on_categories" :key="index">
-             <!-- <div class="text-lg">   {{ add_on_category.name }}</div> -->
-             <div class="flex justify-between ...">
-                <div class="text-lg">   {{ add_on_category.name }}</div>
-                <!-- <div>Optional</div> -->
-            </div>
-             <div class="grid grid-cols-2 gap-4">
-                <div v-for="add_on in add_on_category.add_ons" @click="toggleAddOn(add_on)" class="relative border-solid border-2 border-grey-200 p-2  flex mt-4 items-start space-x-3">
-                    <input
-                        type="checkbox"
-                        :id="add_on.index"
-                        v-model="orderStore.form.add_ons"
-                        :value="add_on"
-                        class="mt-1 h-4 w-4 text-blue-600 border-black rounded focus:ring-blue-500"
-                    />
-                <div>
-                    <label  class="font-medium text-gray-700">{{ add_on.name }}</label>
-                    <br>
-                    <label  class="font-medium text-gray-700">
-                        ₱{{ parseFloat(add_on.price).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
-                        </label>
-                </div>
-                </div>
-             </div>
-
-        <!-- {{ orderStore.form.event }} -->
-        <br>
-                <div class="mt-6">
-                    <!-- <label class="block text-sm font-medium text-gray-700">Event Details</label> -->
-                    <!-- <textarea
-                id="about"
-                rows="2"
-                v-model="orderStore.form.event_details"
-                placeholder="Write a few sentences about the food."
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-            ></textarea> -->
-                </div>
-        </div>
+   <OrderLayout back="order.main_dishes" next="order.contact_details" loading="80">
+    <!-- Sticky Header -->
+    <div class="sticky top-0 z-10 bg-white shadow-md py-4 px-6 flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-800">Choose Your Add-Ons</h1>
+        <p class="text-sm text-gray-600">
+          Customize your event with additional services. You can select multiple add-ons.
+        </p>
+      </div>
+      <!-- Selection Indicator -->
+      <div class="text-sm text-indigo-600 font-semibold">
+        {{ orderStore.form.add_ons.length }} selected
+      </div>
     </div>
+
+    <!-- Add-Ons Selection -->
+    <div class="px-6 py-6 space-y-8">
+      <!-- Add-On Categories -->
+      <div v-for="(add_on_category, index) in add_on_categories" :key="index">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ add_on_category.name }}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Add-On Card -->
+          <div
+            v-for="add_on in add_on_category.add_ons"
+            :key="add_on.index"
+            @click="toggleAddOn(add_on)"
+            :class="['relative border rounded-lg p-4 shadow-md hover:shadow-lg transition-all cursor-pointer', isSelected(add_on) ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300']"
+          >
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                :id="'addon-' + add_on.index"
+                v-model="orderStore.form.add_ons"
+                :value="add_on"
+                class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-indigo-500 mr-4"
+                @click.stop
+              />
+              <div>
+                <label :for="'addon-' + add_on.index" class="font-semibold text-gray-800">{{ add_on.name }}</label>
+                <p class="text-gray-600 text-sm">
+                  ₱{{ parseFloat(add_on.price).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next Button -->
         <template v-slot:nextButton>
-            <PrimaryButton @click="onNext"> 
-                Next
-            </PrimaryButton>
-        </template>
-    </OrderLayout>
+      <PrimaryButton  @click="onNext">
+        Next
+      </PrimaryButton>
+    </template>
+  </OrderLayout>
 </template>
 
   

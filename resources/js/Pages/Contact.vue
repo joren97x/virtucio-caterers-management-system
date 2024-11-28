@@ -4,53 +4,54 @@ defineOptions({ layout: CustomerLayout })
 </script>
 
 <template>
-    <div class=" bg-white px-6 py-2 sm:py-10 lg:px-4">
-  <div class="mx-auto max-w-2xl text-center">
-    <h2 class="text-balance text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl">Contact us</h2>
-    <p class=" text-lg/8 text-gray-600">0908 8877 992</p>
-    <p class=" text-lg/8 text-gray-600">032 496 7740</p>
-    <p class=" text-lg/8 text-gray-600">0923 0827 086</p>
-  </div>
-  <form action="#" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20">
-    <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
-      <div>
-        <label for="first-name" class="block text-sm/6 font-semibold text-gray-900">First name</label>
-        <div class="mt-2.5">
-          <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
-        </div>
-      </div>
-      <div>
-        <label for="last-name" class="block text-sm/6 font-semibold text-gray-900">Last name</label>
-        <div class="mt-2.5">
-          <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
-        </div>
-      </div>
-      <div class="sm:col-span-2">
-        <label for="email" class="block text-sm/6 font-semibold text-gray-900">Email</label>
-        <div class="mt-2.5">
-          <input type="email" name="email" id="email" autocomplete="email" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
-        </div>
-      </div>
-      <div class="sm:col-span-2">
-        <label for="phone-number" class="block text-sm/6 font-semibold text-gray-900">Phone number</label>
-        <div class="relative mt-2.5">
-          <div class="absolute inset-y-0 left-0 flex items-center">
-            <label for="country" class="sr-only">Country</label>
+    <section class="py-10 max-w-screen-xl mx-auto min-h-screen">
+      <div class="w-fit">
+        <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">Contact Us</h1>
+        <p class="text-lg text-gray-600 mb-12 text-center">
+          We’d love to hear from you! Reach out to us using the form below or through our contact information.
+        </p>
+        <!-- <h1 class="text-3xl font-bold text-gray-800 mb-4">Contact Us</h1>
+        <p class="text-gray-600 mb-6">We’d love to hear from you! Reach out to us using the form below or through our contact information.</p> -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Contact Info -->
+          <div class="grid grid-cols-2">
+            <div class="items-center flex">
+              <div>
+                <div class="flex mb-6">
+                    <img class="h-16 w-auto" src="logo.png" alt="">
+                    <img class="h-16 w-auto" src="logo-name.png" alt="">
+                </div>
+                <h2 class="text-xl font-semibold text-gray-800 mb-2">Our Contact Details</h2>
+              <ul class="text-gray-600 space-y-2">
+                <li><strong>Phone:</strong> +1 123-456-7890</li>
+                <li><strong>Email:</strong> info@virtuciocaterers.com</li>
+                <li><strong>Address:</strong> 123 Main Street, Cityville, Country</li>
+              </ul>
+              </div>
+            </div>
           </div>
-          <input type="tel" name="phone-number" id="phone-number" autocomplete="tel" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6">
+          <!-- Contact Form -->
+          <div>
+            <h2 class="text-xl font-semibold text-gray-800 mb-2">Send Us a Message</h2>
+            <form class="space-y-4">
+              <div>
+                <label for="name" class="block text-gray-700">Name</label>
+                <input type="text" id="name" class="w-full border border-gray-300 rounded p-2" placeholder="Your Name" required>
+              </div>
+              <div>
+                <label for="email" class="block text-gray-700">Email</label>
+                <input type="email" id="email" class="w-full border border-gray-300 rounded p-2" placeholder="Your Email" required>
+              </div>
+              <div>
+                <label for="message" class="block text-gray-700">Message</label>
+                <textarea id="message" class="w-full border border-gray-300 rounded p-2" placeholder="Your Message" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                Send Message
+              </button>
+            </form>
+          </div>
         </div>
       </div>
-      <div class="sm:col-span-2">
-        <label for="message" class="block text-sm/6 font-semibold text-gray-900">Message</label>
-        <div class="mt-2.5">
-          <textarea name="message" id="message" rows="4" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm/6"></textarea>
-        </div>
-      </div>
-      
-    </div>
-    <div class="mt-10">
-      <button type="submit" class="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Let's talk</button>
-    </div>
-  </form>
-</div>
+    </section>
 </template>

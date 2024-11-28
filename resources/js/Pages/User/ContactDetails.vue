@@ -102,8 +102,9 @@ const onNext = () => {
     </form>
 </div>
         <template v-slot:nextButton>
-            <PrimaryButton @click="onNext"> 
-                Next
+            <PrimaryButton @click="onNext" :class="{ 'opacity-25': orderStore.form.processing }"
+            :disabled="orderStore.form.processing"> 
+                PROCEED TO CHECKOUT
             </PrimaryButton>
         </template>
     </OrderLayout>

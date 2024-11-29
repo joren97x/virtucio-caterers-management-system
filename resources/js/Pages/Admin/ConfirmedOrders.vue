@@ -177,7 +177,7 @@ const formatCurrency = (amount) => {
                             <ul class="list-none mt-2 space-y-2">
                                 <li class="flex justify-between items-center text-sm">
                                     <span>{{ selectedOrder.rate.pax }} PAX</span>
-                                    <span class="text-gray-600">₱{{ selectedOrder.rate.price }}</span>
+                                    <span class="text-gray-600">{{ formatCurrency(selectedOrder.rate.price) }}</span>
                                 </li>
                             </ul>
                         </section>
@@ -188,7 +188,7 @@ const formatCurrency = (amount) => {
                                 <li v-for="add_on in selectedOrder.add_ons" :key="add_on.id"
                                     class="flex justify-between items-center text-sm">
                                     <span>{{ add_on.add_on.name }}</span>
-                                    <span class="text-gray-600">₱{{ add_on.add_on.price }}</span>
+                                    <span class="text-gray-600">{{ formatCurrency(add_on.add_on.price) }}</span>
                                 </li>
                             </ul>
                         </section>

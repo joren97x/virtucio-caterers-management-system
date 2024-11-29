@@ -2,7 +2,7 @@
 // Add any logic if necessary.
 import OrderLayout from '@/Layouts/OrderLayout.vue'
 import { useOrderStore } from '@/Stores/OrderStore';
-import { router } from '@inertiajs/vue3'
+import { router, Head } from '@inertiajs/vue3'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import { ref } from 'vue'
 import Alert from '@/Components/Alert.vue';
@@ -25,6 +25,7 @@ defineProps({
 </script>
 
 <template>
+  <Head title="Home" />
     
     <Alert :show="showAlert" @close="showAlert = false" color="red" title="Choose a pax" subtitle="Pag choose ra gud og pax dong" />
     <OrderLayout back="home" next="order.soups" loading="16">

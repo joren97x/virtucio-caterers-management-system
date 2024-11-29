@@ -17,7 +17,7 @@ class AdminMiddleware
     {
         if($request->user()->role != 'admin')
         {
-            return abort(403);
+            return redirect(route('home'));
         }
         return $next($request);
     }

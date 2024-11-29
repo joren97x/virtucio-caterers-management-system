@@ -48,4 +48,34 @@ class ProductController extends Controller
         // dd($request);
     }
 
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'name' => 'required',
+            'category' => 'required',
+            'image_path' => 'required'
+        ]);
+        dd($request);
+        if($request->image) {
+            $image_path = $request->file('image_path')->store('products', 'public');
+        }
+
+
+        Product::create([
+            'name' => $request->name,
+            'category_id' => $request->category,
+            'image_path' => $image_path,
+        ]);
+
+        return back();
+        // dd($request);
+    }
+
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return back();
+        // dd($request);
+    }
+
 }

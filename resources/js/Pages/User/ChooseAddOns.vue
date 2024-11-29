@@ -2,7 +2,7 @@
 // Add any logic if necessary.
 import OrderLayout from '@/Layouts/OrderLayout.vue'
 import { useOrderStore } from '@/Stores/OrderStore';
-import { Link, router } from '@inertiajs/vue3';
+import { Link, router, Head } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import { computed } from 'vue';
 // defineOptions({
@@ -44,6 +44,8 @@ function toggleAddOn(add_on) {
 </script>
 
 <template>
+  <Head title="Choose Add Ons" />
+
    <OrderLayout back="order.main_dishes" next="order.contact_details" loading="80">
     <!-- Sticky Header -->
     <div class="sticky top-0 z-10 bg-white shadow-md py-4 px-6 flex items-center justify-between">

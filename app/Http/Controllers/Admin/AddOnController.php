@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\AddOn;
 use App\Models\AddOnCategory;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Http\Controllers\Controller;
 
 class AddOnController extends Controller
 {
@@ -23,13 +24,33 @@ class AddOnController extends Controller
         $request->validate([
             'name' => 'required',
             'price' => 'required',
-            'add_on_category' => 'required',
+            'add_on_category_id' => 'required',
         ]);
         AddOn::create([
             'name' => $request->name,
             'price' => $request->price,
-            'add_on_category_id' => $request->add_on_category
+            'add_on_category_id' => $request->add_on_category_id
         ]);
+        return back();
+    }
+
+    public function update(Request $request, AddOn $addOn)
+    {
+        $validated = $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'add_on_category_id' => 'required',
+        ]);
+
+        $addOn->update($validated);
+
+        return back();
+    }
+
+    public function destroy(AddOn $add_on)
+    {
+        //
+        $add_on->delete();
         return back();
     }
 

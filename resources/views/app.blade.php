@@ -17,6 +17,17 @@
     </head>
     <body class="font-sans antialiased">
         @inertia
-        <!-- <script src="//code.tidio.co/lnq7igy1lbkgazkelp3rbg4bk94vs4d1.js" async></script> -->
+        <script src="//code.tidio.co/lnq7igy1lbkgazkelp3rbg4bk94vs4d1.js" async></script>
     </body>
 </html>
+
+
+<!-- Route::get('/start-order', [OrderController::class, 'pax'])->name('order.pax');
+    Route::get('/choose-soup', [OrderController::class, 'soups'])->name('order.soups');
+    Route::get('/choose-dessert', [OrderController::class, 'desserts'])->name('order.desserts');
+    Route::get('/choose-main-dishes', [OrderController::class, 'main_dishes'])->name('order.main_dishes');
+    Route::get('/choose-add-ons', [OrderController::class, 'add_ons'])->name('order.add_ons');
+    Route::get('/contact-details', [OrderController::class, 'contact_details'])->name('order.contact_details');
+
+    Route::post('/check-out/pay', [PaymentController::class, 'pay'])->name('checkout.pay');
+    Route::get('/check-out/{order}', [PaymentController::class, 'checkout'])->name('checkout'); -->

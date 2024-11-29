@@ -19,7 +19,7 @@ const links = [
 
     <Head title="Welcome" />
     <div>
-        <header class="sticky top-0 bg-white shadow">
+        <header class="sticky top-0 bg-white shadow z-max z-50">
             <nav class="flex items-center justify-between p-4 lg:px-8" aria-label="Global">
                 <div class="flex lg:flex-1">
                     <Link :href="route('home')" class="-m-1.5 p-1.5">
@@ -70,7 +70,7 @@ const links = [
 
                             <!-- Dropdown Menu -->
                             <div v-if="dropdownOpen" @click.away="dropdownOpen = false"
-                                class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-20">
+                                class="absolute  right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-20">
                                 <Link href="/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 Your Profile
                                 </Link>
@@ -123,7 +123,7 @@ const links = [
                                 </svg>
                                     Profile
                                 </Link>
-                                <Link href="/orders"
+                                <Link :href="route('orders.index')"
                                     class="-mx-3 block flex rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                         stroke="currentColor" class="size-6 mr-4">
@@ -159,19 +159,32 @@ const links = [
                 </div>
             </div>
         </header>
-        <!-- <div class="pt-14">bruh</div> -->
         <div class="bg-gray-100 ">
             <slot />
         </div>
     </div>
-    <div class="fixed bottom-4 right-4">
-        <Link :href="route('order.pax')">
-        <button
-            class="bg-yellow-500 text-white hover:bg-primary-600  font-bold py-3 px-6 rounded-full shadow-lg focus:outline-none transition">
+    <footer class="bg-gray-800 text-white py-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-wrap justify-between items-center">
+          <!-- Left Column (Logo and Company Info) -->
+          <div class="flex items-center space-x-4">
+            <img class="h-8 w-auto" src="logo.png" alt="Company Logo" />
+            <span class="text-xl font-semibold">Virtucio Caterers</span>
+          </div>
 
-            Start Customizing
-        </button>
-        </Link>
-    </div>
+          <!-- Right Column (Social Links) -->
+          <div class="flex space-x-6">
+            <a href="#" class="text-gray-400 hover:text-white">Facebook</a>
+            <a href="#" class="text-gray-400 hover:text-white">Twitter</a>
+            <a href="#" class="text-gray-400 hover:text-white">Instagram</a>
+          </div>
+        </div>
+
+        <div class="mt-6 border-t border-gray-700 pt-4 text-center text-sm">
+          <p>© 2024 Virtucio Caterers. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+ 
 
 </template>

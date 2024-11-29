@@ -6,48 +6,56 @@ use App\Models\Expense;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Http\Controllers\Controller;
-use App\Models\Order;
 
 class ExpenseController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-         // Get date range or use default values
-    $startDate = $request->start_date ?? '2024-11-01';
-    $endDate = $request->end_date ?? '2024-12-31';
+    public function index(Request $request)
+{
+    // Get current month if no date range is provided
+    // $startDate = $request->start_date ?? now()->startOfMonth()->toDateString(); // First day of current month
+    // $endDate = $request->end_date ?? now()->endOfMonth()->toDateString(); // Last day of current month
 
-    // Revenue: Sum of completed orders
-    $revenue = Order::where('status', 'completed')
-        ->whereBetween('created_at', [$startDate, $endDate])
-        ->sum('total_amount');
+    // $revenue = Order::where('status', 'completed')
+    //     ->whereBetween('created_at', [$startDate, $endDate])
+    //     ->sum('total_amount');
 
-    // Expenses: Sum of all expenses
-    $expenses = Expense::whereBetween('date', [$startDate, $endDate])
-        ->sum('amount');
+    // $expenses = Expense::whereBetween('date', [$startDate, $endDate])
+    //     ->sum('amount');
 
-    // Profit: Revenue - Expenses
-    $profit = $revenue - $expenses;
+    // $profit = $revenue - $expenses;
 
-    // Get detailed orders for the period
-    $orders = Order::whereIn('status', [Order::STATUS_COMPLETE, Order::STATUS_FULLY_PAID])
-        ->whereBetween('created_at', [$startDate, $endDate])
-        ->get(['id', 'user_id', 'total_amount', 'created_at', 'status']);
+    // $orders = Order::whereIn('status', [Order::STATUS_COMPLETE, Order::STATUS_FULLY_PAID])
+    //     ->whereBetween('created_at', [$startDate, $endDate])
+    //     ->get(['id', 'user_id', 'total_amount', 'created_at', 'status']);
 
-    // Get detailed expenses for the period
-    $expenseDetails = Expense::whereBetween('date', [$startDate, $endDate])
-        ->get(['id', 'category', 'description', 'amount', 'date']);
+    // $expenseDetails = Expense::whereBetween('date', [$startDate, $endDate])
+    //     ->get(['id', 'category', 'description', 'amount', 'date']);
+    // $expenses_total = 0;
+    // $expenses = Expense::get()
+    // ->map(function ($expense) {
+    //     // Add a computed field 'total_amount' = amount * quantity
+    //     $expense->total_amount = $expense->amount * $expense->quantity;
+    //     $expenses_total += $expense->total_amount;
+    //     return $expense;
+    // });
+
+    $total_expenses = 0;
+
+    $expenses = Expense::get()->map(function ($expense) {
+        // Compute total amount for each expense
+        $expense->total_amount = $expense->amount * $expense->quantity;
+        return $expense;
+    });
+    $total_expenses = $expenses->sum('total_amount');
 
     return Inertia::render('Admin/Expenses', [
-        'revenue' => $revenue,
-        'expenses' => $expenses,
-        'profit' => $profit,
-        'orders' => $orders,
-        'expenses_details' => $expenseDetails,
+        'expenses' => Expense::latest()->get(),
+        'total_expenses' => $total_expenses
     ]);
+
         // return Inertia::render('Admin/Expenses', [
         //     'expenses' => Expense::orderBy('date', 'desc')->get()
         // ]);
@@ -72,6 +80,7 @@ class ExpenseController extends Controller
             'amount' => 'required|numeric',
             'description' => 'nullable|string',
             'date' => 'required|date',
+            'quantity' => 'required'
         ]);
 
         // Create a new expense
@@ -107,6 +116,7 @@ class ExpenseController extends Controller
             'amount' => 'required|numeric',
             'description' => 'nullable|string',
             'date' => 'required|date',
+            'quantity' => 'required'
         ]);
 
         // Find the expense by ID and update it

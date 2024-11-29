@@ -1,10 +1,9 @@
 <script setup>
 // Add any logic if necessary.
-import { Link } from '@inertiajs/vue3';
+import { Link, Head } from '@inertiajs/vue3';
 import CustomerLayout from '@/Layouts/CustomerLayout.vue';
-import FoodDialog from './Components/FoodDialog.vue';
 import { formatDate } from 'date-fns';
-
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 defineOptions({
     layout: CustomerLayout
@@ -27,6 +26,40 @@ function statusClass(status) {
   }
 }
 
+const STATUS_LABELS = {
+  cancelled: 'Cancelled',
+  pending: 'Pending',
+  reservation_fee_paid: 'Reservation Fee Paid',
+  down_payment_paid: 'Down Payment Paid',
+  fully_paid: 'Fully Paid',
+  complete: 'Complete',
+  reservation_fee_pending: 'Reservation Fee Pending',
+  down_payment_pending: 'Down Payment Pending',
+  fully_paid_pending: 'Fully Paid Pending',
+};
+
+// Computed class for status badges
+const getStatusClass = (status) => {
+  switch (status) {
+    case 'cancelled':
+      return 'bg-red-100 text-red-700';
+    case 'pending':
+    case 'reservation_fee_pending':
+    case 'down_payment_pending':
+    case 'fully_paid_pending':
+      return 'bg-yellow-100 text-yellow-700';
+    case 'reservation_fee_paid':
+    case 'down_payment_paid':
+      return 'bg-blue-100 text-blue-700';
+    case 'fully_paid':
+      return 'bg-green-100 text-green-700';
+    case 'complete':
+      return 'bg-gray-100 text-gray-700';
+    default:
+      return 'bg-gray-100 text-gray-700';
+  }
+};
+
 const active_order_status = [
     'pending', 
     'reservation_fee_paid',
@@ -40,6 +73,8 @@ const formatCurrency = (amount) => {
 </script>
 
 <template>
+  <Head title="Orders" />
+
   <div class="min-h-screen p-2 md:p-6 lg:p-6 xl:p-6 max-w-screen-xl mx-auto">
     <!-- Header -->
     <header class="bg-white p-4 rounded shadow-md mb-6">
@@ -83,15 +118,25 @@ const formatCurrency = (amount) => {
               'bg-orange-100 text-orange-700 px-2 py-1 rounded': order.status === 'down_payment_paid',
             }"
           >
-            {{ order.status }}
+            {{ STATUS_LABELS[order.status] || 'Unknown Status' }}
           </span>
         </td>
         <td class="border border-gray-300 p-3 text-center">
-          <Link :href="route('orders.show', order.id)"
-            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
+          <Link :href="route('orders.show', order.id)"><PrimaryButton>
             View Details
-          </Link>
+          </PrimaryButton>
+        </Link>
+        </td>
+      </tr>
+      <tr v-if="orders.length == 0">
+        <td colspan="6" class="text-center">
+          <div class="p-2">
+            <div class="justify-center flex items-center ">
+            <img src="empty_orders.png" height="100px" width="100px" alt="">You have empty Orders
+          </div>
+          <Link :href="route('order.pax')">
+          <PrimaryButton>Create new Order</PrimaryButton></Link>
+          </div>
         </td>
       </tr>
     </tbody>

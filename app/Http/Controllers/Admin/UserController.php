@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
@@ -74,6 +75,15 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         //
+        $validated = $request->validate([
+            'role' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+        ]);
+        $user = User::find($id);
+        $user->update($validated);
+
+        return back();
     }
 
     /**
@@ -82,5 +92,8 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
+        User::find($id)->delete();
+        return back();
+
     }
 }

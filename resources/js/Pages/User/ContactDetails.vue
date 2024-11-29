@@ -3,7 +3,7 @@
 import OrderLayout from '@/Layouts/OrderLayout.vue'
 import { useOrderStore } from '@/Stores/OrderStore'
 import PrimaryButton from '@/Components/PrimaryButton.vue'
-import { router } from '@inertiajs/vue3'
+import { router, Head } from '@inertiajs/vue3'
 
 // defineOptions({
 //     layout: OrderLayout
@@ -22,6 +22,8 @@ const onNext = () => {
 </script>
 
 <template>
+  <Head title="Contact Details" />
+
     <OrderLayout back="order.add_ons" next="checkout" loading="100">
         <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-4 mb-4 flex items-center justify-between">
             <div>
@@ -57,7 +59,7 @@ const onNext = () => {
 
         <div class="mt-6">
             <label class="block text-sm font-medium text-gray-700">Contact Number</label>
-            <input v-model="orderStore.form.contact_number" type="number" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Phone Number">
+            <input v-model="orderStore.form.contact_number" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Phone Number">
         </div>
 
         <div class="mt-6">

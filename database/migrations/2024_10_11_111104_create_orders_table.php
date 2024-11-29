@@ -22,7 +22,7 @@ return new class extends Migration
             $table->dateTime('event_date');
             $table->string('event_type');
             $table->decimal('total_amount')->nullable();
-            $table->decimal('reservation_fee')->nullable();
+            $table->decimal('reservation_fee')->defaul(3000);
             $table->text('message')->nullable();
             $table->enum('status', [
                 Order::STATUS_CANCELLED, 

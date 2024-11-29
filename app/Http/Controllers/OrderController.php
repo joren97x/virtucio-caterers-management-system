@@ -81,7 +81,7 @@ class OrderController extends Controller
     public function show(string $id)
     {
 
-        $order = Order::with(['rate', 'order_items.product'])
+        $order = Order::with(['rate', 'order_items.product', 'add_ons.add_on'])
         ->where('user_id', auth()->id())
         ->findOrFail($id);
 

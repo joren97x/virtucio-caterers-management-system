@@ -1,18 +1,8 @@
 <?php
 
-use App\Http\Controllers\AddOnCategoryController;
-use App\Http\Controllers\AddOnController;
-use App\Http\Controllers\AdminViewController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ExpenseController;
-use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\RateController;
-use App\Http\Controllers\SalesController;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;

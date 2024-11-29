@@ -69,7 +69,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function sales()
+    public function sales(Request $request)
     {
 
         // $orders = Order::with(['rate', 'user', 'order_items.product'])->whereIn('status', [
@@ -80,6 +80,26 @@ class OrderController extends Controller
         //         $order->remaining_balance = $order->calculateRemainingBalance();
         //         return $order;
         //     });
+
+        // Default values for start and end date
+        $startDate = $request->start_date ?? now()->startOfMonth()->toDateString(); // First day of the current month
+        $endDate = $request->end_date ?? now()->endOfMonth()->toDateString(); // Last day of the current month
+
+        // Filter by order status (e.g., 'Completed', 'Pending', etc.)
+        $status = $request->status; // Optional parameter
+
+        // Query the orders
+        $orders = Order::query()
+            ->whereBetween('created_at', [$startDate, $endDate]) // Filter by date range
+            ->when($status, function ($query, $status) {
+                return $query->where('status', $status); // Filter by status if provided
+            })
+            ->get(); // Or use paginate() if you want paginated results
+
+        // Optionally, calculate additional metrics like total sales, number of orders, etc.
+        $totalSales = $orders->sum('total_amount');
+        $averageOrderValue = $orders->avg('total_amount');
+        $numberOfOrders = $orders->count();
 
 
         return Inertia::render('Admin/Sales', [
@@ -109,7 +129,8 @@ class OrderController extends Controller
                 break;
             case Order::STATUS_RESERVATION_FEE_PENDING:
                 $order->update([
-                    'status' => Order::STATUS_RESERVATION_FEE_PENDING
+                    'status' => Order::STATUS_RESERVATION_FEE_PENDING,
+                    'reservation_fee' => 0
                 ]);
                 break;
         }

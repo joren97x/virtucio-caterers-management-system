@@ -1,7 +1,7 @@
 <script setup>
 
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { useForm } from '@inertiajs/vue3';
+import { useForm, Head } from '@inertiajs/vue3';
 import { formatDate } from 'date-fns'
 import { ref } from 'vue';
 
@@ -28,6 +28,8 @@ const markAsPaid = (order_id) => {
 
 </script>
 <template>
+    <Head title="Cancelled Orders" />
+
     <div class="p-4 bg-gray-100 min-h-screen">
       <div class="max-w-7xl mx-auto">
         <!-- Page Title -->

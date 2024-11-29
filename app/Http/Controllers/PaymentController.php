@@ -72,6 +72,37 @@ class PaymentController extends Controller
                 'add_ons_total' => $add_ons_total
             ];
         }
+        else {
+            switch($order->status) {
+                case Order::STATUS_RESERVATION_FEE_PENDING:
+                    $payment_details = [
+                        'payment_type' => 'reservation_fee',
+                        'amount' => 3000, // Reservation fee
+                        'total_amount' => $total_amount,
+                        'service_charge' => $service_charge,
+                        'add_ons_total' => $add_ons_total
+                    ];
+                break;
+                case Order::STATUS_DOWN_PAYMENT_PENDING:
+                    $payment_details = [
+                        'payment_type' => 'down_payment',
+                        'total_amount' => $total_amount,
+                        'amount' => $total_amount * 0.5,
+                        'service_charge' => $service_charge,
+                        'add_ons_total' => $add_ons_total
+                    ];
+                break;
+                case Order::STATUS_FULLY_PAID_PENDING:
+                    $payment_details = [
+                        'payment_type' => 'full_payment',
+                        'total_amount' => $total_amount,
+                        'amount' => $total_amount * 0.5,
+                        'service_charge' => $service_charge,
+                        'add_ons_total' => $add_ons_total
+                    ];
+                break;
+            }
+        }
         // ADD ANOTHER ONE IF THE EVENT IS TODAY
         // dd($payment_details);
         return Inertia::render('User/Checkout', compact('order', 'payment_details'));
@@ -176,6 +207,7 @@ class PaymentController extends Controller
                 case 'reservation_fee':
                     $order->update([
                         'status' => Order::STATUS_RESERVATION_FEE_PAID,
+                        'reservation_fee' => 0,
                         'payment_method' => $checkout_data['payment_method']
                     ]);
                     break;

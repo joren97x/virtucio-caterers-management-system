@@ -2,11 +2,13 @@
 
 import { useOrderStore } from '@/Stores/OrderStore'
 import { format } from 'date-fns'
-import { Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { Link, useForm, Head } from '@inertiajs/vue3';
+import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 
 const props = defineProps({ order: Object, payment_details: Object })
 const orderStore = useOrderStore()
-
+const termsDialog = ref(false)
 const form = useForm({
     order_id: props.order.id,
     amount: props.payment_details.amount,
@@ -14,6 +16,17 @@ const form = useForm({
     payment_method: 'online',
     pax: props.order.rate.pax
 })
+
+const calculateAmount = () => {
+    if (form.payment_type === 'full_payment') {
+        form.amount = props.payment_details.total_amount;
+    } else if (form.payment_type === 'down_payment') {
+        form.amount = props.payment_details.total_amount * 0.50;
+    }
+    else if(form.payment_type === 'reservation_fee') {
+        form.amount = 3000
+    }
+}
 
 const submit = () => {
     form.post(route('checkout.pay'), {
@@ -39,10 +52,22 @@ const groupItemsByCategory = (items) => {
       }));
 }
 
+const isPaymentTypeVisible = () => {
+        // List of statuses where the user can choose payment type
+    const visibleStatuses = [
+        'pending',
+        'reservation_fee_pending',
+    ];
+
+    // Return true if the order status is in the visibleStatuses array
+    return visibleStatuses.includes(props.order.status);
+}
+
 </script>
 
 <template>
     <!-- {{ order }} -->
+    <Head title="Home" />
 
     <div class="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
         <div class="flex items-center justify-center h-16 border-b">
@@ -147,32 +172,46 @@ const groupItemsByCategory = (items) => {
                             <div class="ms-4 text-sm">
                                 <label for="pay-on-delivery" class="font-medium leading-none text-black">
                                     Walk-in</label>
-                                <p id="pay-on-delivery-text" class="mt-1 text-xs font-normal "> Lorem, ipsum dolor sit
-                                    amet consectetur </p>
+                                <p id="pay-on-delivery-text" class="mt-1 text-xs font-normal "> Pay in our office </p>
                             </div>
                         </div>
                     </div>
 
                 </div>
-                <div class="font-bold text-lg">
-                    Menu
-                </div>
-                <div class="rounded-lg"
-                    v-for="(order_item, index) in groupItemsByCategory(order.order_items)">
-                    <div v-for="item in order_item.items">
-                        <img class="h-24 w-28 rounded-md border object-cover object-center"
-                            :src="`/storage/${item.product.image_path}`" alt="" />
-                        <div class="flex w-full flex-col px-4 py-4">
-                            <span class="font-semibold">{{ item.product.name }}</span>
-                            <span class="">{{ item.product.description }}</span>
-                            <p class="text-lg font-bold">{{ item.product.price }}</p>
+                <div class="font-bold text-lg mb-4">Menu</div>
+                    <div class="space-y-4">
+                        <!-- Iterate over grouped items by category -->
+                        <div 
+                        v-for="(order_item, index) in groupItemsByCategory(order.order_items)" 
+                        :key="index" 
+                        class="bg-white rounded-lg shadow p-2"
+                        >
+                        <!-- Category Title -->
+                        <h2 class="font-semibold text-gray-700 mb-2">{{ order_item.name == 'main_dish' ? 'Main Dishes' : order_item.name }}</h2>
+                        
+                        <!-- Iterate over items in the category -->
+                        <div 
+                            v-for="item in order_item.items" 
+                            :key="item.id" 
+                            class="flex items-center space-x-4 border-b py-4 last:border-none"
+                        >
+                            <!-- Image on the left -->
+                            <img 
+                            class="h-16 w-16 rounded-md object-cover"
+                            :src="`/storage/${item.product.image_path}`" 
+                            alt="Product Image" 
+                            />
+
+                            <!-- Name and Description -->
+                            <div class="flex-1">
+                            <p class="font-semibold text-gray-800">{{ item.product.name }}</p>
+                            <p class="text-sm text-gray-600">{{ item.product.description }}</p>
+                            </div>
+
+                            <!-- Price -->
                         </div>
-                        <!-- <div class="absolute right-0 relative flex">
-                            {{ category }}
-                        </div> -->
+                        </div>
                     </div>
-                    <!-- {{ order_item }} -->
-                </div>
 
             </div>
 
@@ -212,12 +251,21 @@ const groupItemsByCategory = (items) => {
                     <div class="flex justify-between">
                         <span class="font-semibold text-gray-600">Payment Type:</span>
                         <span class="text-gray-800">
+                            <!-- {{ payment_details.payment_type }} -->
+                        <select v-model="form.payment_type" @change="calculateAmount" v-if="['pending','reservation_fee_pending' ,'down_payment_pending', 'reservation_fee_paid'].includes(order.status)" class="form-select mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="full_payment">Full Payment</option>
+                            <option value="down_payment">Down Payment</option>
+                            <option value="reservation_fee" v-if="payment_details.payment_type == 'reservation_fee'">Reservation Fee</option>
+                        </select>
+                        <div v-else>
                             {{ payment_details.payment_type }}
+                        </div>
                         </span>
                     </div>
                     <div class="flex justify-between">
                         <span class="font-semibold text-gray-600">Amount to Pay Now:</span>
-                        <span class="text-gray-800 font-bold">{{ formatCurrency(payment_details.amount) }}</span>
+                        
+                        <span class="text-gray-800 font-bold">{{ formatCurrency(form.amount) }}</span>
                     </div>
                 </div>
 
@@ -240,16 +288,16 @@ const groupItemsByCategory = (items) => {
                             </span>
                         </label>
                         <label class="cursor-pointer ml-2 text-slate-600 text-sm" for="check-with-link">
-                            <p>
-                            I agree with the
-                            <a
-                                href="#"
-                                class="font-medium hover:text-slate-800 underline"
+                            <div class="flex">
+                            I agree with the 
+                            <div
+                                @click="termsDialog = true"
+                                class="font-medium hover:text-slate-800 underline ml-2"
                             >
-                                terms and conditions
-                            </a>
+                                 terms and conditions
+                            </div>
                             .
-                            </p>
+                            </div>
                         </label>
                         </div>
                     <button @click="submit"
@@ -262,5 +310,42 @@ const groupItemsByCategory = (items) => {
 
         </div>
     </div>
+    <TransitionRoot as="template" :show="termsDialog">
+  <Dialog class="relative z-10" @close="termsDialog = false">
+    <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
+      leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+    </TransitionChild>
 
+    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+      <div class="flex min-h-screen items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <TransitionChild as="template" enter="ease-out duration-300"
+          enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+          enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200"
+          leave-from="opacity-100 translate-y-0 sm:scale-100"
+          leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+          <DialogPanel
+            class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 ">
+            <div class="bg-white sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                  <div>
+                    <h2 class="text-xl font-bold text-gray-800">Contract of Agreement</h2>
+                    <img src="/images/contract.jpg" style="height: 100%; width: 100%;" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white shadow-md mx-4"></div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 flex justify-end">
+              <button type="button"
+                class="mt-3 inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                @click="termsDialog = false" ref="cancelButtonRef">Close</button>
+            </div>
+          </DialogPanel>
+        </TransitionChild>
+      </div>
+    </div>
+  </Dialog>
+</TransitionRoot>
 </template>

@@ -1,9 +1,12 @@
 <script setup>
 import CustomerLayout from '@/Layouts/CustomerLayout.vue'
+import { Head } from '@inertiajs/vue3';
 defineOptions({ layout: CustomerLayout })
 </script>
 
 <template>
+    <Head title="Contact Us" />
+
     <section class="py-10 max-w-screen-xl mx-auto min-h-screen">
       <div class="w-fit">
         <h1 class="text-4xl font-bold text-gray-800 mb-8 text-center">Contact Us</h1>
@@ -23,9 +26,10 @@ defineOptions({ layout: CustomerLayout })
                 </div>
                 <h2 class="text-xl font-semibold text-gray-800 mb-2">Our Contact Details</h2>
               <ul class="text-gray-600 space-y-2">
-                <li><strong>Phone:</strong> +1 123-456-7890</li>
+                <li><strong>Phone:</strong> 0908 8877 992 </li>
+                <li><strong>Phone:</strong> 032 496 7740 </li>
                 <li><strong>Email:</strong> info@virtuciocaterers.com</li>
-                <li><strong>Address:</strong> 123 Main Street, Cityville, Country</li>
+                <li><strong>Address:</strong> POBLACION CORDOVA CEBU, 6017</li>
               </ul>
               </div>
             </div>

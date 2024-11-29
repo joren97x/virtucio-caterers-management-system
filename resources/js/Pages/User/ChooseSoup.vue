@@ -4,7 +4,7 @@ import OrderLayout from '@/Layouts/OrderLayout.vue'
 import { useOrderStore } from '@/Stores/OrderStore';
 import FoodDialog from './Components/FoodDialog.vue';
 import { computed, ref } from 'vue';
-import { router } from '@inertiajs/vue3'
+import { router, Head } from '@inertiajs/vue3'
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Alert from '@/Components/Alert.vue';
 
@@ -28,6 +28,8 @@ defineProps({ categories: Object })
 </script>
 
 <template>
+  <Head title="Soup" />
+
     <!-- <Alert :show="showAlert" @close="showAlert = false" color="red" title="Choose a soup" subtitle="Pag choose ra gud og soup dong" />
     {{ alert }} -->
     <OrderLayout back="order.pax" next="order.desserts" loading="32">

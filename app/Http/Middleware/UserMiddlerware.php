@@ -17,7 +17,7 @@ class UserMiddlerware
     {
         if($request->user()->role != 'user')
         {
-            return abort(403);
+            return redirect(route('admin.dashboard'));
         }
         return $next($request);
     }

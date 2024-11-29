@@ -2,81 +2,111 @@
 
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { ref } from 'vue';
+import { router, Head } from '@inertiajs/vue3';
 import { formatDate } from 'date-fns';
 
 defineOptions({ layout: AdminLayout })
 const props = defineProps({ orders: Object })
 
 const filters = ref({
-  from: '',
-  to: '',
+  start_date: '',
+  end_date: '',
+  status: '',
 });
+
+const applyFilters = () => {
+  // Using router.visit to pass the filters as query parameters in the URL
+  router.visit(route('admin.sales', {
+    start_date: filters.value.start_date,
+    end_date: filters.value.end_date,
+    status: filters.value.status,
+  }));
+};
 
 </script>
 
 <template>
-  <div class="p-6 bg-gray-100 min-h-screen">
+    <Head title="Sales" />
 
-    <div class="max-w-7xl mx-auto">
-      <!-- Page Title -->
-      <h1 class="text-2xl font-bold text-gray-700 mb-6">Sales Overview</h1>
+  <div class="sales-container">
+    <div class="filters flex justify-between mb-6">
+      <div class="date-filters">
+        <label>Start Date</label>
+        <input type="date" v-model="filters.start_date">
+        <label>End Date</label>
+        <input type="date" v-model="filters.end_date">
+        <button @click="fetchSales">Apply Filters</button>
+      </div>
+      <div class="status-filters">
+        <label>Status</label>
+        <select v-model="filters.status">
+          <option value="">All</option>
+          <option value="Completed">Completed</option>
+          <option value="Pending">Pending</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+      </div>
+    </div>
 
-      <!-- Filter Section -->
-      <div class="bg-white p-4 rounded shadow-md mb-6 flex items-center space-x-4">
-        <div class="flex space-x-2">
-          <label for="fromDate" class="text-sm font-medium text-gray-700">From:</label>
-          <input
-            id="fromDate"
-            type="date"
-            v-model="filters.from"
-            class="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-          />
+    <!-- Sales Summary -->
+    <div class="sales-summary grid grid-cols-3 gap-6 mb-6">
+      <div class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-xl font-semibold">Total Sales</h3>
+        <p class="text-2xl font-bold text-indigo-600">₱{{ totalSales }}</p>
+      </div>
+      <div class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-xl font-semibold">Average Order Value</h3>
+        <p class="text-2xl font-bold text-green-600">₱{{ averageOrderValue }}</p>
+      </div>
+      <div class="bg-white shadow rounded-lg p-6">
+        <h3 class="text-xl font-semibold">Number of Orders</h3>
+        <p class="text-2xl font-bold text-gray-900">{{ numberOfOrders }}</p>
+      </div>
+    </div>
+
+    <!-- Sales by Payment Method -->
+    <div class="payment-methods mt-6">
+      <h3 class="text-xl font-semibold">Sales by Payment Method</h3>
+      <div class="grid grid-cols-2 gap-6">
+        <div class="bg-white shadow rounded-lg p-6">
+          <h4 class="text-lg">Cash</h4>
+          <p class="text-xl font-bold text-green-600">₱{{ salesByCash }}</p>
         </div>
-
-        <div class="flex space-x-2">
-          <label for="toDate" class="text-sm font-medium text-gray-700">To:</label>
-          <input
-            id="toDate"
-            type="date"
-            v-model="filters.to"
-            class="px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-          />
+        <div class="bg-white shadow rounded-lg p-6">
+          <h4 class="text-lg">Card</h4>
+          <p class="text-xl font-bold text-blue-600">₱{{ salesByCard }}</p>
         </div>
-
-        <button
-          class="bg-indigo-600 text-white px-4 py-2 rounded-md shadow hover:bg-indigo-500"
-        >
-          Filter
-        </button>
       </div>
+    </div>
 
-      <!-- Sales Table -->
-      <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-        <table class="min-w-full border-collapse">
-          <thead>
-            <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-              <th class="py-3 px-6 text-left">Order #</th>
-              <th class="py-3 px-6 text-left">Customer</th>
-              <th class="py-3 px-6 text-left">Total Amount</th>
-              <th class="py-3 px-6 text-left">Date</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200">
-            <tr v-for="order in orders" :key="order.id">
-              <td class="py-4 px-6 text-sm text-gray-900">{{ order.id }}</td>
-              <td class="py-4 px-6 text-sm text-gray-900">{{ order.user.name }}</td>
-              <td class="py-4 px-6 text-sm text-gray-900">₱{{ order.total_amount }}</td>
-              <td class="py-4 px-6 text-sm text-gray-900">{{ formatDate(order.event_date, 'PPPP') }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Total Sales Section -->
-      <div class="mt-6 bg-white p-4 rounded shadow-md flex justify-between items-center">
-        <div class="text-xl font-semibold text-gray-700">Total Sales</div>
-        <div class="text-lg font-bold text-indigo-600">₱2423.00</div>
-      </div>
+    <!-- Sales Orders Table -->
+    <div class="sales-orders mt-8">
+      <h3 class="text-xl font-semibold">Sales Orders</h3>
+      <table class="min-w-full bg-white mt-6">
+        <thead>
+          <tr>
+            <th class="px-6 py-3 text-left">Order ID</th>
+            <th class="px-6 py-3 text-left">Customer</th>
+            <th class="px-6 py-3 text-left">Total Amount</th>
+            <th class="px-6 py-3 text-left">Status</th>
+            <th class="px-6 py-3 text-left">Payment Status</th>
+            <th class="px-6 py-3 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="order in orders" :key="order.id">
+            <td class="py-4 px-6">{{ order.id }}</td>
+            <td class="py-4 px-6">{{ order.customer_name }}</td>
+            <td class="py-4 px-6">₱{{ order.total_amount }}</td>
+            <td class="py-4 px-6">{{ order.status }}</td>
+            <td class="py-4 px-6">{{ order.payment_status }}</td>
+            <td class="py-4 px-6">
+              <button @click="editOrder(order)">Edit</button>
+              <button @click="cancelOrder(order)">Cancel</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>

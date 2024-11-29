@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Rate;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use App\Http\Controllers\Controller;
 
 class RateController extends Controller
 {
@@ -36,7 +37,9 @@ class RateController extends Controller
         $request->validate([
             'pax' => 'required', 
             'price' => 'required', 
+            'instructions' => 'required'
         ]);
+
         Rate::create([
             'pax' => $request->pax,
             'price' => $request->price,
@@ -67,7 +70,15 @@ class RateController extends Controller
     public function update(Request $request, Rate $rate)
     {
         //
-    }
+        $validated =  $request->validate([
+            'pax' => 'required', 
+            'price' => 'required', 
+            'instructions' => 'required'
+        ]);
+
+        $rate->update($validated);
+        return back();
+    }   
 
     /**
      * Remove the specified resource from storage.
@@ -75,5 +86,7 @@ class RateController extends Controller
     public function destroy(Rate $rate)
     {
         //
+        $rate->delete();
+        return back();
     }
 }

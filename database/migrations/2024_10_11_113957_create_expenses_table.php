@@ -13,12 +13,10 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            // $table->string('name');
-            // $table->integer('quantity');
-            // $table->decimal('price');
-            $table->string('category');  // e.g., Food, Transport, etc.
+            $table->string('category'); 
             $table->decimal('amount');
             $table->text('description')->nullable();
+            $table->integer('quantity')->default(1);
             $table->date('date');
             $table->timestamps();
             $table->softDeletes();

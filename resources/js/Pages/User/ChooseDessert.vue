@@ -4,7 +4,7 @@ import OrderLayout from '@/Layouts/OrderLayout.vue'
 import { useOrderStore } from '@/Stores/OrderStore';
 import FoodDialog from './Components/FoodDialog.vue';
 import { computed, ref } from 'vue';
-import { router } from '@inertiajs/vue3'
+import { router, Head } from '@inertiajs/vue3'
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import Alert from '@/Components/Alert.vue';
 
@@ -27,6 +27,8 @@ const isSelected = computed(() => {
 </script>
 
 <template>
+  <Head title="Choose Dessert" />
+
     <!-- <Alert :show="showAlert" @close="showAlert = false" color="red" title="Choose a dessert" subtitle="Pag choose ra gud og dessert dong" /> -->
     <OrderLayout back="order.soups" next="order.main_dishes" loading="48">
         <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-4 mb-4 flex items-center justify-between">

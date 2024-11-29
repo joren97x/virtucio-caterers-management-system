@@ -25,7 +25,7 @@ const onNext = () => {
   <Head title="Contact Details" />
 
     <OrderLayout back="order.add_ons" next="checkout" loading="100">
-        <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-4 mb-4 flex items-center justify-between">
+        <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-2 md:px-6 mb-4 flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold">Contact Details</h1>
                 <p class="text-sm text-gray-600">Please fill up the following form.</p>
@@ -36,7 +36,7 @@ const onNext = () => {
                 0 of 1 selected
             </div> -->
         </div>
-        <div class="bg-white shadow-md">
+        <div class="bg-white shadow-md ">
     <form class="max-w-screen-md mx-auto">
         <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert" v-if="orderStore.form.hasErrors">
             <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

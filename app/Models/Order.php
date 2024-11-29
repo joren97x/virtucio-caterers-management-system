@@ -49,27 +49,22 @@ class Order extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withTrashed();
     }
 
     public function add_ons(): HasMany
     {
-        return $this->hasMany(OrderAddOn::class);
+        return $this->hasMany(OrderAddOn::class) ->withTrashed();
     }
-
-    // public function products(): HasMany
-    // {
-    //     return $this->hasMany(OrderProduct::class);
-    // }
 
     public function order_items(): HasMany
     {
-        return $this->hasMany(OrderItem::class);
+        return $this->hasMany(OrderItem::class) ->withTrashed();
     }
 
     public function rate(): BelongsTo
     {
-        return $this->belongsTo(Rate::class);
+        return $this->belongsTo(Rate::class) ->withTrashed();
     }
 
     public function calculateRemainingBalance()

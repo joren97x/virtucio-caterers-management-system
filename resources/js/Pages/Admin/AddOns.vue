@@ -48,31 +48,41 @@ const submitAddOnCategoryForm = () => {
 const editAddOnDialog = ref(false)
 const deleteDialog = ref(false)
 const showEditAddOnDialog = (add_on) => {
-    console.log(add_on)
-    form.name = add_on.name
-    form.price = add_on.price
-    form.add_on_category_id = add_on.add_on_category_id
-    form.id = add_on.id
+    updateForm.name = add_on.name
+    updateForm.price = add_on.price
+    updateForm.id = add_on.id
+    updateForm.add_on_category_id = add_on.add_on_category_id
     editAddOnDialog.value = true
 }
 
 const showDeleteDialog = (add_on) => {
-    form.name = add_on.category
-    form.id = add_on.id
+    deleteForm.add_on = add_on
     deleteDialog.value = true
 }
 
+const updateForm = useForm({
+    name: '',
+    price: 0,
+    add_on_category_id: '',
+    id: '',
+})
+
 const update = () => {
-    form.put(route('admin.add_ons.update', form.id), {
+    console.log(route('admin.add_ons.update', updateForm.id));
+    updateForm.put(route('admin.add_ons.update', updateForm.id), {
         onSuccess: () => {
             editAddOnDialog.value = false
         }
     })
 }
 
+const deleteForm = useForm({
+    add_on: null
+})
+
 const deleteAddOn = () => {
-    console.log('hii')
-    form.delete(route('admin.add_ons.destroy', form.id), {
+    console.log(route('admin.add_ons.destroy', deleteForm.add_on.id));
+    deleteForm.delete(route('admin.add_ons.destroy', deleteForm.add_on.id), {
         onSuccess: () => {
             deleteDialog.value = false
         }
@@ -106,7 +116,6 @@ const deleteAddOn = () => {
             </button>
         </div>
     </div>
-
     <!-- Add-On Categories -->
     <div v-for="add_on_category in add_on_categories" :key="add_on_category.id" class="mb-8">
         <!-- Category Header -->
@@ -134,7 +143,7 @@ const deleteAddOn = () => {
                             class="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-500 focus:outline-none">
                             Edit
                         </PrimaryButton>
-                        <DangerButton @click="showDeleteDialog(add_on)">Delete</DangerButton>
+                        <!-- <DangerButton @click="showDeleteDialog(add_on)">Delete</DangerButton> -->
                     </div>
                 </div>
             </div>
@@ -161,13 +170,9 @@ const deleteAddOn = () => {
                             class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                             <div class="bg-white  sm:p-6 sm:pb-4">
                                 <div class="sm:flex sm:items-start">
-
                                     <div class="mt-3 text-center  sm:mt-0 sm:text-left w-full">
                                         <div>
                                             <h2 class="text-xl font-bold text-gray-800">Add Add On</h2>
-                                            <p class="text-sm text-gray-600">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, delectus?
-                                            </p>
                                         </div>
                                         <div class=" bg-white shadow-md">
                                             <div>
@@ -180,7 +185,7 @@ const deleteAddOn = () => {
                                             <div class="max-w-lg mx-auto">
                                                 <label for="country"
                                                     class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                                                <select id="country" v-model="form.add_on_category"
+                                                <select id="country" v-model="form.add_on_category_id"
                                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                                     <option v-for="category in add_on_categories" :key="category.id"
                                                         :value="category.id">
@@ -250,10 +255,6 @@ const deleteAddOn = () => {
                     </div> -->
                                         <div>
                                             <h2 class="text-xl font-bold text-gray-800">Add Add On Category</h2>
-                                            <p class="text-sm text-gray-600">
-                                                {{ addOnCategoryForm }}
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, delectus?
-                                            </p>
                                         </div>
                                         <div class=" bg-white shadow-md">
                                             <div>
@@ -302,7 +303,7 @@ const deleteAddOn = () => {
 
                                     <div class="mt-3 text-center  sm:mt-0 sm:text-left w-full">
                                         <div>
-                                            <h2 class="text-xl font-bold text-gray-800">Add Add On</h2>
+                                            <h2 class="text-xl font-bold text-gray-800">Edit Add On</h2>
                                             <p class="text-sm text-gray-600">
                                                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste, delectus?
                                             </p>
@@ -311,13 +312,13 @@ const deleteAddOn = () => {
                                             <div>
                                                 <label for="website"
                                                     class="block text-sm font-medium text-gray-700">Name</label>
-                                                <input v-model="form.name"
+                                                <input v-model="updateForm.name"
                                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
                                             </div>
                                             <div class="max-w-lg mx-auto">
                                                 <label for="country"
                                                     class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                                                <select id="country" v-model="form.add_on_category_id"
+                                                <select id="country" v-model="updateForm.add_on_category_id"
                                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                                                     <option v-for="category in add_on_categories" :key="category.id"
                                                         :value="category.id">
@@ -334,7 +335,7 @@ const deleteAddOn = () => {
                                                         class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                                                         <span class="text-gray-500 sm:text-sm">$</span>
                                                     </div>
-                                                    <input v-model="form.price" type="text" name="price" id="price"
+                                                    <input v-model="updateForm.price" type="text" name="price" id="price"
                                                         class="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                                                         placeholder="0.00" />
 
@@ -379,8 +380,8 @@ const deleteAddOn = () => {
                                 <div class="sm:flex sm:items-start">
                                     <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
                                         <div>
-                                            <h2 class="text-xl font-bold text-gray-800">Delete Expense</h2>
-                                            <p class="text-sm text-gray-600 mt-4 flex border border-red-500 p-3">
+                                            <h2 class="text-xl font-bold text-gray-800">Delete Add On</h2>
+                                            <div class="text-sm text-gray-600 mt-4 flex border border-red-500 p-3">
                                                 <svg fill="#ff0000" height="40px" width="40px" class="mr-4"
                                                     version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -394,12 +395,12 @@ const deleteAddOn = () => {
                                                         </path>
                                                     </g>
                                                 </svg>
-                                               <p>
+                                               <div>
                                                 Are you sure you want to delete 
-                                                <span class="font-bold">{{ form.category }}</span>?
+                                                <span class="font-bold">{{ deleteForm.add_on.name }}</span>?
                                                 This process cannot be undone.
-                                               </p>
-                                            </p>
+                                               </div>
+                                            </div>
                                             <!-- <p class="text-sm text-gray-600 mt-2">
                                                 If you have any questions, feel free to reach out to our customer
                                                 support team.

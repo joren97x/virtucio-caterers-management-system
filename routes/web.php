@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
@@ -10,10 +11,12 @@ use Inertia\Inertia;
 Route::get('/', [ViewController::class, 'home'])->name('home');
 
 
+require __DIR__.'/admin.php';
 
 Route::get('/about-us', [ViewController::class, 'about'])->name('about');
 Route::get('/blog', [ViewController::class, 'blog'])->name('blog');
 Route::get('/contact', [ViewController::class, 'contact'])->name('contact');
+Route::post('/message', [MessageController::class, 'store'])->name('messages.store');
 Route::get('/blog', [ViewController::class, 'blog'])->name('blog');
 Route::get('/menu', [ViewController::class, 'menu'])->name('menu');
 // Route::resource('foods', ProductController::class)->names([
@@ -21,18 +24,12 @@ Route::get('/menu', [ViewController::class, 'menu'])->name('menu');
 //     'show' => 'user.products.show',
 // ]);
 
-Route::get('/admin/dashboard', function () {
-    return Inertia::render('Admin/Dashboard');
-})->name('admin.dashboard');
-
 Route::middleware('auth', 'user')->group(function () {
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-    // Route::post('/check-out/{order}', [OrderController::class, 'checkout'])->name('checkout');
-    // Route::post('/check-out', [OrderController::class, 'checkout_pay'])->name('checkout.pay');
 
     Route::get('/start-order', [OrderController::class, 'pax'])->name('order.pax');
     Route::get('/choose-soup', [OrderController::class, 'soups'])->name('order.soups');
@@ -62,7 +59,6 @@ Route::get('/test', function() {
 });
 
 require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
 // Route::get('/dashboard', function () {
 //     return Inertia::render('Dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');

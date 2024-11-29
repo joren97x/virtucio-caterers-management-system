@@ -237,62 +237,61 @@ class PaymentController extends Controller
 
     }
 
-    public function pay_balance(Order $order, OrderService $orderService, Request $request)
-    {
+    // public function pay_balance(Order $order, OrderService $orderService, Request $request)
+    // {
 
-        $total_amount = $orderService->getTotalAmount($order);
-        // dd($total_amount * 100);
-        $line_items = [
-            [
-                'amount' => $total_amount * 100,
-                'currency' => 'PHP',
-                'description' => $order->contract_payments == 'down_payment' ? 'Down Payment' : 'Full Payment',
-                'name' => 'Virtucio Catering Service - ' . $order->rate->pax . ' Pax',
-                'quantity' => 1
-            ]
-        ];
+    //     $total_amount = $orderService->getTotalAmount($order);
+    //     $line_items = [
+    //         [
+    //             'amount' => $total_amount * 100,
+    //             'currency' => 'PHP',
+    //             'description' => $order->contract_payments == 'down_payment' ? 'Down Payment' : 'Full Payment',
+    //             'name' => 'Virtucio Catering Service - ' . $order->rate->pax . ' Pax',
+    //             'quantity' => 1
+    //         ]
+    //     ];
 
-        $checkout = Paymongo::checkout()->create([
-            'cancel_url' => route('orders'),
-            'billing' => [
-                'name' => $request->user()->name,
-                'email' => $request->user()->email,
-                'phone' => $request->contact_number,
-            ],
-            'description' => 'Pay the remaining balance of Order ' . $order->id,
-            'line_items' => $line_items,
-            'payment_method_types' => [
-                'atome',
-                'billease',
-                'card',
-                'dob',
-                'dob_ubp',
-                'gcash',
-                'grab_pay', 
-                'paymaya'
-            ],
-            'success_url' => route('order.pay_balance_success', ['order' => $order->id]),
-            'statement_descriptor' => 'Laravel Paymongo Library',
-            'metadata' => [
-                'Key' => 'Value'
-            ]
-        ]);
+    //     $checkout = Paymongo::checkout()->create([
+    //         'cancel_url' => route('orders'),
+    //         'billing' => [
+    //             'name' => $request->user()->name,
+    //             'email' => $request->user()->email,
+    //             'phone' => $request->contact_number,
+    //         ],
+    //         'description' => 'Pay the remaining balance of Order ' . $order->id,
+    //         'line_items' => $line_items,
+    //         'payment_method_types' => [
+    //             'atome',
+    //             'billease',
+    //             'card',
+    //             'dob',
+    //             'dob_ubp',
+    //             'gcash',
+    //             'grab_pay', 
+    //             'paymaya'
+    //         ],
+    //         'success_url' => route('order.pay_balance_success', ['order' => $order->id]),
+    //         'statement_descriptor' => 'Laravel Paymongo Library',
+    //         'metadata' => [
+    //             'Key' => 'Value'
+    //         ]
+    //     ]);
 
-        session(['checkout_id' => $checkout->id]);
+    //     session(['checkout_id' => $checkout->id]);
 
-        return Inertia::location($checkout->checkout_url);
+    //     return Inertia::location($checkout->checkout_url);
 
 
-    }
+    // }
 
-    public function pay_balance_success(Order $order)
-    {
-        $order->update([
-            'contract_payments' => 'full_payment'
-        ]);
+    // public function pay_balance_success(Order $order)
+    // {
+    //     $order->update([
+    //         'contract_payments' => 'full_payment'
+    //     ]);
 
-        return redirect(route('orders'));
-    }
+    //     return redirect(route('orders'));
+    // }
 
 
 

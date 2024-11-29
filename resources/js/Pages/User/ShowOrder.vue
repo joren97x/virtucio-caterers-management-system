@@ -47,7 +47,6 @@ const STATUS_LABELS = {
     fully_paid_pending: 'Fully Paid Pending',
 };
 
-// Computed class for status badges
 const getStatusClass = (status) => {
     switch (status) {
         case 'cancelled':
@@ -81,28 +80,28 @@ const cancel = () => {
 
 </script>
 <template>
-  <Head title="Show Order" />
+
+    <Head title="Show Order" />
 
     <div class="bg-gray-100 min-h-screen p-2 md:p-6 lg:p-6 xl:p-6 max-w-screen-xl mx-auto">
         <!-- Header -->
         <header class="bg-white p-4 rounded shadow-md mb-6 flex flex-col md:flex-row md:justify-between gap-4">
-  <!-- Left Section -->
-  <div>
-    <h1 class="text-2xl font-bold text-gray-800">Catering Reservation Details</h1>
-    <p class="text-gray-600">Reservation for {{ order.name }}</p>
-  </div>
+            <!-- Left Section -->
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Catering Order Details</h1>
+                <p class="text-gray-600">Order for {{ order.name }}</p>
+            </div>
 
-  <!-- Right Section -->
-  <div class="md:flex md:items-center">
-    <strong>
-      <span
-        :class="`px-3 py-1 text-sm font-semibold rounded-full block md:inline-block ${getStatusClass(order.status)}`"
-      >
-        {{ STATUS_LABELS[order.status] || 'Unknown Status' }}
-      </span>
-    </strong>
-  </div>
-</header>
+            <!-- Right Section -->
+            <div class="md:flex md:items-center">
+                <strong>
+                    <span
+                        :class="`px-3 py-1 text-sm font-semibold rounded-full block md:inline-block ${getStatusClass(order.status)}`">
+                        {{ STATUS_LABELS[order.status] || 'Unknown Status' }}
+                    </span>
+                </strong>
+            </div>
+        </header>
         <div class="text-sm text-gray-600 mt-4 flex border border-red-500 p-3 bg-white mb-6"
             v-if="order.status == 'cancelled'">
             <svg fill="#ff0000" height="40px" width="40px" class="mr-4" version="1.1" id="Capa_1"
@@ -119,43 +118,79 @@ const cancel = () => {
             We're sorry to hear that you want to cancel your order. Please note that for a refund, you will need to
             visit our office.
         </div>
-        <!-- order Details -->
-        <section class="bg-white p-2 md:p-6 lg:p-6 xl:p-6 rounded shadow-md mb-6">
-            <h2 class="text-xl font-semibold text-gray-700 mb-4">Order Information</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2">
-                <div>
-                    <ul class="space-y-2">
-                        <li><strong>Name:</strong> {{ order.name }}</li>
-                        <li><strong>Contact Number:</strong> {{ order.contact_number }}</li>
-                        <li><strong>Venue:</strong> {{ order.venue }}</li>
-                        <li><strong>Event Date:</strong> {{ formatDate(order.event_date, 'PPPP') }}</li>
-                        <li><strong>Event Type:</strong> {{ order.event_type }}</li>
+        <!-- Order Details -->
+        <section class="bg-white p-4 md:p-6 lg:p-8 rounded-lg shadow-lg mb-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Order Information</h2>
 
+            <!-- Order Information Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <!-- Column 1 -->
+                <div>
+                    <ul class="space-y-4">
+                        <li>
+                            <strong class="text-gray-600">Name:</strong>
+                            <span class="text-gray-800">{{ order.name }}</span>
+                        </li>
+                        <li>
+                            <strong class="text-gray-600">Contact Number:</strong>
+                            <span class="text-gray-800">{{ order.contact_number }}</span>
+                        </li>
+                        <li>
+                            <strong class="text-gray-600">Venue:</strong>
+                            <span class="text-gray-800">{{ order.venue }}</span>
+                        </li>
+                        <li>
+                            <strong class="text-gray-600">Event Date:</strong>
+                            <span class="text-gray-800">{{ formatDate(order.event_date, 'PPPP') }}</span>
+                        </li>
+                        <li>
+                            <strong class="text-gray-600">Event Type:</strong>
+                            <span class="text-gray-800">{{ order.event_type }}</span>
+                        </li>
                     </ul>
                 </div>
+
+                <!-- Column 2 -->
                 <div>
-                    <ul class="space-y-2">
-                        <li><strong>Total Amount:</strong> {{ formatCurrency(order.total_amount) }}</li>
-                        <li><strong>Remaining Balance</strong> {{ formatCurrency(order.remaining_balance) }}</li>
-                        <li><strong>Payment Method:</strong> {{ order.payment_method || 'Not Specified' }}</li>
+                    <ul class="space-y-4">
+                        <li>
+                            <strong class="text-gray-600">Total Amount:</strong>
+                            <span class="text-green-600 font-semibold">{{ formatCurrency(order.total_amount) }}</span>
+                        </li>
+                        <li>
+                            <strong class="text-gray-600">Remaining Balance:</strong>
+                            <span class="text-red-500 font-semibold">{{ formatCurrency(order.remaining_balance)
+                                }}</span>
+                        </li>
+                        <li>
+                            <strong class="text-gray-600">Payment Method:</strong>
+                            <span class="text-gray-800">{{ order.payment_method || 'Not Specified' }}</span>
+                        </li>
                     </ul>
                 </div>
             </div>
-            <div class="flex justify-end space-x-2"
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end mt-6 space-x-4"
                 v-if="!(order.status == 'fully_paid') && !(order.status == 'cancelled')">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                <!-- Cancel Order -->
+                <button type="button"
+                    class="bg-red-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-red-600 transition"
                     @click="cancelDialog = true">
                     Cancel Order
                 </button>
+
+                <!-- Pay Remaining Balance -->
                 <Link :href="route('checkout', order.id)">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                <button type="button"
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-blue-600 transition"
                     v-if="!order.status != 'fully_paid'">
                     Pay Remaining Balance
                 </button>
                 </Link>
             </div>
-
         </section>
+
 
         <!-- Menu Details -->
         <section class="bg-white p-2 md:p-6 lg:p-6 xl:p-6 rounded shadow-md">

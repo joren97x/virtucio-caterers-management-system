@@ -10,7 +10,7 @@ const currentRoute = computed(() => usePage().props.value?.ziggy?.location.name)
 
 <template>
     <div class="flex h-screen bg-gray-100">
-        <aside class="w-64 bg-white shadow-lg">
+        <aside class="w-64 bg-white shadow-lg fixed h-screen">
             <div class="flex items-center justify-center h-16 border-b">
                 <Link :href="route('home')" class="-m-1.5 p-1.5">
                     <span class="sr-only">Your Company</span>
@@ -106,21 +106,29 @@ const currentRoute = computed(() => usePage().props.value?.ziggy?.location.name)
                         label="Expense"
                         :isActive="$page.component === 'Admin/Expenses'"
                     />
+                    <SidebarItem
+                        icon="document"
+                        url="admin.messages.index"
+                        label="Messages"
+                        :isActive="$page.component === 'Admin/Messages'"
+                    />
                 </div>
             </nav>
 
-            <div class="flex items-center p-4 border-t absolute bottom-0">
+            <div class="flex items-center p-4 border-t absolute bottom-0 w-full">
                 <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="Profile" class="h-10 w-10 rounded-full" />
                 <div class="ml-3">
-                    <p class="text-sm font-medium text-gray-900">Tom Cook</p>
+                    <p class="text-sm font-medium text-gray-900">{{ $page.props.auth.user.name }}</p>
+                    <p class="text-xs font-medium text-gray-900">{{ $page.props.auth.user.email }}</p>
                 </div>
-                <Link :href="route('logout')" method="post">
+                <Link :href="route('logout')" method="post" class="absolute right-0 text-red-500 mr-4">
                     <button>Logout</button>
                 </Link>
             </div>
+            
         </aside>
 
-        <main class="flex-1 bg-white">
+        <main class="ml-64 flex-1 bg-white overflow-y-auto">
             <slot />
         </main>
     </div>

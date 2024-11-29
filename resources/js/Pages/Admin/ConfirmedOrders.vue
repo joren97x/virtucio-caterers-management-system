@@ -10,13 +10,17 @@ const props = defineProps({ orders: Object })
 
 const markAsPaidForm = useForm({})
 const selectedOrder = ref(null)
-const formatStatus = (status) => {
-      if (status === "pending") return "Pending";
-      if (status === "down_payment_pending") return "Down Payment Pending";
-      if (status === "fully_paid_pending") return "Fully Paid Pending";
-      if (status === "reservation_fee_pending") return "Reservation Fee Pending";
-      return status;
-}
+const STATUS_LABELS = {
+    cancelled: 'Cancelled',
+    pending: 'Pending',
+    reservation_fee_paid: 'Reservation Fee Paid',
+    down_payment_paid: 'Down Payment Paid',
+    fully_paid: 'Fully Paid',
+    complete: 'Complete',
+    reservation_fee_pending: 'Reservation Fee Pending',
+    down_payment_pending: 'Down Payment Pending',
+    fully_paid_pending: 'Fully Paid Pending',
+};
 
 const viewOrder = (order) => {
     selectedOrder.value = order;
@@ -33,12 +37,12 @@ const formatCurrency = (amount) => {
 </script>
 <template>
 
-    <Head title="Cancelled Orders" />
+    <Head title="Confirmed Orders" />
 
     <div class="p-4 bg-gray-100 min-h-screen">
         <div class="max-w-7xl mx-auto">
             <!-- Page Title -->
-            <h1 class="text-2xl font-bold text-gray-700 mb-6">Cancelled Orders</h1>
+            <h1 class="text-2xl font-bold text-gray-700 mb-6">Confirmed Orders</h1>
 
             <!-- Filter Section -->
             <div class="flex items-center mb-4">
@@ -81,7 +85,7 @@ const formatCurrency = (amount) => {
                                     'bg-yellow-100 text-yellow-700 px-2 py-1 rounded': order.status === 'pending',
                                     'bg-red-100 text-red-700 px-2 py-1 rounded': order.status === 'down_payment_pending',
                                 }">
-                                    {{ formatStatus(order.status) }}
+                                    {{ STATUS_LABELS[order.status] }}
                                 </span>
                             </td>
                             <!-- Actions -->
@@ -90,6 +94,13 @@ const formatCurrency = (amount) => {
                                     class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded shadow">
                                     View
                                 </button>
+                                <!-- <button
+                                    @click="markAsPaid(order.id)"
+                                    v-if="order.status != 'pending' && order.status != 'fully_paid' && order.status != 'completed' "
+                                    class="bg-green-500 hover:bg-green-600 text-white text-sm px-4 py-2 rounded shadow ml-2"
+                                    >
+                                    Mark as Paid
+                                    </button> -->
                             </td>
                         </tr>
                         <tr v-if="orders.length == 0">

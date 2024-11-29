@@ -30,7 +30,7 @@ defineProps({
     <Alert :show="showAlert" @close="showAlert = false" color="red" title="Choose a pax" subtitle="Pag choose ra gud og pax dong" />
     <OrderLayout back="home" next="order.soups" loading="16">
     <!-- Sticky Header -->
-    <div class="sticky top-0 z-10 bg-white shadow-md py-4 px-6 flex items-center justify-between">
+    <div class="sticky top-0 z-10 bg-white shadow-md py-4 px-2 md:px-6 flex items-center justify-between">
       <div>
         <h1 class="text-2xl font-bold text-gray-800">How many people are you serving?</h1>
         <p class="text-sm text-gray-600">Please select one option to proceed.</p>

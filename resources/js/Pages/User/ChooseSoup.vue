@@ -33,7 +33,7 @@ defineProps({ categories: Object })
     <!-- <Alert :show="showAlert" @close="showAlert = false" color="red" title="Choose a soup" subtitle="Pag choose ra gud og soup dong" />
     {{ alert }} -->
     <OrderLayout back="order.pax" next="order.desserts" loading="32">
-        <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-4 mb-4 flex items-center justify-between">
+        <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-2 md:px-6 mb-4 flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold">Choose a Soup</h1>
                 <p class="text-sm text-gray-600">You can select only select 1 soup.</p>

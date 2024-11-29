@@ -6,12 +6,12 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\ExpenseController;
-use App\Http\Controllers\IngredientController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Admin\RateController;
+use App\Http\Controllers\Admin\SalesController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::resource('/users', UserController::class)->names([
@@ -20,10 +20,11 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         'update' => 'admin.users.update',
         'destroy' => 'admin.users.destroy',
     ]);
-    Route::resource('/ingredients', IngredientController::class)->names([
-        'index' => 'admin.ingredients.index',
-        'store' => 'admin.ingredients.store',
-        'update' => 'admin.ingredients.update',
+    Route::resource('/add_ons', AddOnController::class)->names([
+        'store' => 'admin.add_ons.store',
+        'index' => 'admin.add_ons.index',
+        'update' => 'admin.add_ons.update',
+        'destroy' => 'admin.add_ons.destroy',
     ]);
     Route::resource('/expenses', ExpenseController::class)->names([
         'index' => 'admin.expenses.index',
@@ -41,11 +42,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         'show' => 'admin.orders.show',
         'update' => 'admin.orders.update'
     ]);
-    Route::resource('/products', ProductController::class)->names([
-        'store' => 'admin.products.store',
-        'update' => 'admin.products.update',
-        'destroy' => 'admin.products.destroy',
-    ]);
+
+    // Route::post('/products', [ProductController::class, 'update'])->name('admin.products.update');
+    Route::post('/products', [ProductController::class, 'store'])->name('admin.products.store');
+    Route::post('/products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
+    Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+   
     Route::resource('categories', CategoryController::class)->names([
         'store' => 'admin.categories.store',
     ]);
@@ -55,17 +57,13 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
         'update' => 'admin.rates.update',
         'destroy' => 'admin.rates.destroy',
     ]);
-    Route::resource('add_ons', AddOnController::class)->names([
-        'store' => 'admin.add_ons.store',
-        'index' => 'admin.add_ons.index',
-        'update' => 'admin.add_ons.update',
-        'destroy' => 'admin.add_ons.destroy',
-    ]);
+    
     Route::resource('add_on_categories', AddOnCategoryController::class)->names([
         'store' => 'admin.add_on_categories.store',
         'index' => 'admin.add_on_categories.index',
     ]);
-    Route::get('/dashboard', [AdminViewController::class, 'dashboard'])->name('admin.dashboard');
+    Route::get('/dashboard', [SalesController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/menu-management', [AdminViewController::class, 'menu_management'])->name('admin.menu_management');
-    Route::get('/sales', [OrderController::class, 'sales'])->name('admin.sales');
+    Route::get('/sales', [SalesController::class, 'sales'])->name('admin.sales');
+    Route::get('/messages', [MessageController::class, 'index'])->name('admin.messages.index');
 });

@@ -33,6 +33,7 @@ class ProductController extends Controller
         $request->validate([
             'name' => 'required',
             'category' => 'required',
+            'description' => 'required',
             'image_path' => 'required',
         ]);
 
@@ -40,6 +41,7 @@ class ProductController extends Controller
 
         Product::create([
             'name' => $request->name,
+            'description' => $request->description,
             'category_id' => $request->category,
             'image_path' => $image_path,
         ]);
@@ -50,23 +52,22 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        $request->validate([
+
+        $validated = $request->validate([
             'name' => 'required',
             'category' => 'required',
+            'description' => 'required',
             'image_path' => 'required'
         ]);
-        dd($request);
-        if($request->image) {
-            $image_path = $request->file('image_path')->store('products', 'public');
+        if($request->file('image_path')) {
+            $validated['image_path'] = $request->file('image_path')->store('products', 'public');
         }
-
-
-        Product::create([
-            'name' => $request->name,
-            'category_id' => $request->category,
-            'image_path' => $image_path,
+        $product->update([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'category_id' => $validated['category'],
+            'image_path' => $validated['image_path']
         ]);
-
         return back();
         // dd($request);
     }

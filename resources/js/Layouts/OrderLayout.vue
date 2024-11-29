@@ -39,7 +39,7 @@ const prevStep = () => {
 </script>
 
 <template>
-    <div class="h-screen w-screen" >
+    <div class="h-screen w-screen max-w-screen-xl mx-auto" >
         <div class="flex justify-between mx-5">
             <div class="flex items-center justify-center h-16 border-b">
                 <!-- <img src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Logo" class="h-8 w-auto"> -->
@@ -58,70 +58,14 @@ const prevStep = () => {
                 </Link>
             </div>
         </div>
-        <div style="max-width: 1280px; max-height: 82vh;" class="mx-auto overflow-y-auto overflow-hidden">
+        <div style="max-width: 1280px; max-height: 82vh;" class="mx-auto overflow-y-auto overflow-hidden md:m-2">
             <slot />
         </div>
-        <div class="absolute bottom-0 w-full" >
+        <div class="absolute bottom-0 w-full max-w-screen-xl" >
             <!-- <div class="my-2 h-2" :style="`background-color: yellow; width: ${loading}%; transition: width 0.5s ease;`"></div>
             <div class="my-2 h-2" :style="`background-color: yellow; width: ${loading}%; transition: width 0.5s ease;`"></div> -->
             <div class="my-2 h-2 my-transition" :style="`background-color: yellow; width: ${loading}%;`"></div>
-
-
-
-            <!-- <div class="flex justify-between mb-8 mx-4 bg-white pt-4">
-  <div 
-    v-for="(step, index) in steps" 
-    :key="index" 
-    class="flex items-center"
-  >
-    <div 
-      :class="{
-        'bg-indigo-600 text-white': currentStep >= index + 1,
-        'bg-white border-2 border-indigo-600': currentStep < index + 1
-      }" 
-      class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold mr-4"
-    >
-      <span>{{ index + 1 }}</span>
-    </div>
-
-    <div class="text-sm font-medium">
-      <p :class="{'text-indigo-600': currentStep >= index + 1, 'text-gray-400': currentStep < index + 1}">
-        {{ step.title }}
-      </p>
-      <p class="text-xs text-gray-500">{{ step.description }}</p>
-    </div>
-
-  </div>
-</div> -->
-    
-    <!-- Content area for the current step -->
-    <!-- <div class="mt-4">
-      <p class="text-lg font-semibold text-center">{{ currentStepContent }}</p>
-    </div> -->
-    
-    <!-- Navigation Buttons -->
-    <!-- <div class="flex justify-between mt-6">
-      <button 
-        @click="prevStep" 
-        :disabled="currentStep === 1" 
-        class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400"
-      >
-        Previous
-      </button>
-      <button 
-        @click="nextStep" 
-        :disabled="currentStep === steps.length" 
-        class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-500"
-      >
-        Next
-      </button>
-    </div> -->
-
-
-
-
-
-            <div class="flex justify-between mx-5 mb-4">
+            <div class="flex md:justify-between sm:justify-start mx-5 mb-4 space-x-2">
                 <Link :href="route(back)" class="rounded-md px-3.5 py-2.5 text-sm font-semibold text-black shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     BACK
                 </Link>

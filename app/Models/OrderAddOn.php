@@ -18,7 +18,7 @@ class OrderAddOn extends Model
 
     public function add_on(): BelongsTo
     {
-        return $this->belongsTo(AddOn::class);
+        return $this->belongsTo(AddOn::class)->withTrashed();
     } 
 
     public function order(): BelongsTo

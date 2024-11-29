@@ -1,7 +1,23 @@
 <script setup>
 import CustomerLayout from '@/Layouts/CustomerLayout.vue'
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3'
+
 defineOptions({ layout: CustomerLayout })
+const form = useForm({
+  message: '',
+  name: '',
+  email: ''
+})
+
+const submit = () => {
+    form.post(route('messages.store'), {
+        onSuccess: () => {
+            form.reset()
+            alert('Thank you for contacting us!!')
+        }
+    })
+}
+
 </script>
 
 <template>
@@ -37,23 +53,23 @@ defineOptions({ layout: CustomerLayout })
           <!-- Contact Form -->
           <div>
             <h2 class="text-xl font-semibold text-gray-800 mb-2">Send Us a Message</h2>
-            <form class="space-y-4">
+            <div class="space-y-4">
               <div>
                 <label for="name" class="block text-gray-700">Name</label>
-                <input type="text" id="name" class="w-full border border-gray-300 rounded p-2" placeholder="Your Name" required>
+                <input v-model="form.name" type="text" id="name" class="w-full border border-gray-300 rounded p-2" placeholder="Your Name" required>
               </div>
               <div>
                 <label for="email" class="block text-gray-700">Email</label>
-                <input type="email" id="email" class="w-full border border-gray-300 rounded p-2" placeholder="Your Email" required>
+                <input v-model="form.email" type="email" id="email" class="w-full border border-gray-300 rounded p-2" placeholder="Your Email" required>
               </div>
               <div>
                 <label for="message" class="block text-gray-700">Message</label>
-                <textarea id="message" class="w-full border border-gray-300 rounded p-2" placeholder="Your Message" rows="5" required></textarea>
+                <textarea id="message" v-model="form.message" class="w-full border border-gray-300 rounded p-2" placeholder="Your Message" rows="5" required></textarea>
               </div>
-              <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+              <button type="submit" @click="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                 Send Message
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </div>

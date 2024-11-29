@@ -58,7 +58,7 @@ function toggleProduct(product) {
 
     <!-- <Alert :show="showAlert" @close="showAlert = false" color="red" title="Choose a dessert" subtitle="Pag choose ra gud og dessert dong" /> -->
     <OrderLayout back="order.desserts" next="order.add_ons" loading="64">
-        <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-4 mb-4 flex items-center justify-between">
+        <div class="sticky top-0 z-10 bg-white shadow-md py-2 px-2 md:px-6 mb-4 flex items-center justify-between">
             <div>
                 <h1 class="text-2xl font-bold">Choose 5 Main Dishes</h1>
                 <p class="text-sm text-gray-600">You can select up to 5 dishes.</p>

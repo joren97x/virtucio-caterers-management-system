@@ -49,14 +49,7 @@ class OrderController extends Controller
         ]);
     }
     
-    public function history()
-    {
-        return Inertia::render('Admin/OrderHistory', [
-            'orders' => Order::with(['user', 'rate', 'add_ons.add_on.add_on_category', 'products.product'])
-                ->whereIn('status', ['cancelled', 'compeleted', 'out_of_delivery'])
-                ->get()
-        ]);
-    }
+    
 
     public function orders(OrderService $orderService)
     {

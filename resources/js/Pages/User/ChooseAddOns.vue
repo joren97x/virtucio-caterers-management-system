@@ -48,7 +48,7 @@ function toggleAddOn(add_on) {
 
    <OrderLayout back="order.main_dishes" next="order.contact_details" loading="80">
     <!-- Sticky Header -->
-    <div class="sticky top-0 z-10 bg-white shadow-md py-4 px-6 flex items-center justify-between">
+    <div class="sticky top-0 z-10 bg-white shadow-md py-4 px-2 md:6 flex items-center justify-between">
       <div>
         <h1 class="text-2xl font-bold text-gray-800">Choose Your Add-Ons</h1>
         <p class="text-sm text-gray-600">

@@ -1,112 +1,165 @@
-<script setup>
 
-import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { ref } from 'vue';
-import { router, Head } from '@inertiajs/vue3';
-import { formatDate } from 'date-fns';
+<script setup>
+import { ref } from "vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import { router, Head } from "@inertiajs/vue3";
+import { formatDate } from "date-fns";
 
 defineOptions({ layout: AdminLayout })
-const props = defineProps({ orders: Object })
+const props = defineProps({ 
+    orders: Object, 
+    expenses: Object, 
+    total_revenue: Number, 
+    total_expenses: Number, 
+    profit: Number,
+    start_date: String,
+    end_date: String,
+})
+const filterDates = ref({
+    start_date: props.start_date,
+    end_date: props.end_date
+})
 
-const filters = ref({
-  start_date: '',
-  end_date: '',
-  status: '',
-});
+const applyFilter = () => {
+    router.get(route('admin.sales', filterDates.value))
+}
+const formatCurrency = (amount) => {
+    return `₱${parseFloat(amount).toLocaleString("en-US", { minimumFractionDigits: 2, })}`
+}
 
-const applyFilters = () => {
-  // Using router.visit to pass the filters as query parameters in the URL
-  router.visit(route('admin.sales', {
-    start_date: filters.value.start_date,
-    end_date: filters.value.end_date,
-    status: filters.value.status,
-  }));
-};
-
+// Helper Functions
 </script>
 
 <template>
     <Head title="Sales" />
+     <div class=" p-6 ">
+    <!-- Page Header -->
+    <header class="bg-white p-4 rounded shadow-md mb-6">
+      <h1 class="text-3xl font-bold text-gray-800">Sales Overview</h1>
+      <p class="text-gray-600">Filter sales data by date range below:</p>
+    </header>
+    <!-- Date Filter -->
+    <section class="bg-white p-4 rounded shadow-md mb-6 flex flex-col sm:flex-row sm:items-center gap-4">
+      <div class="flex flex-col">
+        <label for="start_date" class="text-gray-800 font-semibold mb-1">Start Date</label>
+        <input
+          type="date"
+          id="start_date"
+          v-model="filterDates.start_date"
+          class="border rounded p-2 text-gray-800"
+        />
+      </div>
+      <div class="flex flex-col">
+        <label for="end_date" class="text-gray-800 font-semibold mb-1">End Date</label>
+        <input
+          type="date"
+          id="end_date"
+          v-model="filterDates.end_date"
+          class="border rounded p-2 text-gray-800"
+        />
+      </div>
+      <button
+        @click="applyFilter"
+        class="bg-blue-500 mt-6 hover:bg-blue-600 text-white px-6 py-2 rounded shadow self-start sm:self-center"
+      >
+        Apply Filters
+      </button>
+    </section>
 
-  <div class="sales-container">
-    <div class="filters flex justify-between mb-6">
-      <div class="date-filters">
-        <label>Start Date</label>
-        <input type="date" v-model="filters.start_date">
-        <label>End Date</label>
-        <input type="date" v-model="filters.end_date">
-        <button @click="fetchSales">Apply Filters</button>
+    <!-- Summary Cards -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <!-- Total Revenue -->
+      <div class="bg-blue-50 p-4 rounded shadow-md">
+        <h2 class="text-lg font-bold text-gray-800">Total Revenue</h2>
+        <p class="text-xl font-semibold text-blue-600">{{ formatCurrency(total_revenue) }}</p>
       </div>
-      <div class="status-filters">
-        <label>Status</label>
-        <select v-model="filters.status">
-          <option value="">All</option>
-          <option value="Completed">Completed</option>
-          <option value="Pending">Pending</option>
-          <option value="Cancelled">Cancelled</option>
-        </select>
-      </div>
-    </div>
 
-    <!-- Sales Summary -->
-    <div class="sales-summary grid grid-cols-3 gap-6 mb-6">
-      <div class="bg-white shadow rounded-lg p-6">
-        <h3 class="text-xl font-semibold">Total Sales</h3>
-        <p class="text-2xl font-bold text-indigo-600">₱{{ totalSales }}</p>
+      <!-- Total Expenses -->
+      <div class="bg-red-50 p-4 rounded shadow-md">
+        <h2 class="text-lg font-bold text-gray-800">Total Expenses</h2>
+        <p class="text-xl font-semibold text-red-600">{{ formatCurrency(total_expenses) }}</p>
       </div>
-      <div class="bg-white shadow rounded-lg p-6">
-        <h3 class="text-xl font-semibold">Average Order Value</h3>
-        <p class="text-2xl font-bold text-green-600">₱{{ averageOrderValue }}</p>
-      </div>
-      <div class="bg-white shadow rounded-lg p-6">
-        <h3 class="text-xl font-semibold">Number of Orders</h3>
-        <p class="text-2xl font-bold text-gray-900">{{ numberOfOrders }}</p>
-      </div>
-    </div>
 
-    <!-- Sales by Payment Method -->
-    <div class="payment-methods mt-6">
-      <h3 class="text-xl font-semibold">Sales by Payment Method</h3>
-      <div class="grid grid-cols-2 gap-6">
-        <div class="bg-white shadow rounded-lg p-6">
-          <h4 class="text-lg">Cash</h4>
-          <p class="text-xl font-bold text-green-600">₱{{ salesByCash }}</p>
-        </div>
-        <div class="bg-white shadow rounded-lg p-6">
-          <h4 class="text-lg">Card</h4>
-          <p class="text-xl font-bold text-blue-600">₱{{ salesByCard }}</p>
-        </div>
+      <!-- Profit -->
+      <div class="bg-green-50 p-4 rounded shadow-md">
+        <h2 class="text-lg font-bold text-gray-800">Net Profit</h2>
+        <p
+          :class="profit >= 0 ? 'text-green-600' : 'text-red-600'"
+          class="text-xl font-semibold"
+        >
+         {{ formatCurrency(profit) }}
+        </p>
       </div>
-    </div>
+    </section>
 
-    <!-- Sales Orders Table -->
-    <div class="sales-orders mt-8">
-      <h3 class="text-xl font-semibold">Sales Orders</h3>
-      <table class="min-w-full bg-white mt-6">
-        <thead>
-          <tr>
-            <th class="px-6 py-3 text-left">Order ID</th>
-            <th class="px-6 py-3 text-left">Customer</th>
-            <th class="px-6 py-3 text-left">Total Amount</th>
-            <th class="px-6 py-3 text-left">Status</th>
-            <th class="px-6 py-3 text-left">Payment Status</th>
-            <th class="px-6 py-3 text-left">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="order in orders" :key="order.id">
-            <td class="py-4 px-6">{{ order.id }}</td>
-            <td class="py-4 px-6">{{ order.customer_name }}</td>
-            <td class="py-4 px-6">₱{{ order.total_amount }}</td>
-            <td class="py-4 px-6">{{ order.status }}</td>
-            <td class="py-4 px-6">{{ order.payment_status }}</td>
-            <td class="py-4 px-6">
-              <button @click="editOrder(order)">Edit</button>
-              <button @click="cancelOrder(order)">Cancel</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+    <!-- Orders Table -->
+    <section>
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Orders</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow-md rounded-lg">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="text-left px-4 py-2 text-gray-600">Order ID</th>
+              <th class="text-left px-4 py-2 text-gray-600">Customer</th>
+              <th class="text-right px-4 py-2 text-gray-600">Total Amount</th>
+              <th class="text-right px-4 py-2 text-gray-600">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="order in orders"
+              :key="order.id"
+              class="hover:bg-gray-50"
+            >
+              <td class="px-4 py-2">{{ order.id }}</td>
+              <td class="px-4 py-2">{{ order.name }}</td>
+              <td class="px-4 py-2 text-right">{{ formatCurrency(order.total_amount) }}</td>
+              <td class="px-4 py-2 text-right">{{ formatDate(order.event_date, 'PP') }}</td>
+            </tr>
+            <tr v-if="orders.length == 0">
+                <td colspan="6" class="text-center">
+                    <div class="p-2">
+                        <div class="justify-center flex items-center ">
+                            <img src="/empty_orders.png" class="mr-6" height="100px" width="100px" alt="">There are no orders
+                        </div>
+                    </div>
+                </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Expenses Table -->
+    <section class="mt-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Expenses</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow-md rounded-lg">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="text-left px-4 py-2 text-gray-600">Item</th>
+              <th class="text-left px-4 py-2 text-gray-600">Quantity</th>
+              <th class="text-right px-4 py-2 text-gray-600">Unit Price</th>
+              <th class="text-right px-4 py-2 text-gray-600">Total</th>
+              <th class="text-right px-4 py-2 text-gray-600">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="expense in expenses"
+              :key="expense.id"
+              class="hover:bg-gray-50"
+            >
+              <td class="px-4 py-2">{{ expense.category }}</td>
+              <td class="px-4 py-2">{{ expense.quantity }}</td>
+              <td class="px-4 py-2 text-right">{{ formatCurrency(expense.amount) }}</td>
+              <td class="px-4 py-2 text-right">{{ formatCurrency(expense.amount * expense.quantity) }}</td>
+              <td class="px-4 py-2 text-right">{{ formatDate(expense.date, 'PP') }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
-</template>
+  </template>
+  

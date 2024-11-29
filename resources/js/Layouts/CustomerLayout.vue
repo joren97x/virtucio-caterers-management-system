@@ -31,6 +31,10 @@ const links = [
                     </Link>
                 </div>
                 <div class="flex lg:hidden">
+                    <Link :href="route('order.pax')" class="-m-2.5 mr-1 inline-flex items-center justify-center rounded-md bg-yellow-200 p-1 text-gray-700">
+                            <span class="sr-only">Open main menu</span>
+                            Order Now
+                    </Link>
                     <button type="button"
                         @click="menu = true"
                         class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">

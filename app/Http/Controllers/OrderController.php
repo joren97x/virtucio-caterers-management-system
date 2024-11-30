@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderAddOn;
 use App\Models\OrderItem;
 use App\Models\Rate;
+use App\Models\Review;
 use App\Services\OrderService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -79,12 +80,11 @@ class OrderController extends Controller
         ->findOrFail($id);
 
         $order->remaining_balance = $order->calculateRemainingBalance();
+        $user_rated = Review::where('user_id', auth()->id())->exists();
 
-        // foreach($orders as $order) {
-        //     $order->total_amount = $orderService->getTotalAmount($order);
-        // }
         return Inertia::render('User/ShowOrder', [
-            'order' => $order
+            'order' => $order,
+            'user_rated' => $user_rated
         ]);
     }
 

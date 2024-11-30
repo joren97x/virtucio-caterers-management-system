@@ -125,6 +125,12 @@ const formatCurrency = (amount) => {
           <Link :href="route('orders.show', order.id)"><PrimaryButton>
             View Details
           </PrimaryButton>
+          
+        </Link>
+        <Link :href="route('orders.show', order.id)"><PrimaryButton>
+            Complete Order
+          </PrimaryButton>
+          
         </Link>
         </td>
       </tr>

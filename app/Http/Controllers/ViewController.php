@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +13,9 @@ class ViewController extends Controller
     //
     public function home()
     {
-        return Inertia::render('Home');
+        return Inertia::render('Home', [
+            'reviews' => Review::with('user')->latest()->get()
+        ]);
     }
 
     public function menu()

@@ -6,7 +6,12 @@ import { computed, ref } from 'vue';
 import { Link, useForm, Head } from '@inertiajs/vue3';
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 defineOptions({ layout: CustomerLayout })
-const props = defineProps({ order: Object })
+const props = defineProps({ order: Object, 
+    user_rated: {
+        default: false,
+        type: Boolean
+    }
+ })
 
 const formatCurrency = (amount) => {
     return `₱${parseFloat(amount).toLocaleString("en-US", { minimumFractionDigits: 2, })}`;
@@ -73,6 +78,21 @@ const cancel = () => {
     cancelForm.put(route('orders.update', props.order.id), {
         onSuccess: () => {
             cancelDialog.value = false
+        }
+    })
+}
+
+
+const rateDialog = ref(false)
+const rateForm = useForm({
+    message: '',
+    rating: 0
+})
+
+const submit = () => {
+    rateForm.post(route('reviews.store'), {
+        onSuccess: () => {
+            rateDialog.value = false
         }
     })
 }
@@ -171,6 +191,14 @@ const cancel = () => {
             </div>
 
             <!-- Action Buttons -->
+             <div class="flex justify-end mt-6 space-x-4">
+                <button type="button"
+                    v-if="order.status == 'fully_paid' && !user_rated"
+                    class="bg-yellow-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-red-600 transition"
+                    @click="rateDialog = true">
+                    Rate
+                </button>
+             </div>
             <div class="flex justify-end mt-6 space-x-4"
                 v-if="!(order.status == 'fully_paid') && !(order.status == 'cancelled')">
                 <!-- Cancel Order -->
@@ -179,7 +207,8 @@ const cancel = () => {
                     @click="cancelDialog = true">
                     Cancel Order
                 </button>
-
+                
+                
                 <!-- Pay Remaining Balance -->
                 <Link :href="route('checkout', order.id)">
                 <button type="button"
@@ -295,4 +324,84 @@ const cancel = () => {
             </div>
         </Dialog>
     </TransitionRoot>
+
+
+    <TransitionRoot as="template" :show="rateDialog">
+        <Dialog class="relative z-10" @close="rateDialog = false">
+            <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
+                leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </TransitionChild>
+
+            <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+                <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                    <TransitionChild as="template" enter="ease-out duration-300"
+                        enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        enter-to="opacity-100 translate-y-0 sm:scale-100" leave="ease-in duration-200"
+                        leave-from="opacity-100 translate-y-0 sm:scale-100"
+                        leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+                        <DialogPanel
+                            class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                            <div class="bg-white sm:p-6 sm:pb-4">
+                                <div class="sm:flex sm:items-start">
+                                    <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                                        <div>
+                                            <h2 class="text-xl font-bold text-gray-800">Rate Order</h2>
+                                            <!-- Rating -->
+                                                    <div class="flex flex-row-reverse justify-end items-center">
+                                                    <input id="hs-ratings-readonly-1" @click="rateForm.rating = 5" type="radio" class="peer -ms-5 size-5 bg-transparent border-0 text-transparent cursor-pointer appearance-none checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0" name="hs-ratings-readonly" value="1">
+                                                    <label for="hs-ratings-readonly-1" class="peer-checked:text-yellow-400 text-gray-300 pointer-events-none">
+                                                        <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                                        </svg>
+                                                    </label>
+                                                    <input id="hs-ratings-readonly-2" @click="rateForm.rating = 4" type="radio" class="peer -ms-5 size-5 bg-transparent border-0 text-transparent cursor-pointer appearance-none checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0" name="hs-ratings-readonly" value="2">
+                                                    <label for="hs-ratings-readonly-2" class="peer-checked:text-yellow-400 text-gray-300 pointer-events-none">
+                                                        <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                                        </svg>
+                                                    </label>
+                                                    <input id="hs-ratings-readonly-3" @click="rateForm.rating = 3" type="radio" class="peer -ms-5 size-5 bg-transparent border-0 text-transparent cursor-pointer appearance-none checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0" name="hs-ratings-readonly" value="3">
+                                                    <label for="hs-ratings-readonly-3" class="peer-checked:text-yellow-400 text-gray-300 pointer-events-none">
+                                                        <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                                        </svg>
+                                                    </label>
+                                                    <input id="hs-ratings-readonly-4" @click="rateForm.rating = 2" type="radio" class="peer -ms-5 size-5 bg-transparent border-0 text-transparent cursor-pointer appearance-none checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0" name="hs-ratings-readonly" value="4">
+                                                    <label for="hs-ratings-readonly-4" class="peer-checked:text-yellow-400 text-gray-300 pointer-events-none">
+                                                        <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                                        </svg>
+                                                    </label>
+                                                    <input id="hs-ratings-readonly-5" @click="rateForm.rating = 1" type="radio" class="peer -ms-5 size-5 bg-transparent border-0 text-transparent cursor-pointer appearance-none checked:bg-none focus:bg-none focus:ring-0 focus:ring-offset-0" name="hs-ratings-readonly" value="5">
+                                                    <label for="hs-ratings-readonly-5" class="peer-checked:text-yellow-400 text-gray-300 pointer-events-none">
+                                                        <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                                                        </svg>
+                                                    </label>
+                                                    </div>
+                                                    <!-- End Rating -->
+                                                    <div>
+                                                        <label for="message" class="block text-gray-700">Message</label>
+                                                        <textarea id="message" v-model="rateForm.message" class="w-full border border-gray-300 rounded p-2" placeholder="Your Message" rows="5" required></textarea>
+                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white shadow-md mx-4"></div>
+                            <div class="bg-gray-50 px-4 py-3 sm:px-6 flex justify-end">
+                                <button type="button"
+                                    class="mt-3 inline-flex justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                                    @click="rateDialog = false" ref="cancelButtonRef">No</button>
+                                <button @click="submit" type="button"
+                                    class="rounded-md bg-red-600 px-3 py-2 text-sm mr-5 font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Submit</button>
+                            </div>
+                        </DialogPanel>
+                    </TransitionChild>
+                </div>
+            </div>
+        </Dialog>
+    </TransitionRoot>
+
 </template>

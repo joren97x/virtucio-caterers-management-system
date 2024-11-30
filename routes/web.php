@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\RateController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -30,6 +32,7 @@ Route::middleware('auth', 'user')->group(function () {
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::put('/orders/{order}', [OrderController::class, 'update'])->name('orders.update');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
     Route::get('/start-order', [OrderController::class, 'pax'])->name('order.pax');
     Route::get('/choose-soup', [OrderController::class, 'soups'])->name('order.soups');

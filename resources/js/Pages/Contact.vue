@@ -37,8 +37,8 @@ const submit = () => {
             <div class="items-center flex">
               <div>
                 <div class="flex mb-6">
-                    <img class="h-16 w-auto" src="logo.png" alt="">
-                    <img class="h-16 w-auto" src="logo-name.png" alt="">
+                    <img class="h-16 w-auto" src="logo" alt="">
+                    <img class="h-16 w-auto" src="serdan.jpg" alt="">
                 </div>
                 <h2 class="text-xl font-semibold text-gray-800 mb-2">Our Contact Details</h2>
               <ul class="text-gray-600 space-y-2">
@@ -66,6 +66,7 @@ const submit = () => {
                 <label for="message" class="block text-gray-700">Message</label>
                 <textarea id="message" v-model="form.message" class="w-full border border-gray-300 rounded p-2" placeholder="Your Message" rows="5" required></textarea>
               </div>
+              
               <button type="submit" @click="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                 Send Message
               </button>

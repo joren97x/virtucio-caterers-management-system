@@ -238,9 +238,9 @@ onMounted(() => {
         <section>
             <h2 class="text-3xl font-bold text-center mt-20">What our customers say</h2>
             <div class="grid grid-cols-3 gap-4 p-4">
-                <div class="bg-white p-6 shadow-md rounded-lg" v-for="review in reviews" :key="review.id">
+                <div class="bg-blue-500 p-6 shadow-md rounded-lg" v-for="review in reviews" :key="review.id">
                     <!-- Star Ratings -->
-                    <div class="flex justify-end items-center">
+                    <div class="flex justify-start items-center">
                         <div v-for="n in 5" class="">
                             <svg :key="n" xmlns="http://www.w3.org/2000/svg" width="20" height="24" fill="currentColor"
                                 viewBox="0 0 16 16" :class="n <= review.rating ? 'text-yellow-400' : 'text-gray-300'"
